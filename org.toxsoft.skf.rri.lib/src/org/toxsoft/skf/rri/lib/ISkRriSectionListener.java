@@ -1,7 +1,7 @@
 package org.toxsoft.skf.rri.lib;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.uskat.core.api.evserv.SkEvent;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.uskat.core.api.evserv.*;
 
 /**
  * {@link ISkRegRefInfoService} changes listener.
@@ -35,7 +35,17 @@ public interface ISkRriSectionListener {
    * Извещает об изменении значений параметров НСИ.
    *
    * @param aSource {@link ISkRriSection} - раздел, источник сообщения
-   * @param aEvents {@link IList}&lt;{@link SkEvent}&gt; - события изменения НСИ
+   * @param aEvents {@link IList}&lt;{@link SkEvent}&gt; - события изменения НСИ, параметры события:<br>
+   *          <ul>
+   *          <li>EVPRMID_SECTION_ID - String in format of strid</li>
+   *          <li>EVPRMID_AUTHOR_LOGIN - String</li>
+   *          <li>EVPRMID_PARAM_GWID - Gwid</li>
+   *          <li>EVPRMID_REASON - String</li>
+   *          <li>EVPRMID_IS_LINK - Boolean</li>
+   *          <li>EVPRMID_OLD_VAL_ATTR - AtomicValue</li>
+   *          <li>EVPRMID_NEW_VAL_ATTR</li>
+   *          </ul>
+   *          see SkRriSection::fireEventAttrChange()
    */
   void onParamValuesChanged( ISkRriSection aSource, IList<SkEvent> aEvents );
 
