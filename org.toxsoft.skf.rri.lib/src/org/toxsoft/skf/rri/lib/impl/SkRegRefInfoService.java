@@ -5,6 +5,7 @@ import static org.toxsoft.skf.rri.lib.impl.ISkRegRefServiceHardConstants.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkResources.*;
 
 import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.impl.AvUtils;
 import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
 import org.toxsoft.core.tslib.av.opset.IOptionSet;
 import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
@@ -37,7 +38,6 @@ import org.toxsoft.uskat.core.api.linkserv.ISkLinkServiceValidator;
 import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoClassInfo;
-import org.toxsoft.uskat.core.connection.ISkConnectionConstants;
 import org.toxsoft.uskat.core.devapi.IDevCoreApi;
 import org.toxsoft.uskat.core.impl.AbstractSkService;
 import org.toxsoft.uskat.core.impl.dto.DtoClassInfo;
@@ -228,7 +228,7 @@ public class SkRegRefInfoService
   final ValidationSupport validationSupport = new ValidationSupport();
   final SkRriHistory      history;
 
-  private final IStridablesListEdit<SkRriSection> sectsList = new StridablesList<>();
+  private final IStridablesListEdit<SkRriSection> sectsList   = new StridablesList<>();
   private String                                  authorLogin = TsLibUtils.EMPTY_STRING;
 
   /**
@@ -296,7 +296,9 @@ public class SkRegRefInfoService
       sectsList.add( new SkRriSection( sko, this ) );
     }
     // Логин пользователя
-    IAtomicValue argLogin = ISkConnectionConstants.ARGDEF_LOGIN.getValue( aArgs.params() );
+    // 2023-12-20 mvk ---+++
+    // IAtomicValue argLogin = ISkConnectionConstants.ARGDEF_LOGIN.getValue( aArgs.params() );
+    IAtomicValue argLogin = AvUtils.avStr( coreApi().getCurrentUserInfo().userSkid().strid() );
     authorLogin = (argLogin != null && argLogin.isAssigned() ? argLogin.asString() : TsLibUtils.EMPTY_STRING);
   }
 
