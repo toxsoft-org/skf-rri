@@ -30,6 +30,14 @@ public class AttributeLifeCycleManager
 
   private String sectionId;
 
+  public String getSectionId() {
+    return sectionId;
+  }
+
+  public void setSectionId( String aSectionId ) {
+    sectionId = aSectionId;
+  }
+
   public String getClassId() {
     return classId;
   }
@@ -100,10 +108,6 @@ public class AttributeLifeCycleManager
     }
 
     return result;
-  }
-
-  public void setSectionId( String aSectionId ) {
-    sectionId = aSectionId;
   }
 
 }

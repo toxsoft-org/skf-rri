@@ -33,6 +33,14 @@ public class LinkLifeCycleManager
 
   private String sectionId;
 
+  public String getSectionId() {
+    return sectionId;
+  }
+
+  public void setSectionId( String aSectionId ) {
+    sectionId = aSectionId;
+  }
+
   public String getClassId() {
     return classId;
   }
@@ -114,10 +122,6 @@ public class LinkLifeCycleManager
     }
 
     return result;
-  }
-
-  public void setSectionId( String aSectionId ) {
-    sectionId = aSectionId;
   }
 
 }

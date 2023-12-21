@@ -23,8 +23,8 @@ public class KM5RriStructContributor
 
   private static final IStringList CONRTIBUTED_MODEL_IDS = new StringArrayList( //
       AttributeModel.MODEL_ID, //
-      LinkModel.MODEL_ID //
-  );
+      LinkModel.MODEL_ID, //
+      RriSectionModel.MODEL_ID );
 
   private final IStringListEdit myModels = new StringArrayList();
 
@@ -49,6 +49,10 @@ public class KM5RriStructContributor
     LinkModel linkModel = new LinkModel();
     myModels.add( linkModel.id() );
     m5().addModel( linkModel );
+
+    RriSectionModel rriSectionModel = new RriSectionModel();
+    myModels.add( rriSectionModel.id() );
+    m5().addModel( rriSectionModel );
 
     return CONRTIBUTED_MODEL_IDS;
   }
