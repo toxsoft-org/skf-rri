@@ -6,6 +6,7 @@ import org.eclipse.jface.action.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
@@ -14,7 +15,9 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.panels.toolbar.*;
@@ -22,6 +25,7 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.struct.gui.km5.*;
@@ -133,7 +137,7 @@ public class PanelRriSectionStructEditor
     ISkConnectionSupplier connSup = aContext.get( ISkConnectionSupplier.class );
     conn = connSup.defConn();
 
-    IM5Domain m5 = conn.scope().get( IM5Domain.class );
+    final IM5Domain m5 = conn.scope().get( IM5Domain.class );
     IM5Model<ISkClassInfo> model = m5.getModel( ISgwM5Constants.MID_SGW_CLASS_INFO, ISkClassInfo.class );
 
     // IMultiPaneComponentConstants.OPDEF_IS_DETAILS_PANE.setValue( ctx.params(), AvUtils.AV_FALSE );
@@ -141,21 +145,17 @@ public class PanelRriSectionStructEditor
     // avValobj( EBorderLayoutPlacement.SOUTH ) );
     // добавляем в панель фильтр
     IMultiPaneComponentConstants.OPDEF_IS_FILTER_PANE.setValue( ctx.params(), AvUtils.AV_TRUE );
+    IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( ctx.params(), AvUtils.AV_TRUE );
 
     clm = new RriClassInfoLifeCycleManager( model, conn.coreApi() );
 
-    classesPanel = model.panelCreator().createCollEditPanel( ctx, clm.itemsProvider(), clm );
+    // classesPanel = model.panelCreator().createCollEditPanel( ctx, clm.itemsProvider(), clm );
     // setup
-    classesPanel.addTsSelectionListener( classChangeListener );
-    classesPanel.createControl( sfMain );
-    classesPanel.refresh();
-
-    SashForm rightPane = new SashForm( sfMain, SWT.VERTICAL );
+    // classesPanel.addTsSelectionListener( classChangeListener );
+    // classesPanel.createControl( sfMain );
+    // classesPanel.refresh();
 
     AttributeModel attrModel = (AttributeModel)m5.getModel( AttributeModel.MODEL_ID, IDtoAttrInfo.class );
-
-    // ITsGuiContext ctx = new TsGuiContext( aContext );
-
     ISkRegRefInfoService rriService =
         (ISkRegRefInfoService)conn.coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
 
@@ -165,6 +165,80 @@ public class PanelRriSectionStructEditor
     // }
 
     alm = new AttributeLifeCycleManager( ctx, attrModel, rriService );
+    // -----------------------------------
+
+    MultiPaneComponentModown<ISkClassInfo> componentModown =
+        new MultiPaneComponentModown<>( ctx, model, clm.itemsProvider(), clm ) {
+
+          @Override
+          protected ITsToolbar doCreateToolbar( ITsGuiContext aContext2, String aName, EIconSize aIconSize,
+              IListEdit<ITsActionDef> aActs ) {
+
+            ITsToolbar toolbar =
+
+                super.doCreateToolbar( aContext2, aName, aIconSize, aActs );
+
+            toolbar.addListener( aActionId -> {
+              // nop
+
+            } );
+
+            return toolbar;
+          }
+
+          @Override
+          public void processAction( String aActionId ) {
+            ISkClassInfo selClass = selectedItem();
+
+            switch( aActionId ) {
+
+              case ACTID_ADD:
+                IM5Model<ISkClassInfo> classModel =
+                    m5.getModel( ISgwM5Constants.MID_SGW_CLASS_INFO, ISkClassInfo.class );
+                // TODO
+                ChoosableClassInfoLifeCycleManager lm =
+                    new ChoosableClassInfoLifeCycleManager( classModel, conn.coreApi() );
+                lm.setSectionId( alm.getSectionId() );
+                TsDialogInfo di = new TsDialogInfo( aContext, "Выбор класса для НСИ", "Выбор класса для НСИ" );
+                // установим нормальный размер диалога
+                di.setMinSize( new TsPoint( -30, -40 ) );
+                ISkClassInfo selectClass = M5GuiUtils.askSelectItem( di, model, null, lm.itemsProvider(), lm );
+                if( selectClass == null ) {
+                  return;
+                }
+                TsDialogInfo cdi = new TsDialogInfo( aContext, null, "Создание атрибут НСИ",
+                    "Необходимо создать хотя бы один атрибут НСИ для нового класса", 0 );
+
+                IM5BunchEdit<IDtoAttrInfo> initVals = alm.createNewItemValues();
+                String currClass = alm.getClassId();
+                alm.setClassId( selectClass.id() );
+
+                IDtoAttrInfo createdAttr = M5GuiUtils.askCreate( tsContext(), attrModel, initVals, cdi, alm );
+                alm.setClassId( currClass );
+
+                classesPanel.refresh();
+                classesPanel.setSelectedItem( selectClass );
+                break;
+
+              case ACTID_REMOVE:
+                // editOpcCfgNodes( selDoc );
+                break;
+
+              default:
+                throw new TsNotAllEnumsUsedRtException( aActionId );
+            }
+          }
+        };
+    classesPanel = new M5CollectionPanelMpcModownWrapper<>( componentModown, false );
+    // ----------------------------------
+    classesPanel.addTsSelectionListener( classChangeListener );
+    classesPanel.createControl( sfMain );
+    classesPanel.refresh();
+
+    SashForm rightPane = new SashForm( sfMain, SWT.VERTICAL );
+
+    // ITsGuiContext ctx = new TsGuiContext( aContext );
+
     // alm.setSectionId( rriSection.id() );
 
     attrPanel = attrModel.panelCreator().createCollEditPanel( ctx, alm.itemsProvider(), alm );
