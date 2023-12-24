@@ -221,7 +221,7 @@ public class PanelRriSectionStructEditor
                 break;
 
               case ACTID_REMOVE:
-                // editOpcCfgNodes( selDoc );
+                super.processAction( aActionId );
                 break;
 
               default:

@@ -29,6 +29,18 @@ public class RriClassInfoLifeCycleManager
   }
 
   @Override
+  protected void doRemove( ISkClassInfo aEntity ) {
+    if( sectionId == null ) {
+      return;
+    }
+    ISkRriSection section = rriService.findSection( sectionId );
+    if( section == null ) {
+      return;
+    }
+    section.removeAll( aEntity.id() );
+  }
+
+  @Override
   protected IList<ISkClassInfo> doListEntities() {
     if( sectionId == null ) {
       return IList.EMPTY;

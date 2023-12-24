@@ -2,7 +2,12 @@ package org.toxsoft.skf.rri.struct.gui.km5;
 
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.gw.*;
+import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.uskat.core.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 
@@ -10,6 +15,8 @@ public class ChoosableClassInfoLifeCycleManager
     extends M5LifecycleManager<ISkClassInfo, ISkCoreApi> {
 
   private String sectionId;
+
+  private ISkRegRefInfoService rriService;
 
   public String getSectionId() {
     return sectionId;
@@ -21,7 +28,7 @@ public class ChoosableClassInfoLifeCycleManager
 
   public ChoosableClassInfoLifeCycleManager( IM5Model<ISkClassInfo> aModel, ISkCoreApi aMaster ) {
     super( aModel, false, false, false, true, aMaster );
-    // TODO Auto-generated constructor stub
+    rriService = (ISkRegRefInfoService)aMaster.services().getByKey( ISkRegRefInfoService.SERVICE_ID );
   }
 
   @Override
@@ -29,7 +36,43 @@ public class ChoosableClassInfoLifeCycleManager
     if( sectionId == null ) {
       return IList.EMPTY;
     }
-    return master().sysdescr().listClasses();
+    ISkRriSection section = rriService.findSection( sectionId );
+
+    // // пропустим корневой класс
+    // if( cinf.id().equals( IGwHardConstants.GW_ROOT_CLASS_ID ) ) {
+    // continue;
+    // }
+    // // пропустим служебные классы
+    // String ownerServiceId = skCim().getClassOwnerService( cinf.id() );
+    // if( !ownerServiceId.equals( ISkSysdescr.SERVICE_ID ) ) {
+    // continue;
+    // }
+
+    IStringList alreadyRri = section.listClassIds();
+
+    IStridablesList<ISkClassInfo> allClasses = master().sysdescr().listClasses();
+
+    IStridablesListEdit<ISkClassInfo> result = new StridablesList<>();
+
+    for( ISkClassInfo cl : allClasses ) {
+      // ignore allready RRI
+      if( alreadyRri.hasElem( cl.id() ) ) {
+        continue;
+      }
+
+      // ignore service classes
+      if( master().sysdescr().determineClassClaimingServiceId( cl.id() ).equals( ISkRegRefInfoService.SERVICE_ID ) ) {
+        continue;
+      }
+
+      // ignocer root class
+      if( IGwHardConstants.GW_ROOT_CLASS_ID.equals( cl.id() ) ) {
+        continue;
+      }
+      result.add( cl );
+    }
+
+    return result;
   }
 
 }
