@@ -1,6 +1,8 @@
 package org.toxsoft.skf.rri.struct.gui;
 
 import org.toxsoft.core.tsgui.mws.bases.*;
+import org.toxsoft.skf.rri.lib.impl.*;
+import org.toxsoft.uskat.core.impl.*;
 
 /**
  * The plugin activator.
@@ -24,6 +26,7 @@ public class Activator
     super( PLUGIN_ID );
     checkInstance( instance );
     instance = this;
+    SkCoreUtils.registerSkServiceCreator( SkRegRefInfoService.CREATOR );
   }
 
   /**
