@@ -140,7 +140,7 @@ class SkRriSection
     DtoObject dto = new DtoObject( aCompObjSkid );
     ISkClassInfo clinf = caCim.getClassInfo( aCompObjSkid.classId() );
     for( IDtoAttrInfo ainf : clinf.attrs().listNonSys() ) {
-      if( SkHelperUtils.getConstraint( ainf, TSID_IS_MANDATORY ).asBool() ) {
+      if( SkHelperUtils.getConstraint( ainf, TSID_IS_MANDATORY, AV_FALSE ).asBool() ) {
         IAtomicValue defVal = SkHelperUtils.getConstraint( ainf, TSID_DEFAULT_VALUE );
         dto.attrs().setValue( ainf.id(), defVal );
       }
