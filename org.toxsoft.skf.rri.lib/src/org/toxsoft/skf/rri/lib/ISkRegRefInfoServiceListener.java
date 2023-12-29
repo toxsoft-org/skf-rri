@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
 /**
  * {@link ISkRegRefInfoService} changes listener.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ISkRegRefInfoServiceListener {
 

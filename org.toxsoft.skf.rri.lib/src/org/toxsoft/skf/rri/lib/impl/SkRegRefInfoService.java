@@ -4,63 +4,53 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkRegRefServiceHardConstants.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkResources.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.AbstractTsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.gw.IGwHardConstants;
-import org.toxsoft.core.tslib.gw.skid.Skid;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.core.tslib.utils.txtmatch.ETextMatchMode;
-import org.toxsoft.core.tslib.utils.txtmatch.TextMatcher;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.gw.*;
+import org.toxsoft.core.tslib.gw.skid.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.txtmatch.*;
 import org.toxsoft.skf.rri.lib.*;
-import org.toxsoft.uskat.core.ISkHardConstants;
-import org.toxsoft.uskat.core.ISkServiceCreator;
-import org.toxsoft.uskat.core.api.linkserv.ISkLinkServiceValidator;
+import org.toxsoft.uskat.core.*;
+import org.toxsoft.uskat.core.api.linkserv.*;
 import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
-import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoClassInfo;
-import org.toxsoft.uskat.core.devapi.IDevCoreApi;
-import org.toxsoft.uskat.core.impl.AbstractSkService;
-import org.toxsoft.uskat.core.impl.dto.DtoClassInfo;
-import org.toxsoft.uskat.core.impl.dto.DtoObject;
+import org.toxsoft.uskat.core.api.sysdescr.dto.*;
+import org.toxsoft.uskat.core.devapi.*;
+import org.toxsoft.uskat.core.impl.*;
+import org.toxsoft.uskat.core.impl.dto.*;
 
 /**
- * Реализация {@link ISkRegRefInfoService}.
+ * {@link ISkRegRefInfoService} implementation.
  *
- * @author goga
+ * @author hazard157
  */
 public class SkRegRefInfoService
     extends AbstractSkService
     implements ISkRegRefInfoService {
 
   /**
-   * Синглтон создателя сервиса.
+   * The service creator singleton.
    */
   public static final ISkServiceCreator<SkRegRefInfoService> CREATOR = SkRegRefInfoService::new;
 
   /**
    * Class for {@link ISkRegRefInfoService#eventer()} instance implementation.
    *
-   * @author goga
+   * @author hazard157
    */
   class Eventer
       extends AbstractTsEventer<ISkRegRefInfoServiceListener> {
@@ -106,7 +96,7 @@ public class SkRegRefInfoService
   /**
    * Class for {@link ISkRegRefInfoService#svs()} instance implementation.
    *
-   * @author goga
+   * @author hazard157
    */
   class ValidationSupport
       extends AbstractTsValidationSupport<ISkRegRefInfoServiceValidator>
@@ -213,7 +203,7 @@ public class SkRegRefInfoService
   };
 
   /**
-   * Prevents {@link ISkObjectService} to work with refbook service owned objects.
+   * Prevents {@link ISkLinkService} to work with refbook service owned objects.
    */
   private final ISkLinkServiceValidator linkServiceValidator = //
       ( aOldLink, aNewLink ) -> validateClassIsManagedByThisService( aNewLink.leftSkid().classId() );
@@ -278,28 +268,23 @@ public class SkRegRefInfoService
 
   @Override
   protected void doInit( ITsContextRo aArgs ) {
-    ISkSysdescr cim = coreApi().sysdescr();
     // ensure RRI section class exists
     DtoClassInfo rriSectionClass =
         new DtoClassInfo( CLASSID_RRI_SECTION, IGwHardConstants.GW_ROOT_CLASS_ID, IOptionSet.NULL );
     rriSectionClass.eventInfos().add( EVDPU_RRI_PARAM_CHANGE );
     rriSectionClass.attrInfos().add( AINF_RRI_SECTION_PARAMS );
     rriSectionClass.params().setBool( ISkHardConstants.OPDEF_SK_IS_SOURCE_CODE_DEFINED_CLASS, true );
-    cim.defineClass( rriSectionClass );
+    sysdescr().defineClass( rriSectionClass );
     // service validators
-    cim.svs().addValidator( classInfoManagerValidator );
-    coreApi().objService().svs().addValidator( objectServiceValidator );
-    coreApi().linkService().svs().addValidator( linkServiceValidator );
+    sysdescr().svs().addValidator( classInfoManagerValidator );
+    objServ().svs().addValidator( objectServiceValidator );
+    linkService().svs().addValidator( linkServiceValidator );
     // load sections
     IList<ISkObject> rsObjs = coreApi().objService().listObjs( CLASSID_RRI_SECTION, true );
     for( ISkObject sko : rsObjs ) {
       sectsList.add( new SkRriSection( sko, this ) );
     }
-    // Логин пользователя
-    // 2023-12-20 mvk ---+++
-    // IAtomicValue argLogin = ISkConnectionConstants.ARGDEF_LOGIN.getValue( aArgs.params() );
-    IAtomicValue argLogin = AvUtils.avStr( coreApi().getCurrentUserInfo().userSkid().strid() );
-    authorLogin = (argLogin != null && argLogin.isAssigned() ? argLogin.asString() : TsLibUtils.EMPTY_STRING);
+    authorLogin = coreApi().getCurrentUserInfo().userSkid().strid();
   }
 
   @Override
@@ -350,7 +335,6 @@ public class SkRegRefInfoService
     finally {
       resumeExternalValidation();
     }
-    // fire event
     eventer.fireChanged( ECrudOp.CREATE, aId );
     return sect;
   }

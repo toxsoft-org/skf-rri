@@ -1,13 +1,12 @@
 package org.toxsoft.skf.rri.lib.impl;
 
-import org.toxsoft.core.tslib.bricks.strid.impl.StridableParameterizedSer;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.skf.rri.lib.ISkRriParamInfo;
-import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoAttrInfo;
-import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoLinkInfo;
+import org.toxsoft.skf.rri.lib.*;
+import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 
 /**
- * Реализация {@link ISkRriParamInfo}
+ * {@link ISkRriParamInfo} implementation.
  *
  * @author mvk
  */

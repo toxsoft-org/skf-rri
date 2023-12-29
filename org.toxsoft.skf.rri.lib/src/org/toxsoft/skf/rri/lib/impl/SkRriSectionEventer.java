@@ -15,7 +15,7 @@ import org.toxsoft.uskat.core.api.evserv.SkEvent;
 /**
  * Вспомогательный класс для реализации {@link ISkRriSection#eventer()}.
  *
- * @author goga
+ * @author hazard157
  */
 class SkRriSectionEventer
     extends AbstractTsEventer<ISkRriSectionListener> {

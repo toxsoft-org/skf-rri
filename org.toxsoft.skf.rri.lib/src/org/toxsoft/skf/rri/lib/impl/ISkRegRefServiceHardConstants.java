@@ -24,7 +24,7 @@ import org.toxsoft.uskat.core.impl.dto.*;
 /**
  * Service sonatsnts with unmodifiable values.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( { "javadoc", "nls" } )
 public interface ISkRegRefServiceHardConstants {

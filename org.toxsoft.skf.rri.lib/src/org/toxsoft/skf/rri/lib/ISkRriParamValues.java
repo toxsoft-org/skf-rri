@@ -1,16 +1,15 @@
 package org.toxsoft.skf.rri.lib;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.coll.IMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.gw.skid.ISkidList;
-import org.toxsoft.core.tslib.gw.skid.Skid;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.skf.legacy.Skop;
 
 /**
  * Набор значений (произвольное подмножество) параметров НСИ одного раздела.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ISkRriParamValues {
 

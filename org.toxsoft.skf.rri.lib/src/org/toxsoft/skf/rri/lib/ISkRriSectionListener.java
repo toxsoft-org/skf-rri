@@ -6,7 +6,7 @@ import org.toxsoft.uskat.core.api.evserv.*;
 /**
  * {@link ISkRegRefInfoService} changes listener.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ISkRriSectionListener {
 

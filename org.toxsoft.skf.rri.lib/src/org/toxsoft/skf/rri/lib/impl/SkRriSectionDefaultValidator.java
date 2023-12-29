@@ -12,7 +12,7 @@ import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoLinkInfo;
 /**
  * Реализация встроенных правил валидации редактирования НСИ.
  *
- * @author goga
+ * @author hazard157
  */
 class SkRriSectionDefaultValidator
     implements ISkRriSectionValidator {

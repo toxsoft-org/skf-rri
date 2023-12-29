@@ -15,7 +15,7 @@ import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoLinkInfo;
  * Note: {@link ISkRegRefInfoService} validation is implemented in per-section basis in
  * {@link ISkRegRefInfoServiceValidator}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ISkRriSectionValidator {
 

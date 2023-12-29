@@ -1,29 +1,29 @@
 package org.toxsoft.skf.rri.lib;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.utils.IParameterized;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.time.IQueryInterval;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.gw.skid.ISkidList;
-import org.toxsoft.core.tslib.gw.skid.Skid;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.time.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.uskat.core.api.evserv.ISkEventService;
-import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoAttrInfo;
-import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoLinkInfo;
+import org.toxsoft.uskat.core.api.evserv.*;
+import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 
 /**
- * Раздел НСИ.
+ * The RRI section.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ISkRriSection
     extends IStridable, IParameterized {
+
+  // TODO TRANSLATE
 
   /**
    * Меняет свойства раздела.
@@ -49,7 +49,7 @@ public interface ISkRriSection
   Skid getSectionSkid();
 
   // ------------------------------------------------------------------------------------
-  // Работа с описаниями параметров
+  // Parameters definition
 
   /**
    * Определяет (создает новое или правит существующее) описание параметра НСИ - атрибута.

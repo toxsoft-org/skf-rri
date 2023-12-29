@@ -27,7 +27,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * <p>
  * Это неизменяемый класс.
  *
- * @author goga
+ * @author hazard157
  */
 public final class Skop
     implements Serializable, Comparable<Skop> {

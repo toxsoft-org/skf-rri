@@ -8,7 +8,7 @@ import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoEventInfo;
 /**
  * Доступ к истории редактирования
  *
- * @author goga
+ * @author hazard157
  */
 public interface ISkRriHistory {
 

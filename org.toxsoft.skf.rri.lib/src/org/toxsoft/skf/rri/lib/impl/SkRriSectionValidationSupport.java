@@ -14,7 +14,7 @@ import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoLinkInfo;
 /**
  * Вспомогательный класс для реализации {@link ISkRriSection#svs()}.
  *
- * @author goga
+ * @author hazard157
  */
 class SkRriSectionValidationSupport
     extends AbstractTsValidationSupport<ISkRriSectionValidator>

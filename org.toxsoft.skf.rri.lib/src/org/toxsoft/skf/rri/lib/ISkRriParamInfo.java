@@ -11,7 +11,7 @@ import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoLinkInfo;
  * Параметр НСИ бывает двух видов: либо атрибутом, либо связью. Интерфейс расширяет {@link IStridableParameterized},
  * возвращая значения {@link #attrInfo()} или {@link #linkInfo()} в зависимости от вида параметра.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ISkRriParamInfo
     extends IStridableParameterized {

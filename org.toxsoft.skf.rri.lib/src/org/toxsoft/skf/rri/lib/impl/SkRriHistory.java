@@ -17,7 +17,7 @@ import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoEventInfo;
 /**
  * {@link ISkRriHistory} implementation.
  *
- * @author goga
+ * @author hazard157
  */
 class SkRriHistory
     implements ISkRriHistory {

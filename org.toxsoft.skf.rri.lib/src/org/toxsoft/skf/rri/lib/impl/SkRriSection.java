@@ -31,11 +31,12 @@ import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 import org.toxsoft.uskat.core.impl.dto.*;
+import org.toxsoft.uskat.core.utils.*;
 
 /**
  * Реализация {@link ISkRriSection}.
  *
- * @author goga
+ * @author hazard157
  */
 class SkRriSection
     implements ISkRriSection {
@@ -129,6 +130,22 @@ class SkRriSection
       }
     }
     return comanionInfo;
+  }
+
+  private ISkObject ensureCompanionObject( Skid aCompObjSkid ) {
+    ISkObject sko = caOs.find( aCompObjSkid );
+    if( sko != null ) {
+      return sko;
+    }
+    DtoObject dto = new DtoObject( aCompObjSkid );
+    ISkClassInfo clinf = caCim.getClassInfo( aCompObjSkid.classId() );
+    for( IDtoAttrInfo ainf : clinf.attrs().listNonSys() ) {
+      if( SkHelperUtils.getConstraint( ainf, TSID_IS_MANDATORY ).asBool() ) {
+        IAtomicValue defVal = SkHelperUtils.getConstraint( ainf, TSID_DEFAULT_VALUE );
+        dto.attrs().setValue( ainf.id(), defVal );
+      }
+    }
+    return caOs.defineObject( dto );
   }
 
   private void internalUnvalidatedRemoveAll( String aClassId ) {
@@ -471,13 +488,9 @@ class SkRriSection
         .checkError( validationSupport.canSetAttrParamValue( aObjId, aParamId, aValue, aReason ) );
     String compClassId = makeCompanionId( aObjId.classId() );
     Skid compObjSkid = new Skid( compClassId, aObjId.strid() );
-    IOptionSetEdit attrs = new OptionSet();
-    ISkObject old = caOs.find( compObjSkid );
-    if( old != null ) {
-      attrs.setAll( old.attrs() );
-    }
-    DtoObject dtoObj = new DtoObject( compObjSkid, attrs, IStringMap.EMPTY );
-    IAtomicValue oldValue = dtoObj.attrs().getValue( aParamId, IAtomicValue.NULL );
+    ISkObject compObj = ensureCompanionObject( compObjSkid );
+    IAtomicValue oldValue = compObj.attrs().getValue( aParamId );
+    DtoObject dtoObj = DtoObject.createFromSk( compObj, coreApi );
     dtoObj.attrs().setValue( aParamId, aValue );
     try {
       rriService.pauseExternalValidation();
@@ -499,11 +512,8 @@ class SkRriSection
     Skid compObjSkid = new Skid( compClassId, aObjId.strid() );
     try {
       rriService.pauseExternalValidation();
-      if( caOs.find( compObjSkid ) == null ) {
-        DtoObject dtoObj = new DtoObject( compObjSkid, IOptionSet.NULL, IStringMap.EMPTY );
-        caOs.defineObject( dtoObj );
-      }
-      ISkidList oldValue = caLs.getLinkFwd( compObjSkid, aParamId ).rightSkids();
+      ISkObject compObj = ensureCompanionObject( compObjSkid );
+      ISkidList oldValue = compObj.getLinkSkids( aParamId );
       caLs.setLink( compObjSkid, aParamId, aObjIds );
       Gwid paramGwid = Gwid.createLink( aObjId.classId(), aObjId.strid(), aParamId );
       SkEvent e = fireEventLinkChange( paramGwid, aReason, System.currentTimeMillis(), oldValue, aObjIds );

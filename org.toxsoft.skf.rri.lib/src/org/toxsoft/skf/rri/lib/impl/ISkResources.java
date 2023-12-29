@@ -3,7 +3,7 @@ package org.toxsoft.skf.rri.lib.impl;
 /**
  * Localizable resources.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 interface ISkResources {

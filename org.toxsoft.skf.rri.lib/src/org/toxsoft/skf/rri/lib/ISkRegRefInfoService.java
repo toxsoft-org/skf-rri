@@ -1,25 +1,25 @@
 package org.toxsoft.skf.rri.lib;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.skf.rri.lib.impl.ISkRegRefServiceHardConstants;
-import org.toxsoft.uskat.core.api.ISkService;
-import org.toxsoft.uskat.core.api.objserv.ISkObject;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.skf.rri.lib.impl.*;
+import org.toxsoft.uskat.core.api.*;
+import org.toxsoft.uskat.core.api.objserv.*;
 
 /**
- * Служба работы с НСИ.
+ * The RRI (Regulatory and Reference Information) service.
  * <p>
- * RRI (Regulatoy and reference information) = НСИ ((Нормативно-Справочная Информация).
+ * <b>Regulatory and Reference Information</b> - is a <i><b>RRI parameters</b></i>, bind to the Green World object.
  * <p>
- * <b>Нормативно-Справочная Информация</b> - это <i><b>параметры НСИ</b></i>, связанные с объектами системы. Параметр
- * НСИ имеет <i><b>описание</b></i>, связанное с опаределенным классом системы, и <i><b>значения</b></i> для каждого
- * объекта класса. Таким образом, каждый объект системы кроме свойств своего класса (атрибуты, данные, связи, команды,
- * события) получает набор параметров НСИ. Параметры НСИ содержатся (сгруппированы) в тематических
+ * TODO TRANSLATE
+ * <p>
+ * Параметр НСИ имеет <i><b>описание</b></i>, связанное с опаределенным классом системы, и <i><b>значения</b></i> для
+ * каждого объекта класса. Таким образом, каждый объект системы кроме свойств своего класса (атрибуты, данные, связи,
+ * команды, события) получает набор параметров НСИ. Параметры НСИ содержатся (сгруппированы) в тематических
  * <i><b>разделах</b></i>. Разбиение на разделы определяется разработчиком системы (например, по разным ИУСам, или по
  * нормативным документам).
  * <p>
@@ -27,13 +27,13 @@ import org.toxsoft.uskat.core.api.objserv.ISkObject;
  * {@link ISkObject#strid()}. Служба <b>не</b> позволяет получить лоступ к НСИ объектов по <code>long</code>
  * идентификатору.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ISkRegRefInfoService
     extends ISkService {
 
   /**
-   * Идентификатор службы.
+   * The service ID.
    */
   String SERVICE_ID = ISkRegRefServiceHardConstants.SERVICE_ID;
 

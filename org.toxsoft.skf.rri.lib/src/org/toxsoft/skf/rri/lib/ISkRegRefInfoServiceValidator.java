@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * <p>
  * Note: {@link ISkRriSection} validation is implemented in per-section basis in {@link ISkRriSectionValidator}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ISkRegRefInfoServiceValidator {
 
