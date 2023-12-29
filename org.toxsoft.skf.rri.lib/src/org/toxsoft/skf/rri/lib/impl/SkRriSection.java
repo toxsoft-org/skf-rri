@@ -145,7 +145,13 @@ class SkRriSection
       dto.attrs().setValue( ainf.id(), defVal );
       // }
     }
-    return caOs.defineObject( dto );
+    rriService.pauseExternalValidation();
+    try {
+      return caOs.defineObject( dto );
+    }
+    finally {
+      rriService.resumeExternalValidation();
+    }
   }
 
   private void internalUnvalidatedRemoveAll( String aClassId ) {
