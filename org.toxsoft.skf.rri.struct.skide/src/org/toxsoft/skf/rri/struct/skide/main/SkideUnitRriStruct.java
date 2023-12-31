@@ -12,9 +12,9 @@ import org.toxsoft.skide.core.api.*;
 import org.toxsoft.skide.core.api.impl.*;
 
 /**
- * SkiDE unit: unit template 1.
+ * SkiDE unit: rri struct editor
  *
- * @author hazard157
+ * @author max
  */
 public class SkideUnitRriStruct
     extends AbstractSkideUnit {

@@ -12,19 +12,19 @@ import org.toxsoft.skide.core.api.*;
 import org.toxsoft.skide.core.api.impl.*;
 
 /**
- * SkiDE unit: unit template 2.
+ * SkiDE unit: rri values editor
  *
- * @author hazard157
+ * @author max
  */
-public class SkideUnitTemplate2
+public class SkideUnitRriValues
     extends AbstractSkideUnit {
 
   /**
    * The plugin ID.
    */
-  public static final String UNIT_ID = SKIDE_FULL_ID + ".unit.template_2"; //$NON-NLS-1$
+  public static final String UNIT_ID = SKIDE_FULL_ID + ".unit.rri.values"; //$NON-NLS-1$
 
-  SkideUnitTemplate2( ITsGuiContext aContext, AbstractSkidePlugin aCreator ) {
+  SkideUnitRriValues( ITsGuiContext aContext, AbstractSkidePlugin aCreator ) {
     super( UNIT_ID, OptionSetUtils.createOpSet( //
         TSID_NAME, STR_SKIDE_TEMPLATE_UNIT_2, //
         TSID_DESCRIPTION, STR_SKIDE_TEMPLATE_UNIT_2_D, //
@@ -35,7 +35,7 @@ public class SkideUnitTemplate2
 
   @Override
   protected AbstractSkideUnitPanel doCreateUnitPanel( ITsGuiContext aContext ) {
-    return new SkideUnit2Panel( aContext, this );
+    return new SkideUnitRriValuesPanel( aContext, this );
   }
 
 }

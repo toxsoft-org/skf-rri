@@ -4,19 +4,19 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
-import org.toxsoft.skf.rri.struct.gui.panels.*;
+import org.toxsoft.skf.rri.values.gui.panels.*;
 import org.toxsoft.skide.core.api.*;
 import org.toxsoft.skide.core.api.impl.*;
 
 /**
- * {@link AbstractSkideUnitPanel} implementation: rri struct editor panel
+ * {@link AbstractSkideUnitPanel} implementation: rri values editor panel
  *
  * @author max
  */
-class SkideUnitRriStructPanel
+class SkideUnitRriValuesPanel
     extends AbstractSkideUnitPanel {
 
-  public SkideUnitRriStructPanel( ITsGuiContext aContext, ISkideUnit aUnit ) {
+  public SkideUnitRriValuesPanel( ITsGuiContext aContext, ISkideUnit aUnit ) {
     super( aContext, aUnit );
   }
 
@@ -24,7 +24,7 @@ class SkideUnitRriStructPanel
   protected Control doCreateControl( Composite aParent ) {
     TsGuiContext reportContext = new TsGuiContext( tsContext() );
 
-    PanelRriSectionStructEditor panel = new PanelRriSectionStructEditor( aParent, reportContext );
+    PanelRriSectionValuesEditor panel = new PanelRriSectionValuesEditor( aParent, reportContext );
     panel.setLayoutData( BorderLayout.CENTER );
     return panel;
   }

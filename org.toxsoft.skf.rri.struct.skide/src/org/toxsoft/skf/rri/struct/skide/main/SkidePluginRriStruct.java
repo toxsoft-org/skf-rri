@@ -39,7 +39,7 @@ public class SkidePluginRriStruct
   @Override
   protected void doCreateUnits( ITsGuiContext aContext, IStridablesListEdit<ISkideUnit> aUnitsList ) {
     aUnitsList.add( new SkideUnitRriStruct( aContext, this ) );
-    // aUnitsList.add( new SkideUnitTemplate2( aContext, this ) );
+    aUnitsList.add( new SkideUnitRriValues( aContext, this ) );
   }
 
 }

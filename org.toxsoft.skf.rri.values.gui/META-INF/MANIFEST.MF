@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gui Reg Ref Info Values Editor
+Bundle-SymbolicName: org.toxsoft.skf.rri.values.gui
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.toxsoft.skf.rri.values.gui.Activator
+Bundle-Vendor: Toxsoft
+Require-Bundle: org.eclipse.core.runtime,
+ org.toxsoft.core.tslib,
+ org.toxsoft.core.tsgui,
+ org.eclipse.swt,
+ org.toxsoft.uskat.core.gui,
+ org.toxsoft.uskat.core,
+ org.eclipse.e4.core.contexts;bundle-version="1.9.100",
+ org.eclipse.e4.ui.model.workbench;bundle-version="2.2.0",
+ org.eclipse.jface;bundle-version="3.24.0",
+ org.toxsoft.core.log4j;bundle-version="1.0.0",
+ org.toxsoft.extlibs.log4j;bundle-version="1.0.0",
+ org.toxsoft.skf.rri.lib
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Automatic-Module-Name: org.toxsoft.skf.rri.values.gui
+Bundle-ActivationPolicy: lazy
+Export-Package: org.toxsoft.skf.rri.values.gui,
+ org.toxsoft.skf.rri.values.gui.km5,
+ org.toxsoft.skf.rri.values.gui.panels
