@@ -26,6 +26,7 @@ import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -277,6 +278,9 @@ public class PanelRriSectionValuesEditor
     // alm.setClassId( null );
     // llm.setSectionId( sectionId );
     // llm.setClassId( null );
+
+    objLm.setClassIds( IStringList.EMPTY );
+    objectsListPanel.refresh();
 
     classesPanel.refresh();
     attrsListPanel.refresh();

@@ -340,6 +340,10 @@ public class LinkParamM5Model
 
                 // return super.doEditItem( aItem );
               }
+
+              protected boolean doGetIsEditAllowed( LinkParam aSel ) {
+                return ((LinkParamM5LifeCycleManager)aLifecycleManager).getObjects().size() > 0;
+              }
             };
         return new M5CollectionPanelMpcModownWrapper<>( mpc, false );
       }

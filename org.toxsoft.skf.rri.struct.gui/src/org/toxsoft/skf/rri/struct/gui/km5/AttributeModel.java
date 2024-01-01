@@ -24,7 +24,7 @@ public class AttributeModel
   /**
    * Идентификатор модели.
    */
-  public static final String MODEL_ID = "ru.skide.sysnode.rri.mod.guilib.structedit.AttributeModel"; //$NON-NLS-1$
+  public static final String MODEL_ID = "org.toxsoft.skf.rri.struct.gui.km5.AttributeModel"; //$NON-NLS-1$
 
   /**
    * Идентификатор поля {@link #ATTR_ID}.

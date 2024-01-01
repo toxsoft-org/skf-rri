@@ -162,27 +162,6 @@ public class AttrParamM5Model
         MultiPaneComponentModown<AttrParam> mpc =
             new MultiPaneComponentModown<>( aContext, model(), aItemsProvider, aLifecycleManager ) {
 
-              // @Override
-              // protected HdrToolbar doCreateToolbar( Composite aParent, String aName, EIconSize aIconSize,
-              // IListEdit<ITsActionInfo> aActs ) {
-              // ITsActionInfo HISTORY = new TsActPushButtonInfo( 1000, "History", "History", STD_ICONID_DOCUMENT_NEW );
-              //
-              // aActs.add( HISTORY );
-              // HdrToolbar toolBar = super.doCreateToolbar( aParent, aName, aIconSize, aActs );
-              //
-              // toolBar.addToolbarListener( new IHdrToolbarListener() {
-              //
-              // @Override
-              // public void onButtonPressed( int aItemId ) {
-              // if( aItemId == 1000 ) {
-              // System.out.println( "HISTORY BUTTON" );
-              // }
-              //
-              // }
-              // } );
-              // return toolBar;
-              // }
-
               @Override
               protected AttrParam doEditItem( AttrParam aItem ) {
                 // editValue = aItem.getValue();
@@ -211,6 +190,10 @@ public class AttrParamM5Model
                     };
 
                 return M5GuiUtils.askEdit( tsContext(), editPanel, aItem, cdi );
+              }
+
+              protected boolean doGetIsEditAllowed( AttrParam aSel ) {
+                return ((AttrParamM5LifeCycleManager)aLifecycleManager).getObjects().size() > 0;
               }
 
             };

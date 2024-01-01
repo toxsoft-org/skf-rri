@@ -62,7 +62,6 @@ public class RriSectionModel
 
     public RriSectionLifeCycleManager( IM5Model<ISkRriSection> aModel, ISkRegRefInfoService aMaster ) {
       super( aModel, false, false, false, true, aMaster );
-      // TODO Auto-generated constructor stub
     }
 
     @Override

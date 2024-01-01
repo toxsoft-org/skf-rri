@@ -10,6 +10,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 import org.toxsoft.uskat.core.connection.*;
@@ -26,7 +27,7 @@ public class LinkModel
   /**
    * Идентификатор модели.
    */
-  public static final String MODEL_ID = "ru.skide.sysnode.rri.mod.guilib.structedit.LinkModel"; //$NON-NLS-1$
+  public static final String MODEL_ID = "org.toxsoft.skf.rri.struct.gui.km5.LinkModel"; //$NON-NLS-1$
 
   /**
    * Идентификатор поля {@link #LINK_ID}.
@@ -159,7 +160,7 @@ public class LinkModel
         @Override
         protected void doInit() {
           setNameAndDescription( "Классы связи", "Классы связи" );
-          setFlags( M5FF_DETAIL );
+          setFlags( M5FF_COLUMN );
           // setLookupProvider( new IM5LookupProvider<ISkClassInfo>() {
           //
           // @Override
@@ -188,6 +189,22 @@ public class LinkModel
             }
           }
           return ll;
+        }
+
+        @Override
+        protected String doGetFieldValueName( IDtoLinkInfo aEntity ) {
+          IList<ISkClassInfo> linkClasses = doGetFieldValue( aEntity );
+
+          StringBuilder sb = new StringBuilder();
+
+          String add = TsLibUtils.EMPTY_STRING;
+          for( ISkClassInfo classInfo : linkClasses ) {
+            sb.append( add );
+            sb.append( classInfo.id() );
+            add = ", ";
+          }
+
+          return sb.toString();
         }
 
       };

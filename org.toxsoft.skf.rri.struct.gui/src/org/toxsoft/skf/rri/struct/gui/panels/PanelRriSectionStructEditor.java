@@ -6,7 +6,6 @@ import org.eclipse.jface.action.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
@@ -25,7 +24,6 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
-import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.struct.gui.km5.*;
@@ -167,24 +165,8 @@ public class PanelRriSectionStructEditor
     alm = new AttributeLifeCycleManager( ctx, attrModel, rriService );
     // -----------------------------------
 
-    MultiPaneComponentModown<ISkClassInfo> componentModown =
+    MultiPaneComponentModown<ISkClassInfo> classComponentModown =
         new MultiPaneComponentModown<>( ctx, model, clm.itemsProvider(), clm ) {
-
-          @Override
-          protected ITsToolbar doCreateToolbar( ITsGuiContext aContext2, String aName, EIconSize aIconSize,
-              IListEdit<ITsActionDef> aActs ) {
-
-            ITsToolbar toolbar =
-
-                super.doCreateToolbar( aContext2, aName, aIconSize, aActs );
-
-            toolbar.addListener( aActionId -> {
-              // nop
-
-            } );
-
-            return toolbar;
-          }
 
           @Override
           public void processAction( String aActionId ) {
@@ -229,30 +211,34 @@ public class PanelRriSectionStructEditor
             }
           }
         };
-    classesPanel = new M5CollectionPanelMpcModownWrapper<>( componentModown, false );
+    classesPanel = new M5CollectionPanelMpcModownWrapper<>( classComponentModown, false );
     // ----------------------------------
     classesPanel.addTsSelectionListener( classChangeListener );
     classesPanel.createControl( sfMain );
+    classComponentModown.toolbar().setNameLabelText( "Классы НСИ: " );
     classesPanel.refresh();
 
     SashForm rightPane = new SashForm( sfMain, SWT.VERTICAL );
 
-    // ITsGuiContext ctx = new TsGuiContext( aContext );
+    MultiPaneComponentModown<IDtoAttrInfo> attrComponentModown =
+        new MultiPaneComponentModown<>( ctx, attrModel, alm.itemsProvider(), alm );
 
-    // alm.setSectionId( rriSection.id() );
-
-    attrPanel = attrModel.panelCreator().createCollEditPanel( ctx, alm.itemsProvider(), alm );
+    attrPanel = new M5CollectionPanelMpcModownWrapper<>( attrComponentModown, false );
     attrPanel.createControl( rightPane );
+    attrComponentModown.toolbar().setNameLabelText( "Атрибуты НСИ: " );
     attrPanel.refresh();
 
     ITsGuiContext lCtx = new TsGuiContext( aContext );
 
     LinkModel linkModel = (LinkModel)m5.getModel( LinkModel.MODEL_ID, IDtoLinkInfo.class );
     llm = new LinkLifeCycleManager( lCtx, linkModel, rriService );
-    // llm.setSectionId( rriSection.id() );
 
-    linkPanel = linkModel.panelCreator().createCollEditPanel( lCtx, llm.itemsProvider(), llm );
+    MultiPaneComponentModown<IDtoLinkInfo> linkComponentModown =
+        new MultiPaneComponentModown<>( ctx, linkModel, llm.itemsProvider(), llm );
+
+    linkPanel = new M5CollectionPanelMpcModownWrapper<>( linkComponentModown, false );
     linkPanel.createControl( rightPane );
+    linkComponentModown.toolbar().setNameLabelText( "Связи НСИ: " );
     linkPanel.refresh();
 
     sfMain.setWeights( 4000, 6000 );
