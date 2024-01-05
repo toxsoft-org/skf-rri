@@ -17,6 +17,8 @@ public interface ITsResources {
 
   String TREE_MODE_NAME = Messages.TREE_MODE_NAME;
 
+  String STR_N_SELECT_RRI_SECTION = "Выбрать раздел НСИ";
+  String STR_D_SELECT_RRI_SECTION = "Выбрать раздел НСИ для изменения его структуры";
   //
   // ---------------------------------------------------------
   //

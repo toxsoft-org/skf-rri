@@ -158,7 +158,6 @@ public class AttrParamM5Model
       protected IM5CollectionPanel<AttrParam> doCreateCollEditPanel( ITsGuiContext aContext,
           IM5ItemsProvider<AttrParam> aItemsProvider, IM5LifecycleManager<AttrParam> aLifecycleManager ) {
         IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AvUtils.AV_TRUE );
-        // HAS_EDIT_ACTIONS.setValue( aContext.params(), AV_TRUE );
         MultiPaneComponentModown<AttrParam> mpc =
             new MultiPaneComponentModown<>( aContext, model(), aItemsProvider, aLifecycleManager ) {
 

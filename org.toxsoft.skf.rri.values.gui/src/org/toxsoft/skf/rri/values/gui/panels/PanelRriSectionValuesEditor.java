@@ -1,12 +1,14 @@
 package org.toxsoft.skf.rri.values.gui.panels;
 
-import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
+import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.skf.rri.values.gui.panels.ITsResources.*;
+import static org.toxsoft.uskat.core.ISkHardConstants.*;
 
 import org.eclipse.jface.action.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
@@ -46,6 +48,11 @@ import org.toxsoft.uskat.core.gui.km5.sgw.*;
  */
 public class PanelRriSectionValuesEditor
     extends TsPanel {
+
+  final static String ACTID_RRI_SECTION_SELECT = SK_ID + "rri.struct.edit.section.select"; //$NON-NLS-1$
+
+  final static TsActionDef ACDEF_RRI_SECTION_SELECT = TsActionDef.ofPush2( ACTID_RRI_SECTION_SELECT,
+      STR_N_SELECT_RRI_SECTION, STR_D_SELECT_RRI_SECTION, ICONID_VIEW_AS_LIST );
 
   private TextControlContribution textContr1;
 
@@ -118,19 +125,24 @@ public class PanelRriSectionValuesEditor
   public PanelRriSectionValuesEditor( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
 
-    ITsGuiContext ctx = new TsGuiContext( aContext );
-    ctx.params().addAll( aContext.params() );
+    // ITsGuiContext ctx = new TsGuiContext( aContext );
+    // ctx.params().addAll( aContext.params() );
 
     this.setLayout( new BorderLayout() );
+
+    ISkConnectionSupplier connSup = aContext.get( ISkConnectionSupplier.class );
+    conn = connSup.defConn();
+
+    final IM5Domain m5 = conn.scope().get( IM5Domain.class );
 
     TsComposite frame = new TsComposite( this );
     frame.setLayout( new BorderLayout() );
 
-    TsToolbar toolBar = new TsToolbar( ctx );
+    TsToolbar toolBar = new TsToolbar( aContext );
     toolBar.setIconSize( EIconSize.IS_24X24 );
 
     // toolBar.addActionDef( ACDEF_EDIT );
-    toolBar.addActionDef( ACDEF_RUN_TEST );
+    toolBar.addActionDef( ACDEF_RRI_SECTION_SELECT );
 
     toolBar.addSeparator();
 
@@ -140,13 +152,11 @@ public class PanelRriSectionValuesEditor
     textContr1 = new TextControlContribution( "Label", 300, "Раздел НСИ:", SWT.NONE ); //$NON-NLS-1$
     toolBar.addContributionItem( textContr1 );
 
+    ITsGuiContext rriSecCtx = new TsGuiContext( aContext );
+
     toolBar.addListener( aActionId -> {
-      if( aActionId.equals( ACDEF_EDIT.id() ) ) {
-        editRriSectionList( ctx );
-        return;
-      }
-      if( aActionId.equals( ACDEF_RUN_TEST.id() ) ) {
-        selectRriSection( ctx );
+      if( aActionId.equals( ACDEF_RRI_SECTION_SELECT.id() ) ) {
+        selectRriSection( rriSecCtx );
         return;
       }
     } );
@@ -154,21 +164,18 @@ public class PanelRriSectionValuesEditor
     SashForm sfMain = new SashForm( frame, SWT.HORIZONTAL );
     sfMain.setLayoutData( BorderLayout.CENTER );
 
-    ISkConnectionSupplier connSup = aContext.get( ISkConnectionSupplier.class );
-    conn = connSup.defConn();
-
-    final IM5Domain m5 = conn.scope().get( IM5Domain.class );
-    IM5Model<ISkClassInfo> model = m5.getModel( ISgwM5Constants.MID_SGW_CLASS_INFO, ISkClassInfo.class );
-
-    TsGuiContext classCtx = new TsGuiContext( ctx );
     // IMultiPaneComponentConstants.OPDEF_IS_DETAILS_PANE.setValue( ctx.params(), AvUtils.AV_FALSE );
     // IMultiPaneComponentConstants.OPDEF_DETAILS_PANE_PLACE.setValue( ctx.params(),
     // avValobj( EBorderLayoutPlacement.SOUTH ) );
-    // добавляем в панель фильтр
-    IMultiPaneComponentConstants.OPDEF_IS_FILTER_PANE.setValue( classCtx.params(), AvUtils.AV_TRUE );
-    IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( classCtx.params(), AvUtils.AV_FALSE );
 
-    clm = new RriClassInfoLifeCycleManager( model, conn.coreApi() );
+    TsGuiContext clsCtx = new TsGuiContext( aContext );
+
+    // добавляем в панель фильтр
+    IMultiPaneComponentConstants.OPDEF_IS_FILTER_PANE.setValue( clsCtx.params(), AvUtils.AV_TRUE );
+    IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( clsCtx.params(), AvUtils.AV_FALSE );
+
+    IM5Model<ISkClassInfo> clsModel = m5.getModel( ISgwM5Constants.MID_SGW_CLASS_INFO, ISkClassInfo.class );
+    clm = new RriClassInfoLifeCycleManager( clsModel, conn.coreApi() );
 
     // AttributeModel attrModel = (AttributeModel)m5.getModel( AttributeModel.MODEL_ID, IDtoAttrInfo.class );
     // ISkRegRefInfoService rriService =
@@ -176,12 +183,13 @@ public class PanelRriSectionValuesEditor
     // alm = new AttributeLifeCycleManager( ctx, attrModel, rriService );
     // -----------------------------------
 
-    MultiPaneComponentModown<ISkClassInfo> componentModown =
-        new MultiPaneComponentModown<>( classCtx, model, clm.itemsProvider(), clm );
-    classesPanel = new M5CollectionPanelMpcModownWrapper<>( componentModown, true );
+    MultiPaneComponentModown<ISkClassInfo> classComponentModown =
+        new MultiPaneComponentModown<>( clsCtx, clsModel, clm.itemsProvider(), clm );
+    classesPanel = new M5CollectionPanelMpcModownWrapper<>( classComponentModown, true );
     // ----------------------------------
     classesPanel.addTsSelectionListener( classChangeListener );
     classesPanel.createControl( sfMain );
+    classComponentModown.toolbar().setNameLabelText( "Классы НСИ: " );
     classesPanel.refresh();
 
     SashForm rightPane = new SashForm( sfMain, SWT.VERTICAL );
@@ -189,7 +197,9 @@ public class PanelRriSectionValuesEditor
     IM5Model<ISkObject> objModel = m5.getModel( ObjectCheckableM5Model.MODEL_ID, ISkObject.class );
 
     // Менеджер ЖЦ списка объектов.
-    TsGuiContext checkCtx = new TsGuiContext( ctx );
+    TsGuiContext checkCtx = new TsGuiContext( aContext );
+    IMultiPaneComponentConstants.OPDEF_IS_FILTER_PANE.setValue( checkCtx.params(), AvUtils.AV_TRUE );
+    IMultiPaneComponentConstants.OPDEF_IS_TOOLBAR_NAME.setValue( checkCtx.params(), AvUtils.AV_TRUE );
     IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( checkCtx.params(), AvUtils.AV_FALSE );
     objLm = new ObjectsM5LifeCycleManager( checkCtx, objModel, conn.coreApi() );
 
@@ -239,13 +249,14 @@ public class PanelRriSectionValuesEditor
     TabItem attrItem = new TabItem( paramsFolder, SWT.NONE );
     attrItem.setText( ATTRS_TAB_NAME );
 
+    TsGuiContext attrCtx = new TsGuiContext( aContext );
     IM5Model<AttrParam> attrModel = m5.getModel( AttrParamM5Model.MODEL_ID, AttrParam.class );
 
     ISkRegRefInfoService rriService =
         (ISkRegRefInfoService)conn.coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
-    attrLm = new AttrParamM5LifeCycleManager( tsContext(), attrModel, rriService );
+    attrLm = new AttrParamM5LifeCycleManager( attrCtx, attrModel, rriService );
 
-    attrsListPanel = attrModel.panelCreator().createCollEditPanel( tsContext(), attrLm.itemsProvider(), attrLm );
+    attrsListPanel = attrModel.panelCreator().createCollEditPanel( attrCtx, attrLm.itemsProvider(), attrLm );
 
     attrItem.setControl( attrsListPanel.createControl( paramsFolder ) );
     attrsListPanel.refresh();
@@ -253,11 +264,12 @@ public class PanelRriSectionValuesEditor
     TabItem linkItem = new TabItem( paramsFolder, SWT.NONE );
     linkItem.setText( LINKS_TAB_NAME );
 
+    TsGuiContext lnkCtx = new TsGuiContext( aContext );
     LinkParamM5Model linkModel = (LinkParamM5Model)m5.getModel( LinkParamM5Model.MODEL_ID, LinkParam.class );
 
-    linkLm = new LinkParamM5LifeCycleManager( tsContext(), linkModel, rriService );
+    linkLm = new LinkParamM5LifeCycleManager( lnkCtx, linkModel, rriService );
 
-    linksListPanel = linkModel.panelCreator().createCollEditPanel( tsContext(), linkLm.itemsProvider(), linkLm );
+    linksListPanel = linkModel.panelCreator().createCollEditPanel( lnkCtx, linkLm.itemsProvider(), linkLm );
 
     linkItem.setControl( linksListPanel.createControl( paramsFolder ) );
     linksListPanel.refresh();
@@ -315,19 +327,19 @@ public class PanelRriSectionValuesEditor
     }
   }
 
-  private void editRriSectionList( ITsGuiContext aContext ) {
-    // edit the sections
-
-    IM5Domain m5 = conn.scope().get( IM5Domain.class );
-    ISkRegRefInfoService rriService =
-        (ISkRegRefInfoService)conn.coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
-
-    IM5Model<ISkRriSection> model = m5.getModel( RriSectionModel.MODEL_ID, ISkRriSection.class );
-    ITsDialogInfo di =
-        new TsDialogInfo( aContext, "Редактирование списка разделов НСИ", "Редактирование списка разделов НСИ" );
-    IM5LifecycleManager<ISkRriSection> lm = model.getLifecycleManager( rriService );
-    M5GuiUtils.editModownColl( aContext, model, di, lm );
-  }
+  // private void editRriSectionList( ITsGuiContext aContext ) {
+  // // edit the sections
+  //
+  // IM5Domain m5 = conn.scope().get( IM5Domain.class );
+  // ISkRegRefInfoService rriService =
+  // (ISkRegRefInfoService)conn.coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
+  //
+  // IM5Model<ISkRriSection> model = m5.getModel( RriSectionModel.MODEL_ID, ISkRriSection.class );
+  // ITsDialogInfo di =
+  // new TsDialogInfo( aContext, "Редактирование списка разделов НСИ", "Редактирование списка разделов НСИ" );
+  // IM5LifecycleManager<ISkRriSection> lm = model.getLifecycleManager( rriService );
+  // M5GuiUtils.editModownColl( aContext, model, di, lm );
+  // }
 
   static class TextControlContribution
       extends ControlContribution {

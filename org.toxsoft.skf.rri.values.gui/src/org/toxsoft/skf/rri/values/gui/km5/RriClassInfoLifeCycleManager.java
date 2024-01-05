@@ -24,7 +24,7 @@ public class RriClassInfoLifeCycleManager
   }
 
   public RriClassInfoLifeCycleManager( IM5Model<ISkClassInfo> aModel, ISkCoreApi aMaster ) {
-    super( aModel, true, false, true, true, aMaster );
+    super( aModel, false, false, false, true, aMaster );
     rriService = (ISkRegRefInfoService)aMaster.services().getByKey( ISkRegRefInfoService.SERVICE_ID );
   }
 
