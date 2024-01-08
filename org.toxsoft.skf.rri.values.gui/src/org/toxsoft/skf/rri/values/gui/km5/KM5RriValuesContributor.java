@@ -22,7 +22,6 @@ public class KM5RriValuesContributor
   public static final IKM5ContributorCreator CREATOR = KM5RriValuesContributor::new;
 
   private static final IStringList CONRTIBUTED_MODEL_IDS = new StringArrayList( //
-      RriSectionModel.MODEL_ID, //
       ObjectCheckableM5Model.MODEL_ID, //
       AttrParamM5Model.MODEL_ID, //
       LinkParamM5Model.MODEL_ID );
@@ -42,10 +41,6 @@ public class KM5RriValuesContributor
 
   @Override
   protected IStringList papiCreateModels() {
-
-    RriSectionModel rriSectionModel = new RriSectionModel();
-    myModels.add( rriSectionModel.id() );
-    m5().addModel( rriSectionModel );
 
     ObjectCheckableM5Model objCheckModel = new ObjectCheckableM5Model( skConn() );
     myModels.add( objCheckModel.id() );

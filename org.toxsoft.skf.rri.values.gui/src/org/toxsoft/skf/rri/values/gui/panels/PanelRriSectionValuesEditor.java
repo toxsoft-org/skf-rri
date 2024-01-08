@@ -1,38 +1,29 @@
 package org.toxsoft.skf.rri.values.gui.panels;
 
-import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.skf.rri.values.gui.panels.ITsResources.*;
-import static org.toxsoft.uskat.core.ISkHardConstants.*;
 
-import org.eclipse.jface.action.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
-import org.toxsoft.core.tsgui.dialogs.datarec.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
-import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tsgui.panels.toolbar.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
-import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
+import org.toxsoft.skf.rri.struct.gui.panels.*;
 import org.toxsoft.skf.rri.values.gui.*;
 import org.toxsoft.skf.rri.values.gui.km5.*;
 import org.toxsoft.uskat.core.api.objserv.*;
@@ -48,13 +39,6 @@ import org.toxsoft.uskat.core.gui.km5.sgw.*;
  */
 public class PanelRriSectionValuesEditor
     extends TsPanel {
-
-  final static String ACTID_RRI_SECTION_SELECT = SK_ID + "rri.struct.edit.section.select"; //$NON-NLS-1$
-
-  final static TsActionDef ACDEF_RRI_SECTION_SELECT = TsActionDef.ofPush2( ACTID_RRI_SECTION_SELECT,
-      STR_N_SELECT_RRI_SECTION, STR_D_SELECT_RRI_SECTION, ICONID_VIEW_AS_LIST );
-
-  private TextControlContribution textContr1;
 
   final ISkConnection conn;
 
@@ -138,28 +122,16 @@ public class PanelRriSectionValuesEditor
     TsComposite frame = new TsComposite( this );
     frame.setLayout( new BorderLayout() );
 
-    TsToolbar toolBar = new TsToolbar( aContext );
-    toolBar.setIconSize( EIconSize.IS_24X24 );
+    SelectRriSectionToolbarComposite toolBarComposite = new SelectRriSectionToolbarComposite( frame, aContext, false ) {
 
-    // toolBar.addActionDef( ACDEF_EDIT );
-    toolBar.addActionDef( ACDEF_RRI_SECTION_SELECT );
-
-    toolBar.addSeparator();
-
-    Control toolbarCtrl = toolBar.createControl( frame );
-    toolbarCtrl.setLayoutData( BorderLayout.NORTH );
-
-    textContr1 = new TextControlContribution( "Label", 300, "Раздел НСИ:", SWT.NONE ); //$NON-NLS-1$
-    toolBar.addContributionItem( textContr1 );
-
-    ITsGuiContext rriSecCtx = new TsGuiContext( aContext );
-
-    toolBar.addListener( aActionId -> {
-      if( aActionId.equals( ACDEF_RRI_SECTION_SELECT.id() ) ) {
-        selectRriSection( rriSecCtx );
-        return;
+      @Override
+      protected void doSetRriSection( ISkRriSection aRriSection ) {
+        setRriSection( aRriSection );
       }
-    } );
+
+    };
+
+    toolBarComposite.setLayoutData( BorderLayout.NORTH );
 
     SashForm sfMain = new SashForm( frame, SWT.HORIZONTAL );
     sfMain.setLayoutData( BorderLayout.CENTER );
@@ -275,7 +247,7 @@ public class PanelRriSectionValuesEditor
     linksListPanel.refresh();
 
     sfMain.setWeights( 4000, 6000 );
-    setRriSection( null );
+
   }
 
   // ------------------------------------------------------------------------------------
@@ -284,12 +256,11 @@ public class PanelRriSectionValuesEditor
 
   private void setRriSection( ISkRriSection aEntity ) {
     String sectionId = aEntity != null ? aEntity.id() : TsLibUtils.EMPTY_STRING;
-    clm.setSectionId( sectionId );
     tsContext().put( IRegRefInfoConstants.REG_REF_INFO_DEFAULT_SECTION_ID.id(), sectionId );
-    // alm.setSectionId( sectionId );
-    // alm.setClassId( null );
-    // llm.setSectionId( sectionId );
-    // llm.setClassId( null );
+    if( clm == null ) {
+      return;
+    }
+    clm.setSectionId( sectionId );
 
     objLm.setClassIds( IStringList.EMPTY );
     objectsListPanel.refresh();
@@ -297,110 +268,6 @@ public class PanelRriSectionValuesEditor
     classesPanel.refresh();
     attrsListPanel.refresh();
     linksListPanel.refresh();
-
-    textContr1.setText( "Раздел НСИ: " + (aEntity != null ? aEntity.id() : "не выбран") );
-  }
-
-  private void selectRriSection( ITsGuiContext aContext ) {
-    // select the section
-
-    IM5Domain m5 = conn.scope().get( IM5Domain.class );
-
-    ISkRegRefInfoService rriService =
-        (ISkRegRefInfoService)conn.coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
-
-    IM5Model<ISkRriSection> model = m5.getModel( RriSectionModel.MODEL_ID, ISkRriSection.class );
-    IM5LifecycleManager<ISkRriSection> lm = model.getLifecycleManager( rriService );
-    TsDialogInfo di = new TsDialogInfo( aContext, "Выбор раздела НСИ", "Выбор раздела НСИ" );
-    // установим нормальный размер диалога
-    di.setMinSize( new TsPoint( -30, -40 ) );
-    ISkRriSection section = M5GuiUtils.askSelectItem( di, model, null, lm.itemsProvider(), lm );
-    if( section != null ) {
-      setRriSection( section );
-    }
-    else {
-      if( clm.getSectionId() != null ) {
-        if( !rriService.listSections().hasKey( clm.getSectionId() ) ) {
-          setRriSection( null );
-        }
-      }
-    }
-  }
-
-  // private void editRriSectionList( ITsGuiContext aContext ) {
-  // // edit the sections
-  //
-  // IM5Domain m5 = conn.scope().get( IM5Domain.class );
-  // ISkRegRefInfoService rriService =
-  // (ISkRegRefInfoService)conn.coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
-  //
-  // IM5Model<ISkRriSection> model = m5.getModel( RriSectionModel.MODEL_ID, ISkRriSection.class );
-  // ITsDialogInfo di =
-  // new TsDialogInfo( aContext, "Редактирование списка разделов НСИ", "Редактирование списка разделов НСИ" );
-  // IM5LifecycleManager<ISkRriSection> lm = model.getLifecycleManager( rriService );
-  // M5GuiUtils.editModownColl( aContext, model, di, lm );
-  // }
-
-  static class TextControlContribution
-      extends ControlContribution {
-
-    private final int width;
-    private final int swtStyle;
-    private String    text;
-    CLabel            label;
-
-    /**
-     * Конструктор.
-     *
-     * @param aId String - ИД элемента
-     * @param aWidth int - ширина текстового поля
-     * @param aText String - текст
-     * @param aSwtStyle int - swt стиль
-     */
-    public TextControlContribution( String aId, int aWidth, String aText, int aSwtStyle ) {
-      super( aId );
-      width = aWidth;
-      swtStyle = aSwtStyle;
-      text = aText;
-    }
-
-    // ------------------------------------------------------------------------------------
-    // ControlContribution
-    //
-
-    @Override
-    protected Control createControl( Composite aParent ) {
-      label = new CLabel( aParent, swtStyle );
-      label.setText( text );
-      label.setAlignment( SWT.LEFT );
-      return label;
-    }
-
-    @Override
-    protected int computeWidth( Control aControl ) {
-      if( width == SWT.DEFAULT ) {
-        return super.computeWidth( aControl );
-      }
-      return width;
-    }
-
-    // ------------------------------------------------------------------------------------
-    // API
-    //
-
-    /**
-     * Возвращает текстовое поле.
-     *
-     * @return CLabel - текстовое поле
-     */
-    public CLabel label() {
-      return label;
-    }
-
-    void setText( String aText ) {
-      label.setText( aText );
-      label.redraw();
-    }
 
   }
 
