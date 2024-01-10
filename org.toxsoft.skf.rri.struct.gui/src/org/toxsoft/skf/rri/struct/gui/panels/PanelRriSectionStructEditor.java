@@ -1,6 +1,7 @@
 package org.toxsoft.skf.rri.struct.gui.panels;
 
 import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
+import static org.toxsoft.skf.rri.struct.gui.panels.ISkResources.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
@@ -17,7 +18,6 @@ import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
-import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -30,9 +30,9 @@ import org.toxsoft.uskat.core.gui.conn.*;
 import org.toxsoft.uskat.core.gui.km5.sgw.*;
 
 /**
- * Панель редактирования структуры (набора) параметров НСИ.
+ * Panel to edit structure of selected RRI section
  *
- * @author goga
+ * @author max
  */
 public class PanelRriSectionStructEditor
     extends TsPanel {
@@ -64,24 +64,10 @@ public class PanelRriSectionStructEditor
       alm.setClassId( selectedClass.id() );
       attrPanel.refresh();
     }
-    // if( this.skObjectPanel != null ) {
-    // this.skObjectPanel.setClass( this.selectedClass );
-    // }
-    // if( this.skObjectCheckedListPanel != null ) {
-    // this.skObjectCheckedListPanel.setClass( this.selectedClass );
-    // }
-    // if( this.propPanel != null ) {
-    // this.propPanel.setClass( this.selectedClass );
-    // }
-    // if( this.rtDataCheckedListPanel != null ) {
-    // this.rtDataCheckedListPanel.setClass( this.selectedClass );
-    // }
   };
 
   /**
    * Конструктор панели.
-   * <p>
-   * Конструктор просто запоминает ссылку на контекст, без создания копии.
    *
    * @param aParent {@link Composite} - родительская панель
    * @param aContext {@link ITsGuiContext} - контекст панели
@@ -100,28 +86,10 @@ public class PanelRriSectionStructEditor
 
     this.setLayout( new BorderLayout() );
 
-    TsComposite frame = new TsComposite( this );
-    frame.setLayout( new BorderLayout() );
-
-    SelectRriSectionToolbarComposite toolBarComposite = new SelectRriSectionToolbarComposite( frame, aContext, true ) {
-
-      @Override
-      protected void doSetRriSection( ISkRriSection aRriSection ) {
-        setRriSection( aRriSection );
-      }
-
-    };
-
-    toolBarComposite.setLayoutData( BorderLayout.NORTH );
-
-    SashForm sfMain = new SashForm( frame, SWT.HORIZONTAL );
+    SashForm sfMain = new SashForm( this, SWT.HORIZONTAL );
     sfMain.setLayoutData( BorderLayout.CENTER );
 
     IM5Model<ISkClassInfo> clsModel = m5.getModel( ISgwM5Constants.MID_SGW_CLASS_INFO, ISkClassInfo.class );
-
-    // IMultiPaneComponentConstants.OPDEF_IS_DETAILS_PANE.setValue( ctx.params(), AvUtils.AV_FALSE );
-    // IMultiPaneComponentConstants.OPDEF_DETAILS_PANE_PLACE.setValue( ctx.params(),
-    // avValobj( EBorderLayoutPlacement.SOUTH ) );
 
     ITsGuiContext clsCtx = new TsGuiContext( aContext );
     // добавляем в панель фильтр
@@ -130,18 +98,7 @@ public class PanelRriSectionStructEditor
 
     clm = new RriClassInfoLifeCycleManager( clsModel, conn.coreApi() );
 
-    // classesPanel = model.panelCreator().createCollEditPanel( ctx, clm.itemsProvider(), clm );
-    // setup
-    // classesPanel.addTsSelectionListener( classChangeListener );
-    // classesPanel.createControl( sfMain );
-    // classesPanel.refresh();
-
     AttributeModel attrModel = (AttributeModel)m5.getModel( AttributeModel.MODEL_ID, IDtoAttrInfo.class );
-
-    // ISkRriSection rriSection = rriService.findSection( "test.section" );
-    // if( rriSection == null ) {
-    // rriSection = rriService.createSection( "test.section", "Test Section", "Test Section", IOptionSet.NULL );
-    // }
 
     ITsGuiContext atrCtx = new TsGuiContext( aContext );
     // добавляем в панель фильтр
@@ -154,6 +111,7 @@ public class PanelRriSectionStructEditor
     final MultiPaneComponentModown<ISkClassInfo> classComponentModown =
         new MultiPaneComponentModown<>( clsCtx, clsModel, clm.itemsProvider(), clm ) {
 
+          @SuppressWarnings( "unused" )
           @Override
           public void processAction( String aActionId ) {
             ISkClassInfo selClass = selectedItem();
@@ -167,15 +125,16 @@ public class PanelRriSectionStructEditor
                 ChoosableClassInfoLifeCycleManager lm =
                     new ChoosableClassInfoLifeCycleManager( classModel, conn.coreApi() );
                 lm.setSectionId( alm.getSectionId() );
-                TsDialogInfo di = new TsDialogInfo( tsContext(), "Выбор класса для НСИ", "Выбор класса для НСИ" );
+                TsDialogInfo di = new TsDialogInfo( tsContext(), STR_SELECTION_CLASS_TO_ADD_INTO_RRI,
+                    STR_SELECTION_CLASS_TO_ADD_INTO_RRI );
                 // установим нормальный размер диалога
                 di.setMinSize( new TsPoint( -30, -40 ) );
                 ISkClassInfo selectClass = M5GuiUtils.askSelectItem( di, model(), null, lm.itemsProvider(), lm );
                 if( selectClass == null ) {
                   return;
                 }
-                TsDialogInfo cdi = new TsDialogInfo( tsContext(), null, "Создание атрибут НСИ",
-                    "Необходимо создать хотя бы один атрибут НСИ для нового класса", 0 );
+                TsDialogInfo cdi = new TsDialogInfo( tsContext(), null, STR_RRI_ATTR_CREATION,
+                    IT_NEEDS_TO_CREATE_AT_LEAST_ONE_RRI_ATTR, 0 );
 
                 IM5BunchEdit<IDtoAttrInfo> initVals = alm.createNewItemValues();
                 String currClass = alm.getClassId();
@@ -205,7 +164,7 @@ public class PanelRriSectionStructEditor
     // ----------------------------------
     classesPanel.addTsSelectionListener( classChangeListener );
     classesPanel.createControl( sfMain );
-    classComponentModown.toolbar().setNameLabelText( "Классы НСИ: " );
+    classComponentModown.toolbar().setNameLabelText( STR_RRI_CLASSES );
     classesPanel.refresh();
 
     SashForm rightPane = new SashForm( sfMain, SWT.VERTICAL );
@@ -221,7 +180,7 @@ public class PanelRriSectionStructEditor
 
     attrPanel = new M5CollectionPanelMpcModownWrapper<>( attrComponentModown, false );
     attrPanel.createControl( rightPane );
-    attrComponentModown.toolbar().setNameLabelText( "Атрибуты НСИ: " );
+    attrComponentModown.toolbar().setNameLabelText( STR_RRI_ATTRS );
     attrPanel.refresh();
 
     ITsGuiContext lnkCtx = new TsGuiContext( aContext );
@@ -243,18 +202,19 @@ public class PanelRriSectionStructEditor
 
     linkPanel = new M5CollectionPanelMpcModownWrapper<>( linkComponentModown, false );
     linkPanel.createControl( rightPane );
-    linkComponentModown.toolbar().setNameLabelText( "Связи НСИ: " );
+    linkComponentModown.toolbar().setNameLabelText( STR_RRI_LINKS );
     linkPanel.refresh();
 
     sfMain.setWeights( 4000, 6000 );
   }
 
-  // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IGenericEntityPanel
-  //
-
-  private void setRriSection( ISkRriSection aEntity ) {
-    String sectionId = aEntity != null ? aEntity.id() : null;
+  /**
+   * Sets RRI section for ediing its structure.
+   *
+   * @param aRriSection - RRI section, can be null.
+   */
+  public void setRriSection( ISkRriSection aRriSection ) {
+    String sectionId = aRriSection != null ? aRriSection.id() : null;
     if( clm == null ) {
       return;
     }

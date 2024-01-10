@@ -69,7 +69,7 @@ public class SelectRriSectionToolbarComposite
     Control toolbarCtrl = toolBar.createControl( this );
     toolbarCtrl.setLayoutData( BorderLayout.CENTER );
 
-    textContr1 = new TextControlContribution( "Label", 300, "Раздел НСИ:", SWT.NONE ); //$NON-NLS-1$
+    textContr1 = new TextControlContribution( "Label", 300, STR_RRI_SECTION, SWT.NONE ); //$NON-NLS-1$
     toolBar.addContributionItem( textContr1 );
 
     ITsGuiContext secCtx = new TsGuiContext( aContext );
@@ -95,7 +95,7 @@ public class SelectRriSectionToolbarComposite
 
     IM5Model<ISkRriSection> model = m5.getModel( RriSectionModel.MODEL_ID, ISkRriSection.class );
     IM5LifecycleManager<ISkRriSection> lm = model.getLifecycleManager( rriService );
-    TsDialogInfo di = new TsDialogInfo( aContext, "Выбор раздела НСИ", "Выбор раздела НСИ" );
+    TsDialogInfo di = new TsDialogInfo( aContext, STR_SELECTION_RRI_SECTION, STR_SELECTION_RRI_SECTION );
     // установим нормальный размер диалога
     di.setMinSize( new TsPoint( -30, -40 ) );
     ISkRriSection section = M5GuiUtils.askSelectItem( di, model, null, lm.itemsProvider(), canCreate ? lm : null );
@@ -112,7 +112,7 @@ public class SelectRriSectionToolbarComposite
   }
 
   private void setRriSection( ISkRriSection aRriSection ) {
-    textContr1.setText( "Раздел НСИ: " + (aRriSection != null ? aRriSection.id() : "не выбран") );
+    textContr1.setText( STR_RRI_SECTION + (aRriSection != null ? aRriSection.id() : STR_NOT_SELECTED) );
     selectedRriSection = aRriSection;
 
     doSetRriSection( aRriSection );

@@ -1,4 +1,4 @@
-package org.toxsoft.skf.rri.values.gui.panels;
+package org.toxsoft.skf.rri.struct.gui.panels;
 
 import java.util.*;
 

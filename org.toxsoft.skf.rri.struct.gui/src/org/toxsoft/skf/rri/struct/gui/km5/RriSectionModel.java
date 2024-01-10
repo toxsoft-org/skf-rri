@@ -39,7 +39,7 @@ public class RriSectionModel
    */
   public RriSectionModel() {
     super( MODEL_ID, ISkRriSection.class );
-
+    setNameAndDescription( "RRI sections: ", "RRI sections: " );
     addFieldDefs( STRID, NAME, DESCR );
   }
 

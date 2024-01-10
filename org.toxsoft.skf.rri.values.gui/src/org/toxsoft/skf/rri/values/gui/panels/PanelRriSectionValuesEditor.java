@@ -145,7 +145,7 @@ public class PanelRriSectionValuesEditor
     // ----------------------------------
     classesPanel.addTsSelectionListener( classChangeListener );
     classesPanel.createControl( sfMain );
-    classComponentModown.toolbar().setNameLabelText( "Классы НСИ: " );
+    classComponentModown.toolbar().setNameLabelText( STR_RRI_CLASSES );
     classesPanel.refresh();
 
     SashForm rightPane = new SashForm( sfMain, SWT.VERTICAL );
@@ -234,8 +234,13 @@ public class PanelRriSectionValuesEditor
 
   }
 
-  public void setRriSection( ISkRriSection aEntity ) {
-    String sectionId = aEntity != null ? aEntity.id() : TsLibUtils.EMPTY_STRING;
+  /**
+   * Sets RRI section for editing values of its objects.
+   *
+   * @param aRriSection ISkRriSection - RRI section for editing values of its objects.
+   */
+  public void setRriSection( ISkRriSection aRriSection ) {
+    String sectionId = aRriSection != null ? aRriSection.id() : TsLibUtils.EMPTY_STRING;
     tsContext().put( IRegRefInfoConstants.REG_REF_INFO_DEFAULT_SECTION_ID.id(), sectionId );
     if( clm == null ) {
       return;
