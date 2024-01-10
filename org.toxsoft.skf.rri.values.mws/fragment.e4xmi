@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_8IonYK-jEe6ijfV_AjmUeQ">
+  <imports xsi:type="commands:Category" xmi:id="_jFoyEK-lEe6ijfV_AjmUeQ" elementId="org.toxsoft.mws.cmdcategory.global"/>
+  <imports xsi:type="commands:Command" xmi:id="_sHTm4K-lEe6ijfV_AjmUeQ" elementId="org.toxsoft.mws.cmd.switch_persp">
+    <parameters xmi:id="_4jGZMK-lEe6ijfV_AjmUeQ" elementId="org.toxsoft.mws.cmd.switch_persp.arg.perspId" name="org.toxsoft.mws.cmd.switch_persp.arg.perspId"/>
+  </imports>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_9URUEK-jEe6ijfV_AjmUeQ" featurename="addons" parentElementId="org.toxsoft.mws.app.main">
+    <elements xsi:type="application:Addon" xmi:id="_Sgy8MK-kEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.addon.0" contributionURI="bundleclass://org.toxsoft.skf.rri.values.mws/org.toxsoft.skf.rri.values.mws.e4.addons.AddonWsRriValues"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_jWcDoK-kEe6ijfV_AjmUeQ" featurename="children" parentElementId="org.toxsoft.mws.perspectivestack.main">
+    <elements xsi:type="advanced:Perspective" xmi:id="_wWTzYK-kEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.perspective.rrivalues" label="%Persp_Rri_Values" iconURI="platform:/plugin/org.toxsoft.skf.rri.values.mws/icons/is24x24/app-nsi.png" tooltip="%Persp_Rri_Values_D">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_DwL1UK-pEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.partsashcontainer.0" horizontal="true">
+        <children xsi:type="basic:PartStack" xmi:id="_K2Oq8K-pEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.partstack.0" containerData="2000">
+          <children xsi:type="basic:Part" xmi:id="_XxfAcK-pEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.part.list" contributionURI="bundleclass://org.toxsoft.skf.rri.values.mws/org.toxsoft.skf.rri.values.mws.e4.uiparts.UipartRriSectionList" label="%PartRriSectionsList" iconURI="platform:/plugin/org.toxsoft.skf.rri.values.mws/icons/is24x24/app-nsi.png" tooltip="%PartRriSectionsList_D"/>
+        </children>
+        <children xsi:type="basic:PartStack" xmi:id="_OZsxsK-pEe6ijfV_AjmUeQ" elementId="org.toxsoft.ws.rrivalues.partstack.main" containerData="8000"/>
+      </children>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_HmYAkK-lEe6ijfV_AjmUeQ" featurename="children" parentElementId="org.toxsoft.mws.menu.main.perspectives">
+    <elements xsi:type="menu:HandledMenuItem" xmi:id="_QJAI8K-lEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.handledmenuitem.1" label="%Persp_Rri_Values" iconURI="platform:/plugin/org.toxsoft.skf.rri.values.mws/icons/is24x24/app-nsi.png" tooltip="%Persp_Rri_Values_D" command="_sHTm4K-lEe6ijfV_AjmUeQ">
+      <parameters xmi:id="_Lfw3gK-mEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.parameter.0" name="org.toxsoft.mws.cmd.switch_persp.arg.perspId" value="org.toxsoft.skf.rri.values.mws.perspective.rrivalues"/>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_TZx9MK-lEe6ijfV_AjmUeQ" featurename="children" parentElementId="org.toxsoft.mws.toolbar.main">
+    <elements xsi:type="menu:HandledToolItem" xmi:id="_Yg5A8K-lEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.handledtoolitem.1" label="%Persp_Rri_Values" iconURI="platform:/plugin/org.toxsoft.skf.rri.values.mws/icons/is24x24/app-nsi.png" tooltip="%Persp_Rri_Values_D" command="_sHTm4K-lEe6ijfV_AjmUeQ">
+      <parameters xmi:id="_QeNHcK-mEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.parameter.1" name="org.toxsoft.mws.cmd.switch_persp.arg.perspId" value="org.toxsoft.skf.rri.values.mws.perspective.rrivalues"/>
+    </elements>
+  </fragments>
+</fragment:ModelFragments>
