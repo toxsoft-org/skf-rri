@@ -15,7 +15,6 @@ import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
-import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -23,7 +22,6 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
-import org.toxsoft.skf.rri.struct.gui.panels.*;
 import org.toxsoft.skf.rri.values.gui.*;
 import org.toxsoft.skf.rri.values.gui.km5.*;
 import org.toxsoft.uskat.core.api.objserv.*;
@@ -33,9 +31,9 @@ import org.toxsoft.uskat.core.gui.conn.*;
 import org.toxsoft.uskat.core.gui.km5.sgw.*;
 
 /**
- * Панель редактирования структуры (набора) параметров НСИ.
+ * Editor panel of rri section values.
  *
- * @author goga
+ * @author max
  */
 public class PanelRriSectionValuesEditor
     extends TsPanel {
@@ -119,21 +117,7 @@ public class PanelRriSectionValuesEditor
 
     final IM5Domain m5 = conn.scope().get( IM5Domain.class );
 
-    TsComposite frame = new TsComposite( this );
-    frame.setLayout( new BorderLayout() );
-
-    SelectRriSectionToolbarComposite toolBarComposite = new SelectRriSectionToolbarComposite( frame, aContext, false ) {
-
-      @Override
-      protected void doSetRriSection( ISkRriSection aRriSection ) {
-        setRriSection( aRriSection );
-      }
-
-    };
-
-    toolBarComposite.setLayoutData( BorderLayout.NORTH );
-
-    SashForm sfMain = new SashForm( frame, SWT.HORIZONTAL );
+    SashForm sfMain = new SashForm( this, SWT.HORIZONTAL );
     sfMain.setLayoutData( BorderLayout.CENTER );
 
     // IMultiPaneComponentConstants.OPDEF_IS_DETAILS_PANE.setValue( ctx.params(), AvUtils.AV_FALSE );
@@ -250,11 +234,7 @@ public class PanelRriSectionValuesEditor
 
   }
 
-  // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IGenericEntityPanel
-  //
-
-  private void setRriSection( ISkRriSection aEntity ) {
+  public void setRriSection( ISkRriSection aEntity ) {
     String sectionId = aEntity != null ? aEntity.id() : TsLibUtils.EMPTY_STRING;
     tsContext().put( IRegRefInfoConstants.REG_REF_INFO_DEFAULT_SECTION_ID.id(), sectionId );
     if( clm == null ) {

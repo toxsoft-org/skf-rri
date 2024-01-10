@@ -24,7 +24,7 @@ class SkideUnitRriValuesPanel
   protected Control doCreateControl( Composite aParent ) {
     TsGuiContext reportContext = new TsGuiContext( tsContext() );
 
-    PanelRriSectionValuesEditor panel = new PanelRriSectionValuesEditor( aParent, reportContext );
+    PanelRriValuesEditor panel = new PanelRriValuesEditor( aParent, reportContext );
     panel.setLayoutData( BorderLayout.CENTER );
     return panel;
   }

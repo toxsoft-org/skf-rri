@@ -143,7 +143,7 @@ public class WsRriSectionsManagementService
     UIpartInfo partInfo = new UIpartInfo( uipartId );
     partInfo.setCloseable( true );
     partInfo.setTooltip( aRriSection.description() );
-    partInfo.setLabel( aRriSection.nmName() );
+    partInfo.setLabel( aRriSection.id() );
     partInfo.setContributionUri( Activator.PLUGIN_ID, UipartRriSectionValuesEditor.class );
     MPart newPart = psMan.createPart( partInfo );
     // set part to display specified refbook
