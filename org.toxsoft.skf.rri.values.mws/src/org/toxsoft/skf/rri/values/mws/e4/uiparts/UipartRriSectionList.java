@@ -43,12 +43,11 @@ public class UipartRriSectionList
 
     ISkConnectionSupplier connSup = ctx.get( ISkConnectionSupplier.class );
     ISkConnection conn = connSup.defConn();
-    IM5Domain m5 = conn.scope().get( IM5Domain.class );
 
     ISkRegRefInfoService rriService =
         (ISkRegRefInfoService)conn.coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
 
-    IM5Model<ISkRriSection> model = m5.getModel( RriSectionModel.MODEL_ID, ISkRriSection.class );
+    IM5Model<ISkRriSection> model = m5().getModel( RriSectionModel.MODEL_ID, ISkRriSection.class );
     IM5LifecycleManager<ISkRriSection> lm = model.getLifecycleManager( rriService );
 
     rriSectionListPanel = model.panelCreator().createCollViewerPanel( ctx, lm.itemsProvider() );
