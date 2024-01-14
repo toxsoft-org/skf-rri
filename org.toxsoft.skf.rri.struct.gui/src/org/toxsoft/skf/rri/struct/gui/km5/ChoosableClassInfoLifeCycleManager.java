@@ -11,6 +11,11 @@ import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.uskat.core.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 
+/**
+ * LifeCycleManager for ClassInfoes without RRI params (list for choose)
+ *
+ * @author max
+ */
 public class ChoosableClassInfoLifeCycleManager
     extends M5LifecycleManager<ISkClassInfo, ISkCoreApi> {
 
@@ -18,14 +23,30 @@ public class ChoosableClassInfoLifeCycleManager
 
   private ISkRegRefInfoService rriService;
 
+  /**
+   * Returns RRI sectionId (sectionId can be null).
+   *
+   * @return String - RRI sectionId (sectionId can be null).
+   */
   public String getSectionId() {
     return sectionId;
   }
 
+  /**
+   * Sets RRI sectionId (sectionId can be null).
+   *
+   * @param aSectionId String - RRI sectionId (sectionId can be null).
+   */
   public void setSectionId( String aSectionId ) {
     sectionId = aSectionId;
   }
 
+  /**
+   * Constructor by model and S5 coreApi (master object)
+   *
+   * @param aModel IM5Model - ClassInfo M5 model
+   * @param aMaster ISkCoreApi - S5 coreApi
+   */
   public ChoosableClassInfoLifeCycleManager( IM5Model<ISkClassInfo> aModel, ISkCoreApi aMaster ) {
     super( aModel, false, false, false, true, aMaster );
     rriService = (ISkRegRefInfoService)aMaster.services().getByKey( ISkRegRefInfoService.SERVICE_ID );

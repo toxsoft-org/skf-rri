@@ -2,6 +2,7 @@ package org.toxsoft.skf.rri.struct.gui.km5;
 
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
+import static org.toxsoft.skf.rri.struct.gui.km5.ISkResources.*;
 
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tslib.av.*;
@@ -66,7 +67,7 @@ public class LinkModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( "Идентификатор", "Идентификатор связи" );
+      setNameAndDescription( STR_N_LINK_ID, STR_D_LINK_ID );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN | M5FF_INVARIANT );
     }
@@ -84,7 +85,7 @@ public class LinkModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( "Наименование", "Наименование связи" );
+      setNameAndDescription( STR_N_LINK_NAME, STR_D_LINK_NAME );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -102,7 +103,7 @@ public class LinkModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( "Описание", "Описание связи" );
+      setNameAndDescription( STR_N_LINK_DESCRIPTION, STR_D_LINK_DESCRIPTION );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -120,7 +121,7 @@ public class LinkModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( "Макс. кол-во связей", "Макс. кол-во связей" );
+      setNameAndDescription( STR_N_LINK_MAX_COUNT, STR_D_LINK_MAX_COUNT );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -139,7 +140,7 @@ public class LinkModel
 
         @Override
         protected void doInit() {
-          setNameAndDescription( "Кол-во связей точное", "Кол-во связей точное" );
+          setNameAndDescription( STR_N_LINK_IS_EXACT_COUNT, STR_D_LINK_IS_EXACT_COUNT );
           setDefaultValue( IAtomicValue.NULL );
           setFlags( M5FF_COLUMN );
         }
@@ -159,7 +160,7 @@ public class LinkModel
 
         @Override
         protected void doInit() {
-          setNameAndDescription( "Классы связи", "Классы связи" );
+          setNameAndDescription( STR_N_LINK_CLASS_IDS, STR_D_LINK_CLASS_IDS );
           setFlags( M5FF_COLUMN );
           // setLookupProvider( new IM5LookupProvider<ISkClassInfo>() {
           //
@@ -201,7 +202,7 @@ public class LinkModel
           for( ISkClassInfo classInfo : linkClasses ) {
             sb.append( add );
             sb.append( classInfo.id() );
-            add = ", ";
+            add = ", "; //$NON-NLS-1$
           }
 
           return sb.toString();
@@ -214,7 +215,7 @@ public class LinkModel
    */
   public LinkModel() {
     super( MODEL_ID, IDtoLinkInfo.class );
-    setNameAndDescription( "Список связей", "Список связей" );
+    setNameAndDescription( STR_N_LINKS_LIST, STR_D_LINKS_LIST );
 
     addFieldDefs( LINK_ID, LINK_NAME, LINK_DESCR, MAX_COUNT, IS_EXACT_COUNT, RIGHT_CLASS_IDS );
   }

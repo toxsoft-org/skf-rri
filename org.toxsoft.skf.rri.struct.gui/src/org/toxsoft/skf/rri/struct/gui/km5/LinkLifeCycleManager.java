@@ -27,24 +27,42 @@ import org.toxsoft.uskat.core.impl.dto.*;
 public class LinkLifeCycleManager
     extends M5LifecycleManager<IDtoLinkInfo, ISkRegRefInfoService> {
 
-  private ITsGuiContext context;
-
   private String classId;
 
   private String sectionId;
 
+  /**
+   * Returns RRI sectionId (sectionId can be null).
+   *
+   * @return String - RRI sectionId (sectionId can be null).
+   */
   public String getSectionId() {
     return sectionId;
   }
 
+  /**
+   * Sets RRI sectionId (sectionId can be null).
+   *
+   * @param aSectionId String - RRI sectionId (sectionId can be null).
+   */
   public void setSectionId( String aSectionId ) {
     sectionId = aSectionId;
   }
 
+  /**
+   * Returns classId (classId can be null).
+   *
+   * @return String - classId (classId can be null).
+   */
   public String getClassId() {
     return classId;
   }
 
+  /**
+   * Sets classId (classId can be null).
+   *
+   * @param aClassId String - classId (classId can be null).
+   */
   public void setClassId( String aClassId ) {
     classId = aClassId;
   }
@@ -59,8 +77,7 @@ public class LinkLifeCycleManager
    */
   public LinkLifeCycleManager( ITsGuiContext aContext, IM5Model<IDtoLinkInfo> aModel, ISkRegRefInfoService aMaster ) {
     super( aModel, true, true, true, true, aMaster );
-    TsNullArgumentRtException.checkNulls( aContext, aMaster );
-    context = aContext;
+    TsNullArgumentRtException.checkNulls( aContext, aModel, aMaster );
   }
 
   @Override

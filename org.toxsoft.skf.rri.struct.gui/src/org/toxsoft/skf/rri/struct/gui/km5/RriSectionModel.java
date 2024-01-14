@@ -1,5 +1,7 @@
 package org.toxsoft.skf.rri.struct.gui.km5;
 
+import static org.toxsoft.skf.rri.struct.gui.km5.ISkResources.*;
+
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.m5.std.fields.*;
@@ -39,7 +41,7 @@ public class RriSectionModel
    */
   public RriSectionModel() {
     super( MODEL_ID, ISkRriSection.class );
-    setNameAndDescription( "RRI sections: ", "RRI sections: " );
+    setNameAndDescription( STR_N_RRI_SECTIONS_LIST, STR_D_RRI_SECTIONS_LIST );
     addFieldDefs( STRID, NAME, DESCR );
   }
 

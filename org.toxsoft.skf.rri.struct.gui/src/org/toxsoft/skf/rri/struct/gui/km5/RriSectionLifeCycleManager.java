@@ -4,17 +4,26 @@ import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
 
 /**
+ * LifeCycleManager for RRI sections
+ *
  * @author max
  */
 public class RriSectionLifeCycleManager
     extends M5LifecycleManager<ISkRriSection, ISkRegRefInfoService> {
 
+  /**
+   * Constructor by model and service (master object)
+   *
+   * @param aModel IM5Model - RRI sections M5 model
+   * @param aMaster ISkRegRefInfoService - RRI service
+   */
   public RriSectionLifeCycleManager( IM5Model<ISkRriSection> aModel, ISkRegRefInfoService aMaster ) {
     super( aModel, true, false, true, true, aMaster );
-    // TODO Auto-generated constructor stub
+    TsNullArgumentRtException.checkNulls( aModel, aMaster );
   }
 
   @Override

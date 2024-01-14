@@ -4,6 +4,7 @@ import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tsgui.m5.valeds.IM5ValedConstants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+import static org.toxsoft.skf.rri.struct.gui.km5.ISkResources.*;
 
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
@@ -53,7 +54,7 @@ public class AttributeModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( "Идентификатор", "Идентификатор атрибута" );
+      setNameAndDescription( STR_N_ATTR_ID, STR_D_ATTR_ID );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN | M5FF_INVARIANT );
     }
@@ -72,7 +73,7 @@ public class AttributeModel
 
         @Override
         protected void doInit() {
-          setNameAndDescription( "Тип", "Тип атрибута" );
+          setNameAndDescription( STR_N_ATTR_TYPE, STR_D_ATTR_TYPE );
           setFlags( M5FF_COLUMN );
           params().setBool( TSID_IS_NULL_ALLOWED, false );
           params().setStr( M5_VALED_OPDEF_WIDGET_TYPE_ID, M5VWTID_INPLACE );
@@ -97,7 +98,7 @@ public class AttributeModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( "Наименование", "Наименование атрибута" );
+      setNameAndDescription( STR_N_ATTR_NAME, STR_D_ATTR_NAME );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -115,7 +116,7 @@ public class AttributeModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( "Описание", "Описание атрибута" );
+      setNameAndDescription( STR_N_ATTR_DESCRIPTION, STR_D_ATTR_DESCRIPTION );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -131,7 +132,7 @@ public class AttributeModel
    */
   public AttributeModel() {
     super( MODEL_ID, IDtoAttrInfo.class );
-    setNameAndDescription( "Список атрибутов", "Список атрибутов" );
+    setNameAndDescription( STR_N_ATTRIBUTES_LIST, STR_D_ATTRIBUTES_LIST );
 
     addFieldDefs( ATTR_ID, ATTR_TYPE, ATTR_NAME, ATTR_DESCR );
   }
