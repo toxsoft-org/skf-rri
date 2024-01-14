@@ -2,7 +2,10 @@ package org.toxsoft.skf.rri.struct.gui.km5;
 
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
@@ -31,7 +34,11 @@ public class RriSectionLifeCycleManager
     String id = RriSectionModel.STRID.getFieldValue( aValues ).asString();
     String name = RriSectionModel.NAME.getFieldValue( aValues ).asString();
     String descr = RriSectionModel.DESCR.getFieldValue( aValues ).asString();
-    return master().createSection( id, name, descr, IOptionSet.NULL );
+
+    IOptionSetEdit optSet = new OptionSet();
+    IAvMetaConstants.DDEF_NAME.setValue( optSet, AvUtils.avStr( name ) );
+
+    return master().createSection( id, name, descr, optSet );
   }
 
   @Override

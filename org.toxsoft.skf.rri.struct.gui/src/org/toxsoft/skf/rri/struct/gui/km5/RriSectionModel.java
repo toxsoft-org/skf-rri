@@ -5,6 +5,8 @@ import static org.toxsoft.skf.rri.struct.gui.km5.ISkResources.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.m5.std.fields.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
 
@@ -29,7 +31,14 @@ public class RriSectionModel
   /**
    * Attribute {@link ISkRriSection#nmName() } name
    */
-  static M5StdFieldDefName<ISkRriSection> NAME = new M5StdFieldDefName<>();
+  static M5StdFieldDefName<ISkRriSection> NAME = new M5StdFieldDefName<>() {
+
+    @Override
+    protected IAtomicValue doGetFieldValue( ISkRriSection aEntity ) {
+      return IAvMetaConstants.DDEF_NAME.getValue( aEntity.params() );
+    }
+
+  };
 
   /**
    * Attribute {@link ISkRriSection#description() } description
