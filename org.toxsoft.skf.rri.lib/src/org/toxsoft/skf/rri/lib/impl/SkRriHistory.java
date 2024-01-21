@@ -1,18 +1,13 @@
 package org.toxsoft.skf.rri.lib.impl;
 
-import static org.toxsoft.skf.rri.lib.impl.ISkRegRefServiceHardConstants.*;
+import static org.toxsoft.skf.rri.lib.impl.ISkRriServiceHardConstants.*;
 
-import org.toxsoft.core.tslib.bricks.time.IQueryInterval;
-import org.toxsoft.core.tslib.bricks.time.ITimedList;
-import org.toxsoft.core.tslib.gw.gwid.Gwid;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.skf.rri.lib.ISkRriHistory;
-import org.toxsoft.uskat.core.ISkCoreApi;
-import org.toxsoft.uskat.core.api.evserv.ISkEventService;
-import org.toxsoft.uskat.core.api.evserv.SkEvent;
-import org.toxsoft.uskat.core.api.sysdescr.ISkClassInfo;
-import org.toxsoft.uskat.core.api.sysdescr.ISkSysdescr;
-import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoEventInfo;
+import org.toxsoft.core.tslib.bricks.time.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.skf.rri.lib.*;
+import org.toxsoft.uskat.core.*;
+import org.toxsoft.uskat.core.api.evserv.*;
 
 /**
  * {@link ISkRriHistory} implementation.
@@ -28,13 +23,6 @@ class SkRriHistory
   SkRriHistory( SkRegRefInfoService aOwner ) {
     rriService = aOwner;
     coreApi = rriService.coreApi();
-  }
-
-  @Override
-  public IDtoEventInfo getParamEditEventInfo() {
-    ISkSysdescr cim = coreApi.sysdescr();
-    ISkClassInfo cinf = cim.getClassInfo( CLASSID_RRI_SECTION );
-    return cinf.events().list().getByKey( EVID_RRI_PARAM_CHANGE );
   }
 
   @Override

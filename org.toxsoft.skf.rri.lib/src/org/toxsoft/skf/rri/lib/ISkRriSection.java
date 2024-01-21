@@ -3,17 +3,15 @@ package org.toxsoft.skf.rri.lib;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.utils.*;
-import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.time.*;
-import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.uskat.core.api.evserv.*;
-import org.toxsoft.uskat.core.api.sysdescr.dto.*;
+import org.toxsoft.skf.rri.lib.impl.*;
+import org.toxsoft.uskat.core.api.sysdescr.*;
 
 /**
  * The RRI section.
@@ -23,207 +21,188 @@ import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 public interface ISkRriSection
     extends IStridable, IParameterized {
 
-  // TODO TRANSLATE
-
   /**
-   * Меняет свойства раздела.
+   * Changes the section properties.
    *
-   * @param aName String - название раздела
-   * @param aDescription String - описание раздела
-   * @param aParams {@link IOptionSet} - значения параметров {@link ISkRriSection#params()}
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsValidationFailedRtException не прошла проверка
-   *           {@link ISkRriSectionValidator#canSetSectionParams(ISkRriSection, String, String, IOptionSet)}
+   * @param aName String - the section name
+   * @param aDescription String - the section description
+   * @param aParams {@link IOptionSet} - values of the optional {@link ISkRriSection#params()}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed validation {@link ISkRegRefInfoServiceValidator}
    */
   void setSectionProps( String aName, String aDescription, IOptionSet aParams );
 
   /**
-   * Возвращает идентификатор объекта, скрытно реализуюший этот раздел.
+   * Returns the SKID of the Sk-object internally implementing this section.
    * <p>
-   * В частности, идентификатор можно использовать для получения сообщений редактирования параметров НСИ средствами
-   * службы {@link ISkEventService}. Напомним, что история правки НСИ (те же самые события) доступны через
-   * {@link ISkRriHistory#querySectionEditingHistory(IQueryInterval, String)}.
+   * This identifier is created of pair {@link ISkRriServiceHardConstants#CLASSID_RRI_SECTION} and the section ID. This
+   * SKID is the source of the RRI parameters change event {@link ISkRriServiceHardConstants#EVDTO_RRI_PARAM_CHANGE}.
    *
-   * @return {@link Skid} - идентификатор объекта раздела
+   * @return {@link Skid} - the SKID of the section implementation object
    */
   Skid getSectionSkid();
 
   // ------------------------------------------------------------------------------------
-  // Parameters definition
+  // RRI parameters definitions
 
   /**
-   * Определяет (создает новое или правит существующее) описание параметра НСИ - атрибута.
+   * Defines (changes exiting or edits existing) RRI parameters.
    *
-   * @param aClassId String - идентификатор класса
-   * @param aAttrDef {@link IDtoAttrInfo} - описание атрибута
-   * @return {@link ISkRriParamInfo} - описание созданного/отредактированного параметра НСИ
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsValidationFailedRtException не прошла проверка {@link ISkRriSectionValidator}
+   * @param aClassId - the class ID for which the RRI parameter is defined
+   * @param aInfos {@link IStridablesList}&lt;{@link IDtoRriParamInfo}&gt; - the parameter definitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed validation {@link ISkRegRefInfoServiceValidator}
    */
-  ISkRriParamInfo defineAttrParam( String aClassId, IDtoAttrInfo aAttrDef );
+  void defineParam( String aClassId, IStridablesList<IDtoRriParamInfo> aInfos );
 
   /**
-   * Определяет (создает новое или правит существующее) описание параметра НСИ - связи.
+   * Removes the RRI parameter including all values.
+   * <p>
+   * Both definition and values are permanently removed.
    *
-   * @param aClassId String - идентификатор класса
-   * @param aLinkDef {@link IDtoLinkInfo} - описание связи
-   * @return {@link ISkRriParamInfo} - описание созданного/отредактированного параметра НСИ
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsIllegalStateRtException параметр уже существет и является атрибутом
-   * @throws TsUnsupportedFeatureRtException редактирование приведет к удалению значений параметров
-   * @throws TsValidationFailedRtException не прошла проверка {@link ISkRriSectionValidator}
-   */
-  ISkRriParamInfo defineLinkParam( String aClassId, IDtoLinkInfo aLinkDef );
-
-  /**
-   * Удаляет параметр (включая описание и значения для всех объектов).
-   *
-   * @param aClassId String - идентификатор класса
-   * @param aParamId String - идентификатор объекта
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsItemNotFoundRtException нет такого параметра
-   * @throws TsValidationFailedRtException не прошла проверка {@link ISkRriSectionValidator}
+   * @param aClassId - the class ID
+   * @param aParamId String - the parameter ID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed validation {@link ISkRegRefInfoServiceValidator}
    */
   void removeParam( String aClassId, String aParamId );
 
   /**
-   * Удаляет все параметры НСИ для указанного класса и его наследников.
+   * Removes all RRI parameter of the specified class including all subclasses.
    * <p>
-   * Удаляются как описания, так и значения параметров.
+   * Both definition and values are permanently removed.
    *
-   * @param aClassId String - идентфиикатор класса
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsValidationFailedRtException не прошла проверка {@link ISkRriSectionValidator}
+   * @param aClassId String - the class ID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed validation {@link ISkRegRefInfoServiceValidator}
    */
   void removeAll( String aClassId );
 
   /**
-   * Удаляет все параметры всех классов раздела.
+   * Clears the section.
+   * <p>
+   * Permanently removes all classes, parameters and values of the section.
    *
-   * @throws TsValidationFailedRtException не прошла проверка {@link ISkRriSectionValidator}
+   * @throws TsValidationFailedRtException failed validation {@link ISkRegRefInfoServiceValidator}
    */
   void clearAll();
 
   /**
-   * Возвращает перечень идентификаторов классов, для которых этот раздел определяет параметры НСИ.
+   * Returns the classes having RRI parameters defined in this section.
    *
-   * @return {@link IStringList} - список идентификаторов классов хотя бы с одним параметром НСИ этого раздела
+   * @return {@link IStringList} - list of class IDs
    */
   IStringList listClassIds();
 
   /**
-   * Возвращает описания параметров этого раздела запрошенного класса.
-   * <p>
-   * Если класс существует, но для него не определены параметры НСИ, возвращает пустой список.
+   * Returns parameter definitions of this section of the requested class.
    *
-   * @param aClassId String - идентификатор класса
-   * @return {@link IStridablesList}&lt;{@link ISkRriParamInfo}&gt; - описания параметров
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsItemNotFoundRtException нет такого класса в описании системы
+   * @param aClassId String - the class ID
+   * @return {@link IStridablesList}&lt;{@link IDtoRriParamInfo}&gt; - the parameter definitions or an empty list
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException class does not exists in {@link ISkSysdescr#listClasses()}
    */
-  IStridablesList<ISkRriParamInfo> listParamInfoes( String aClassId );
+  IStridablesList<IDtoRriParamInfo> listParamInfoes( String aClassId );
 
   // ------------------------------------------------------------------------------------
-  // Получение значений параметров
+  // RRI parameters values
 
   /**
-   * Возвращает значение одного параметра НСИ - атрибута.
+   * Returns the value of the attribute parameter.
    *
-   * @param aObjId {@link Skid} - идентификатор объекта
-   * @param aParamId String - идентификатор параметра НСИ
-   * @return {@link IAtomicValue} - значение параметра НСИ
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsItemNotFoundRtException нет такого объекта в системе
-   * @throws TsItemNotFoundRtException нет такого параметра в разделе
-   * @throws TsUnsupportedFeatureRtException параметр является связью, не параметром
+   * @param aObjId {@link Skid} - the object SKID
+   * @param aParamId String - the RRI parameter IO
+   * @return {@link IAtomicValue} - the RII parameter value
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no such object or parameter exists
+   * @throws TsUnsupportedFeatureRtException RRI parameter is a link, not an attribute
    */
   IAtomicValue getAttrParamValue( Skid aObjId, String aParamId );
 
   /**
-   * Возвращает значение одного параметра НСИ - связи.
+   * Returns the value of the link parameter.
    *
-   * @param aObjId {@link Skid} - идентификатор объекта
-   * @param aParamId String - идентификатор параметра НСИ
-   * @return {@link ISkidList} - список связанных объектов - значение параметра НСИ
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsItemNotFoundRtException нет такого объекта в системе
-   * @throws TsItemNotFoundRtException нет такого параметра в разделе
-   * @throws TsUnsupportedFeatureRtException параметр является атрибутом, не связью
+   * @param aObjId {@link Skid} - the object SKID
+   * @param aParamId String - the RRI parameter IO
+   * @return {@link ISkidList} - the RII parameter value
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no such object or parameter exists
+   * @throws TsUnsupportedFeatureRtException RRI parameter is an attribute, not a link
    */
   ISkidList getLinkParamValue( Skid aObjId, String aParamId );
 
   /**
-   * Возвращает значения всех параметров НСИ этого раздела всех запрошенных объектов.
+   * Returns the values of all RRI parameters of this section of all requested objects.
    *
-   * @param aObjIds {@link ISkidList} - запрошенные объекты
-   * @return {@link ISkRriParamValues} - значения параметров
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsItemNotFoundRtException в аргументе содержатся несуществующие в системе объекты
+   * @param aObjIds {@link ISkidList} - requested objects SKIDs
+   * @return {@link ISkRriParamValues} - parameter vales
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException argument contains SKIDs of non-existing objects
    */
   ISkRriParamValues getParamValuesByObjs( ISkidList aObjIds );
 
   /**
-   * Возвращает значения всех параметров НСИ этого раздела всех объектов запрошенного класса, без наследников.
+   * Returns the values of all RRI parameters of this section of all objects of the requested class.
+   * <p>
+   * Descendant class objects are <b>not</b> included.
    *
-   * @param aClassId String - идентификатор класса
-   * @return {@link ISkRriParamValues} - значения параметров
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsItemNotFoundRtException нет такого класса в системе
+   * @param aClassId String - the exact class ID
+   * @return {@link ISkRriParamValues} - parameter vales
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no such class found in {@link ISkSysdescr#listClasses()}
    */
   ISkRriParamValues getParamValuesByClassId( String aClassId );
 
   // ------------------------------------------------------------------------------------
-  // Редактирование значений параметров
+  // Edit parameter values
 
   /**
-   * Задает значение одного параметра НСИ - атрибута.
+   * Sets the value of the attribute parameter.
    *
-   * @param aObjId {@link Skid} - объект, чей параметры НСИ редактируется
-   * @param aParamId String - идентификатор параметра
-   * @param aValue {@link IAtomicValue} - новое значение атрибута
-   * @param aReason String - причина изменения НСИ
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsValidationFailedRtException не прошла проверка {@link ISkRriSectionValidator}
+   * @param aObjId {@link Skid} - SKID of the object to edit it's RRI parameter value
+   * @param aParamId String - the RRI parameter ID
+   * @param aValue {@link IAtomicValue} - new value
+   * @param aReason String - the change reason
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed validation {@link ISkRegRefInfoServiceValidator}
    */
   void setAttrParamValue( Skid aObjId, String aParamId, IAtomicValue aValue, String aReason );
 
   /**
-   * Задает значение одного параметра НСИ - связи.
+   * Sets the value of the link parameter.
    *
-   * @param aObjId {@link Skid} - объект, чей параметры НСИ редактируется
-   * @param aParamId String - идентификатор параметра
-   * @param aObjIds {@link ISkidList} - новое значение связи
-   * @param aReason String - причина изменения НСИ
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsValidationFailedRtException не прошла проверка {@link ISkRriSectionValidator}
+   * @param aObjId {@link Skid} - SKID of the object to edit it's RRI parameter value
+   * @param aParamId String - the RRI parameter ID
+   * @param aObjIds {@link ISkidList} - new value
+   * @param aReason String - the change reason
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed validation {@link ISkRegRefInfoServiceValidator}
    */
   void setLinkParamValue( Skid aObjId, String aParamId, ISkidList aObjIds, String aReason );
 
   /**
-   * Изменяет несколько параметров за раз.
-   * <p>
-   * Генерирует событие редактирования сметкой текущего времени, автором - текущи пользователем и причиной
-   * <code>aReason</code>.
+   * Batch editing - sets several RRI parameter values at once.
    *
-   * @param aValues {@link ISkRriParamValues} - нобор новых значений параметров
-   * @param aReason String - причина изменения НСИ
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsValidationFailedRtException не прошла проверка {@link ISkRriSectionValidator}
+   * @param aValues {@link ISkRriParamValues} - the new values set
+   * @param aReason String - the change reason
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed validation {@link ISkRegRefInfoServiceValidator}
    */
   void setParamValues( ISkRriParamValues aValues, String aReason );
 
-  /**
-   * Returns the section mutator methods pre-conditions validation helper.
-   *
-   * @return {@link ITsValidationSupport} - section changes validation support
-   */
-  ITsValidationSupport<ISkRriSectionValidator> svs();
+  // ------------------------------------------------------------------------------------
+  // inline methods for convenience
 
   /**
-   * Returns the section changes event firing helper.
+   * Defines (changes exiting or edits existing) RRI parameter.
    *
-   * @return {@link ITsEventer} - event firing and listening helper
+   * @param aClassId - the class ID for which the RRI parameter is defined
+   * @param aInfo {@link IDtoRriParamInfo} - the parameter definition
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed validation {@link ISkRegRefInfoServiceValidator}
    */
-  ITsEventer<ISkRriSectionListener> eventer();
+  default void defineParam( String aClassId, IDtoRriParamInfo aInfo ) {
+    defineParam( aClassId, new StridablesList<>( aInfo ) );
+  }
 
 }

@@ -3,18 +3,18 @@ package org.toxsoft.skf.rri.lib.impl;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.gw.IGwHardConstants.*;
-import static org.toxsoft.skf.rri.lib.impl.ISkRegRefServiceHardConstants.*;
+import static org.toxsoft.skf.rri.lib.impl.ISkRriServiceHardConstants.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.events.msg.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
-import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -30,20 +30,17 @@ import org.toxsoft.uskat.core.api.linkserv.*;
 import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
+import org.toxsoft.uskat.core.devapi.*;
 import org.toxsoft.uskat.core.impl.dto.*;
 import org.toxsoft.uskat.core.utils.*;
 
 /**
- * Реализация {@link ISkRriSection}.
+ * {@link ISkRriSection} implementation.
  *
  * @author hazard157
  */
 class SkRriSection
     implements ISkRriSection {
-
-  final ISkRriSectionValidator        builtinValidator;
-  final SkRriSectionEventer           eventer;
-  final SkRriSectionValidationSupport validationSupport = new SkRriSectionValidationSupport();
 
   private final SkRegRefInfoService rriService;
   private final ISkCoreApi          coreApi;
@@ -55,15 +52,12 @@ class SkRriSection
 
   SkRriSection( ISkObject aSectionObject, SkRegRefInfoService aRriService ) {
     TsNullArgumentRtException.checkNulls( aSectionObject, aRriService );
-    eventer = new SkRriSectionEventer( this );
-    builtinValidator = new SkRriSectionDefaultValidator( this );
     rriService = aRriService;
     coreApi = rriService.coreApi();
     caCim = coreApi.sysdescr();
     caOs = coreApi.objService();
     caLs = coreApi.linkService();
     sectionObject = aSectionObject;
-    validationSupport.addValidator( builtinValidator );
   }
 
   // ------------------------------------------------------------------------------------
@@ -140,10 +134,8 @@ class SkRriSection
     DtoObject dto = new DtoObject( aCompObjSkid );
     ISkClassInfo clinf = caCim.getClassInfo( aCompObjSkid.classId() );
     for( IDtoAttrInfo ainf : clinf.attrs().listNonSys() ) {
-      // if( SkHelperUtils.getConstraint( ainf, TSID_IS_MANDATORY, AV_FALSE ).asBool() ) {
       IAtomicValue defVal = SkHelperUtils.getConstraint( ainf, TSID_DEFAULT_VALUE );
       dto.attrs().setValue( ainf.id(), defVal );
-      // }
     }
     rriService.pauseExternalValidation();
     try {
@@ -162,25 +154,23 @@ class SkRriSection
     }
     try {
       rriService.pauseExternalValidation();
-      // удалим все объекты со значениями параметров НСИ
+      // remove all companion objects storing RRI parameters of this class (and subclasses)
       ISkidList toRemove = caOs.listSkids( compClassId, true );
       caOs.removeObjects( toRemove );
-      // удалим класс-компанион с наследниками. aOnlyChilds = false, aIncludeSelf = true
+      // remove companion class with all subclasses: aOnlyChilds = false, aIncludeSelf = true
       IStridablesList<ISkClassInfo> compCids = compClassInfo.listSubclasses( false, true );
-      // удалим все классы-компанионы (компанион запрошенного класса и наследники) по списку compCids
       for( ISkClassInfo cid : compCids ) {
         caCim.removeClass( cid.id() );
       }
-      eventer.fireClassParamInfosChanged( aClassId );
+      fireSectionChangeEvent();
     }
     finally {
       rriService.resumeExternalValidation();
     }
   }
 
-  SkEvent fireEventAttrChange( Gwid aParamGwid, String aReason, long aTimestamp, IAtomicValue aOldValue,
+  SkEvent makeAttrChangeEvent( Gwid aParamGwid, String aReason, long aTimestamp, IAtomicValue aOldValue,
       IAtomicValue aNewValue ) {
-    ISkEventService evs = coreApi.eventService();
     IOptionSetEdit parvals = new OptionSet();
     parvals.setStr( EVPRMID_SECTION_ID, sectionObject.strid() );
     parvals.setStr( EVPRMID_AUTHOR_LOGIN, rriService.authorLogin() );
@@ -190,14 +180,11 @@ class SkRriSection
     parvals.setValue( EVPRMID_OLD_VAL_ATTR, aOldValue );
     parvals.setValue( EVPRMID_NEW_VAL_ATTR, aNewValue );
     Gwid gwid = Gwid.createEvent( sectionObject.classId(), sectionObject.strid(), EVID_RRI_PARAM_CHANGE );
-    SkEvent event = new SkEvent( aTimestamp, gwid, parvals );
-    evs.fireEvent( event );
-    return event;
+    return new SkEvent( aTimestamp, gwid, parvals );
   }
 
-  SkEvent fireEventLinkChange( Gwid aParamGwid, String aReason, long aTimestamp, ISkidList aOldValue,
+  SkEvent makeLinkChangeEvent( Gwid aParamGwid, String aReason, long aTimestamp, ISkidList aOldValue,
       ISkidList aNewValue ) {
-    ISkEventService evs = coreApi.eventService();
     IOptionSetEdit parvals = new OptionSet();
     parvals.setStr( EVPRMID_SECTION_ID, sectionObject.strid() );
     parvals.setStr( EVPRMID_AUTHOR_LOGIN, rriService.authorLogin() );
@@ -207,9 +194,19 @@ class SkRriSection
     parvals.setValobj( EVPRMID_OLD_VAL_LINK, aOldValue );
     parvals.setValobj( EVPRMID_NEW_VAL_LINK, aNewValue );
     Gwid gwid = Gwid.createEvent( sectionObject.classId(), sectionObject.strid(), EVID_RRI_PARAM_CHANGE );
-    SkEvent event = new SkEvent( aTimestamp, gwid, parvals );
-    evs.fireEvent( event );
-    return event;
+    return new SkEvent( aTimestamp, gwid, parvals );
+  }
+
+  /**
+   * Generates {@link ISkRegRefInfoServiceListener#onSectionChanged(ECrudOp, String)} event of section change.
+   * <p>
+   * To generate event sends the {@link BaMsgRriSectionsListChange#MSG_ID} message to backend and call
+   * {@link IDevCoreApi#doJobInCoreMainThread()}.
+   */
+  private void fireSectionChangeEvent() {
+    GtMessage msg = BaMsgRriSectionsListChange.BUILDER.makeMessage( ECrudOp.EDIT, id() );
+    rriService.sendMessageToSiblings( msg );
+    rriService.coreApi().doJobInCoreMainThread();
   }
 
   // ------------------------------------------------------------------------------------
@@ -255,7 +252,7 @@ class SkRriSection
   @Override
   public void setSectionProps( String aName, String aDescription, IOptionSet aParams ) {
     TsValidationFailedRtException
-        .checkError( validationSupport.canSetSectionParams( this, aName, aDescription, aParams ) );
+        .checkError( rriService.svs().validator().canSetSectionProps( this, aName, aDescription, aParams ) );
     IOptionSetEdit attrs = new OptionSet();
     DDEF_NAME.setValue( attrs, avStr( aName ) );
     DDEF_DESCRIPTION.setValue( attrs, avStr( aDescription ) );
@@ -265,11 +262,11 @@ class SkRriSection
     try {
       rriService.pauseExternalValidation();
       sectionObject = caOs.defineObject( dtoObj );
-      eventer.fireSectionPropsChanged();
     }
     finally {
       rriService.resumeExternalValidation();
     }
+    fireSectionChangeEvent();
   }
 
   @Override
@@ -278,64 +275,46 @@ class SkRriSection
   }
 
   @Override
-  public ISkRriParamInfo defineAttrParam( String aClassId, IDtoAttrInfo aAttrDef ) {
-    TsValidationFailedRtException.checkError( validationSupport.canDefineAttrParam( aClassId, aAttrDef ) );
-    // уверенно возьмем класс-компанион...
-    ISkClassInfo cInfo = ensureCompanionClass( caCim.getClassInfo( aClassId ) );
-    // добавим/обновим атрибут
-    DtoClassInfo dto = DtoClassInfo.createFromSk( cInfo, true ); // aOnlySelfProps = true
-    dto.attrInfos().put( aAttrDef );
+  public void defineParam( String aClassId, IStridablesList<IDtoRriParamInfo> aInfos ) {
+    TsNullArgumentRtException.checkNulls( aClassId, aInfos );
+    ISkClassInfo ccInfo = ensureCompanionClass( caCim.getClassInfo( aClassId ) ); // create class even for empty arg
+    TsValidationFailedRtException.checkError( rriService.svs().validator().canChangeParams( this, ccInfo, aInfos ) );
+    if( aInfos.isEmpty() ) {
+      return;
+    }
+    // build changed DtoClassInfo
+    DtoClassInfo ccDto = DtoClassInfo.createFromSk( ccInfo, true ); // aOnlySelfProps = true
+    for( IDtoRriParamInfo pinf : aInfos ) {
+      if( pinf.isLink() ) {
+        ccDto.linkInfos().add( pinf.linkInfo() );
+      }
+      else {
+        ccDto.attrInfos().add( pinf.attrInfo() );
+      }
+    }
+    // update class in Sysdescr
     rriService.pauseExternalValidation();
     try {
-      cInfo = caCim.defineClass( dto );
-      ISkRriParamInfo rriParamInfo = new SkRriParamInfo( cInfo.attrs().list().getByKey( aAttrDef.id() ) );
-      eventer.fireClassParamInfosChanged( aClassId );
-      return rriParamInfo;
+      caCim.defineClass( ccDto );
+      fireSectionChangeEvent();
     }
     finally {
       rriService.resumeExternalValidation();
     }
-  }
 
-  @Override
-  public ISkRriParamInfo defineLinkParam( String aClassId, IDtoLinkInfo aLinkDef ) {
-    TsValidationFailedRtException.checkError( validationSupport.canDefineLinkParam( aClassId, aLinkDef ) );
-    // уверенно возьмем класс-компанион...
-    ISkClassInfo cInfo = ensureCompanionClass( caCim.getClassInfo( aClassId ) );
-    // добавим/обновим связь
-    DtoClassInfo dto = DtoClassInfo.createFromSk( cInfo, true ); // aOnlySelfProps = true
-    dto.linkInfos().put( aLinkDef );
-    rriService.pauseExternalValidation();
-    try {
-      cInfo = caCim.defineClass( dto );
-      ISkRriParamInfo rriParamInfo = new SkRriParamInfo( cInfo.links().list().getByKey( aLinkDef.id() ) );
-      eventer.fireClassParamInfosChanged( aClassId );
-      return rriParamInfo;
-    }
-    finally {
-      rriService.resumeExternalValidation();
-    }
   }
 
   @Override
   public void removeParam( String aClassId, String aParamId ) {
-    TsValidationFailedRtException.checkError( validationSupport.canRemoveParam( aClassId, aParamId ) );
-    // уверенно возьмем класс-компанион...
-    ISkClassInfo cInfo = ensureCompanionClass( caCim.getClassInfo( aClassId ) );
-    DtoClassInfo dto = DtoClassInfo.createFromSk( cInfo, true ); // aOnlySelfProps = true
-    // определимЮ связь это или атрибут?
-    boolean isAttr = cInfo.attrs().list().hasKey( aParamId );
-    // удалим атрибут / связь
-    if( isAttr ) {
-      dto.attrInfos().removeById( aParamId );
-    }
-    else {
-      dto.linkInfos().removeById( aParamId );
-    }
+    TsValidationFailedRtException.checkError( rriService.svs().validator().canRemoveParam( this, aClassId, aParamId ) );
+    ISkClassInfo ccInfo = ensureCompanionClass( caCim.getClassInfo( aClassId ) );
+    DtoClassInfo ccDto = DtoClassInfo.createFromSk( ccInfo, true ); // aOnlySelfProps = true
+    ccDto.attrInfos().removeById( aParamId );
+    ccDto.linkInfos().removeById( aParamId );
     rriService.pauseExternalValidation();
     try {
-      cInfo = caCim.defineClass( dto );
-      eventer.fireClassParamInfosChanged( aClassId );
+      caCim.defineClass( ccDto );
+      fireSectionChangeEvent();
     }
     finally {
       rriService.resumeExternalValidation();
@@ -344,7 +323,7 @@ class SkRriSection
 
   @Override
   public void removeAll( String aClassId ) {
-    TsValidationFailedRtException.checkError( validationSupport.canRemoveAll( aClassId ) );
+    TsValidationFailedRtException.checkError( rriService.svs().validator().canRemoveAll( this, aClassId ) );
     internalUnvalidatedRemoveAll( aClassId );
   }
 
@@ -352,17 +331,12 @@ class SkRriSection
   public void clearAll() {
     IStringList usedClassIds = listClassIds();
     for( String cid : usedClassIds ) {
-      TsValidationFailedRtException.checkError( validationSupport.canRemoveAll( cid ) );
+      TsValidationFailedRtException.checkError( rriService.svs().validator().canRemoveAll( this, cid ) );
     }
-    try {
-      eventer.pauseFiring();
-      for( String cid : usedClassIds ) {
-        internalUnvalidatedRemoveAll( cid );
-      }
+    for( String cid : usedClassIds ) {
+      internalUnvalidatedRemoveAll( cid );
     }
-    finally {
-      eventer.resumeFiring( true );
-    }
+    fireSectionChangeEvent();
   }
 
   @Override
@@ -378,7 +352,7 @@ class SkRriSection
   }
 
   @Override
-  public IStridablesList<ISkRriParamInfo> listParamInfoes( String aClassId ) {
+  public IStridablesList<IDtoRriParamInfo> listParamInfoes( String aClassId ) {
     TsItemNotFoundRtException.checkNull( caCim.findClassInfo( aClassId ) );
     String compClassId = makeCompanionId( aClassId );
     ISkClassInfo compClassInfo = caCim.findClassInfo( compClassId );
@@ -386,18 +360,18 @@ class SkRriSection
       return IStridablesList.EMPTY;
     }
     ISkClassInfo rootClassInfo = caCim.getClassInfo( GW_ROOT_CLASS_ID );
-    IStridablesListEdit<ISkRriParamInfo> result = new StridablesList<>();
-    // все атрибуты, кроме корневого класса
+    IStridablesListEdit<IDtoRriParamInfo> result = new StridablesList<>();
+    // all attributes except of root class
     for( IDtoAttrInfo skAinf : compClassInfo.attrs().list() ) {
       if( !rootClassInfo.attrs().list().hasKey( skAinf.id() ) ) {
-        ISkRriParamInfo pi = new SkRriParamInfo( skAinf );
+        IDtoRriParamInfo pi = new DtoRriParamInfo( skAinf );
         result.add( pi );
       }
     }
-    // все связи, кроме корневого класса
+    // all links except of root class
     for( IDtoLinkInfo skLinf : compClassInfo.links().list() ) {
       if( !rootClassInfo.links().list().hasKey( skLinf.id() ) ) {
-        ISkRriParamInfo pi = new SkRriParamInfo( skLinf );
+        IDtoRriParamInfo pi = new DtoRriParamInfo( skLinf );
         result.add( pi );
       }
     }
@@ -491,7 +465,7 @@ class SkRriSection
   @Override
   public void setAttrParamValue( Skid aObjId, String aParamId, IAtomicValue aValue, String aReason ) {
     TsValidationFailedRtException
-        .checkError( validationSupport.canSetAttrParamValue( aObjId, aParamId, aValue, aReason ) );
+        .checkError( rriService.svs().validator().canSetAttrParamValue( this, aObjId, aParamId, aValue, aReason ) );
     String compClassId = makeCompanionId( aObjId.classId() );
     Skid compObjSkid = new Skid( compClassId, aObjId.strid() );
     ISkObject compObj = ensureCompanionObject( compObjSkid );
@@ -502,8 +476,8 @@ class SkRriSection
       rriService.pauseExternalValidation();
       caOs.defineObject( dtoObj );
       Gwid paramGwid = Gwid.createAttr( aObjId.classId(), aObjId.strid(), aParamId );
-      SkEvent e = fireEventAttrChange( paramGwid, aReason, System.currentTimeMillis(), oldValue, aValue );
-      eventer.fireParamValuesChanged( new SingleItemList<>( e ) );
+      SkEvent event = makeAttrChangeEvent( paramGwid, aReason, System.currentTimeMillis(), oldValue, aValue );
+      coreApi.eventService().fireEvent( event );
     }
     finally {
       rriService.resumeExternalValidation();
@@ -513,7 +487,7 @@ class SkRriSection
   @Override
   public void setLinkParamValue( Skid aObjId, String aParamId, ISkidList aObjIds, String aReason ) {
     TsValidationFailedRtException
-        .checkError( validationSupport.canSetLinkParamValue( aObjId, aParamId, aObjIds, aReason ) );
+        .checkError( rriService.svs().validator().canSetLinkParamValue( this, aObjId, aParamId, aObjIds, aReason ) );
     String compClassId = makeCompanionId( aObjId.classId() );
     Skid compObjSkid = new Skid( compClassId, aObjId.strid() );
     try {
@@ -522,8 +496,8 @@ class SkRriSection
       ISkidList oldValue = compObj.getLinkSkids( aParamId );
       caLs.setLink( compObjSkid, aParamId, aObjIds );
       Gwid paramGwid = Gwid.createLink( aObjId.classId(), aObjId.strid(), aParamId );
-      SkEvent e = fireEventLinkChange( paramGwid, aReason, System.currentTimeMillis(), oldValue, aObjIds );
-      eventer.fireParamValuesChanged( new SingleItemList<>( e ) );
+      SkEvent event = makeLinkChangeEvent( paramGwid, aReason, System.currentTimeMillis(), oldValue, aObjIds );
+      coreApi.eventService().fireEvent( event );
     }
     finally {
       rriService.resumeExternalValidation();
@@ -532,7 +506,8 @@ class SkRriSection
 
   @Override
   public void setParamValues( ISkRriParamValues aValues, String aReason ) {
-    TsValidationFailedRtException.checkError( validationSupport.canSetParamValues( aValues, aReason ) );
+    TsValidationFailedRtException
+        .checkError( rriService.svs().validator().canSetParamValues( this, aValues, aReason ) );
     long timestamp = System.currentTimeMillis();
     try {
       rriService.pauseExternalValidation();
@@ -564,7 +539,7 @@ class SkRriSection
             IAtomicValue newVal = newAttrs.getByKey( aid );
             attrs.setValue( aid, newVal );
             Gwid paramGwid = Gwid.createAttr( origObjSkid.classId(), origObjSkid.strid(), aid );
-            SkEvent e = fireEventAttrChange( paramGwid, aReason, timestamp, oldVal, newVal );
+            SkEvent e = makeAttrChangeEvent( paramGwid, aReason, timestamp, oldVal, newVal );
             events.add( e );
           }
         }
@@ -586,25 +561,15 @@ class SkRriSection
           ISkidList newValue = mapLinks.getByKey( lid );
           caLs.setLink( compObjSkid, lid, newValue );
           Gwid paramGwid = Gwid.createLink( origObjSkid.classId(), origObjSkid.strid(), lid );
-          SkEvent e = fireEventLinkChange( paramGwid, aReason, timestamp, oldValue, newValue );
+          SkEvent e = makeLinkChangeEvent( paramGwid, aReason, timestamp, oldValue, newValue );
           events.add( e );
         }
       }
-      eventer.fireParamValuesChanged( events );
+      coreApi.eventService().fireEvents( events );
     }
     finally {
       rriService.resumeExternalValidation();
     }
-  }
-
-  @Override
-  public ITsValidationSupport<ISkRriSectionValidator> svs() {
-    return validationSupport;
-  }
-
-  @Override
-  public ITsEventer<ISkRriSectionListener> eventer() {
-    return eventer;
   }
 
 }

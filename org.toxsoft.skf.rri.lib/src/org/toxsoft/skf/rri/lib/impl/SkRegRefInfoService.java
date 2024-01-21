@@ -1,14 +1,16 @@
 package org.toxsoft.skf.rri.lib.impl;
 
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
-import static org.toxsoft.skf.rri.lib.impl.ISkRegRefServiceHardConstants.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkResources.*;
+import static org.toxsoft.skf.rri.lib.impl.ISkRriServiceHardConstants.*;
 
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.events.msg.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -17,6 +19,7 @@ import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.gw.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -55,27 +58,30 @@ public class SkRegRefInfoService
   class Eventer
       extends AbstractTsEventer<ISkRegRefInfoServiceListener> {
 
-    private boolean wasChanges = false;
+    private IStringMapEdit<ECrudOp> sectOpMap = new StringMap<>();
 
     @Override
     protected void doClearPendingEvents() {
-      wasChanges = false;
+      sectOpMap.getClass();
     }
 
     @Override
     protected void doFirePendingEvents() {
-      doFireChanged( ECrudOp.LIST, null );
+      for( String sectId : sectOpMap.keys() ) {
+        ECrudOp op = sectOpMap.getByKey( sectId );
+        reallyFireSectionEvent( op, sectId );
+      }
     }
 
     @Override
     protected boolean doIsPendingEvents() {
-      return wasChanges;
+      return !sectOpMap.isEmpty();
     }
 
-    private void doFireChanged( ECrudOp aOp, String aSectionId ) {
+    private void reallyFireSectionEvent( ECrudOp aOp, String aSectionId ) {
       for( ISkRegRefInfoServiceListener l : listeners() ) {
         try {
-          l.onSectionsChanged( aOp, aSectionId );
+          l.onSectionChanged( aOp, aSectionId );
         }
         catch( Exception ex ) {
           LoggerUtils.errorLogger().error( ex );
@@ -83,12 +89,15 @@ public class SkRegRefInfoService
       }
     }
 
-    void fireChanged( ECrudOp aOp, String aSectionId ) {
+    void fireSectionEvent( ECrudOp aOp, String aSectionId ) {
+      TsNullArgumentRtException.checkNulls( aOp, aSectionId );
+      TsIllegalArgumentRtException.checkTrue( aOp == ECrudOp.LIST );
       if( isFiringPaused() ) {
-        wasChanges = true;
-        return;
+        sectOpMap.put( aSectionId, aOp );
       }
-      doFireChanged( aOp, aSectionId );
+      else {
+        reallyFireSectionEvent( aOp, aSectionId );
+      }
     }
 
   }
@@ -128,6 +137,80 @@ public class SkRegRefInfoService
       return vr;
     }
 
+    @Override
+    public ValidationResult canSetSectionProps( ISkRriSection aSection, String aName, String aDescription,
+        IOptionSet aParams ) {
+      TsNullArgumentRtException.checkNulls( aSection, aName, aDescription, aParams );
+      ValidationResult vr = ValidationResult.SUCCESS;
+      for( ISkRegRefInfoServiceValidator v : validatorsList() ) {
+        vr = ValidationResult.firstNonOk( vr, v.canSetSectionProps( aSection, aName, aDescription, aParams ) );
+      }
+      return vr;
+    }
+
+    @Override
+    public ValidationResult canChangeParams( ISkRriSection aSection, ISkClassInfo aCompanionClassInfo,
+        IStridablesList<IDtoRriParamInfo> aParamInfos ) {
+      TsNullArgumentRtException.checkNulls( aSection, aCompanionClassInfo, aParamInfos );
+      ValidationResult vr = ValidationResult.SUCCESS;
+      for( ISkRegRefInfoServiceValidator v : validatorsList() ) {
+        vr = ValidationResult.firstNonOk( vr, v.canChangeParams( aSection, aCompanionClassInfo, aParamInfos ) );
+      }
+      return vr;
+    }
+
+    @Override
+    public ValidationResult canRemoveParam( ISkRriSection aSection, String aClassId, String aRriParamId ) {
+      TsNullArgumentRtException.checkNulls( aSection, aClassId, aRriParamId );
+      ValidationResult vr = ValidationResult.SUCCESS;
+      for( ISkRegRefInfoServiceValidator v : validatorsList() ) {
+        vr = ValidationResult.firstNonOk( vr, v.canRemoveParam( aSection, aClassId, aRriParamId ) );
+      }
+      return vr;
+    }
+
+    @Override
+    public ValidationResult canRemoveAll( ISkRriSection aSection, String aClassId ) {
+      TsNullArgumentRtException.checkNulls( aSection, aClassId );
+      ValidationResult vr = ValidationResult.SUCCESS;
+      for( ISkRegRefInfoServiceValidator v : validatorsList() ) {
+        vr = ValidationResult.firstNonOk( vr, v.canRemoveAll( aSection, aClassId ) );
+      }
+      return vr;
+    }
+
+    @Override
+    public ValidationResult canSetAttrParamValue( ISkRriSection aSection, Skid aObjId, String aParamId,
+        IAtomicValue aValue, String aReason ) {
+      TsNullArgumentRtException.checkNulls( aSection, aObjId, aParamId, aValue, aReason );
+      ValidationResult vr = ValidationResult.SUCCESS;
+      for( ISkRegRefInfoServiceValidator v : validatorsList() ) {
+        vr = ValidationResult.firstNonOk( vr, v.canSetAttrParamValue( aSection, aObjId, aParamId, aValue, aReason ) );
+      }
+      return vr;
+    }
+
+    @Override
+    public ValidationResult canSetLinkParamValue( ISkRriSection aSection, Skid aObjId, String aParamId,
+        ISkidList aObjIds, String aReason ) {
+      TsNullArgumentRtException.checkNulls( aSection, aObjId, aParamId, aObjIds, aReason );
+      ValidationResult vr = ValidationResult.SUCCESS;
+      for( ISkRegRefInfoServiceValidator v : validatorsList() ) {
+        vr = ValidationResult.firstNonOk( vr, v.canSetLinkParamValue( aSection, aObjId, aParamId, aObjIds, aReason ) );
+      }
+      return vr;
+    }
+
+    @Override
+    public ValidationResult canSetParamValues( ISkRriSection aSection, ISkRriParamValues aValues, String aReason ) {
+      TsNullArgumentRtException.checkNulls( aSection, aValues, aReason );
+      ValidationResult vr = ValidationResult.SUCCESS;
+      for( ISkRegRefInfoServiceValidator v : validatorsList() ) {
+        vr = ValidationResult.firstNonOk( vr, v.canSetParamValues( aSection, aValues, aReason ) );
+      }
+      return vr;
+    }
+
   }
 
   /**
@@ -156,6 +239,58 @@ public class SkRegRefInfoService
       if( !listSections().hasKey( aSectionId ) ) {
         return ValidationResult.error( FMT_ERR_SECTION_ID_NOT_ESISTS, aSectionId );
       }
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canSetSectionProps( ISkRriSection aSection, String aName, String aDescription,
+        IOptionSet aParams ) {
+      // TODO Auto-generated method stub
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canChangeParams( ISkRriSection aSection, ISkClassInfo aCompanionClassInfo,
+        IStridablesList<IDtoRriParamInfo> aParamInfos ) {
+      // TODO ensure that no attribute and link has the same ID
+
+      // TODO Auto-generated method stub
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canRemoveParam( ISkRriSection aSection, String aClassId, String aRriParamId ) {
+      // TODO Auto-generated method stub
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canRemoveAll( ISkRriSection aSection, String aClassId ) {
+      // TODO Auto-generated method stub
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canSetAttrParamValue( ISkRriSection aSection, Skid aObjId, String aParamId,
+        IAtomicValue aValue, String aReason ) {
+      // TODO Auto-generated method stub
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canSetLinkParamValue( ISkRriSection aSection, Skid aObjId, String aParamId,
+        ISkidList aObjIds, String aReason ) {
+      // TODO warn if reason is a blank string
+
+      // TODO Auto-generated method stub
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canSetParamValues( ISkRriSection aSection, ISkRriParamValues aValues, String aReason ) {
+      // TODO warn if reason is a blank string
+
+      // TODO Auto-generated method stub
       return ValidationResult.SUCCESS;
     }
   };
@@ -212,7 +347,7 @@ public class SkRegRefInfoService
    * The rule to check class ID is claimed by this service.
    */
   private static final TextMatcher THIS_SERVICE_CLASS_ID_MATCHER =
-      new TextMatcher( ETextMatchMode.STARTS, ISkRegRefServiceHardConstants.CLASSID_PREFIX_OWNED, true );
+      new TextMatcher( ETextMatchMode.STARTS, ISkRriServiceHardConstants.CLASSID_PREFIX_OWNED, true );
 
   final Eventer           eventer           = new Eventer();
   final ValidationSupport validationSupport = new ValidationSupport();
@@ -236,7 +371,7 @@ public class SkRegRefInfoService
   // Implementation
   //
 
-  ValidationResult validateClassIsManagedByThisService( String aClassId ) {
+  private static ValidationResult validateClassIsManagedByThisService( String aClassId ) {
     if( aClassId.startsWith( CLASSID_PREFIX_OWNED ) ) {
       return ValidationResult.error( FMT_ERR_CLASS_IS_REGREF_OWNED, aClassId );
     }
@@ -262,6 +397,7 @@ public class SkRegRefInfoService
   String authorLogin() {
     return authorLogin;
   }
+
   // ------------------------------------------------------------------------------------
   // AbstractSkService
   //
@@ -271,7 +407,7 @@ public class SkRegRefInfoService
     // ensure RRI section class exists
     DtoClassInfo rriSectionClass =
         new DtoClassInfo( CLASSID_RRI_SECTION, IGwHardConstants.GW_ROOT_CLASS_ID, IOptionSet.NULL );
-    rriSectionClass.eventInfos().add( EVDPU_RRI_PARAM_CHANGE );
+    rriSectionClass.eventInfos().add( EVDTO_RRI_PARAM_CHANGE );
     rriSectionClass.attrInfos().add( AINF_RRI_SECTION_PARAMS );
     rriSectionClass.params().setBool( ISkHardConstants.OPDEF_SK_IS_SOURCE_CODE_DEFINED_CLASS, true );
     sysdescr().defineClass( rriSectionClass );
@@ -285,6 +421,21 @@ public class SkRegRefInfoService
       sectsList.add( new SkRriSection( sko, this ) );
     }
     authorLogin = coreApi().getCurrentUserInfo().userSkid().strid();
+  }
+
+  @Override
+  protected boolean onBackendMessage( GenericMessage aMessage ) {
+    switch( aMessage.messageId() ) {
+      case BaMsgRriSectionsListChange.MSG_ID: {
+        ECrudOp op = BaMsgRriSectionsListChange.BUILDER.getCrudOp( aMessage );
+        String sectionId = BaMsgRriSectionsListChange.BUILDER.getSectionId( aMessage );
+        eventer.fireSectionEvent( op, sectionId );
+        break;
+      }
+      default:
+        return false;
+    }
+    return true;
   }
 
   @Override
@@ -335,7 +486,9 @@ public class SkRegRefInfoService
     finally {
       resumeExternalValidation();
     }
-    eventer.fireChanged( ECrudOp.CREATE, aId );
+    GtMessage msg = BaMsgRriSectionsListChange.BUILDER.makeMessage( ECrudOp.CREATE, aId );
+    sendMessageToSiblings( msg );
+    coreApi().doJobInCoreMainThread();
     return sect;
   }
 
@@ -352,8 +505,9 @@ public class SkRegRefInfoService
     finally {
       resumeExternalValidation();
     }
-    // fire event
-    eventer.fireChanged( ECrudOp.REMOVE, aSectionId );
+    GtMessage msg = BaMsgRriSectionsListChange.BUILDER.makeMessage( ECrudOp.REMOVE, aSectionId );
+    sendMessageToSiblings( msg );
+    coreApi().doJobInCoreMainThread();
   }
 
   @Override

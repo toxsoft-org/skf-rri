@@ -35,7 +35,7 @@ public interface ISkRegRefInfoService
   /**
    * The service ID.
    */
-  String SERVICE_ID = ISkRegRefServiceHardConstants.SERVICE_ID;
+  String SERVICE_ID = ISkRriServiceHardConstants.SERVICE_ID;
 
   /**
    * Возвращает все разделы, существующие в системе.
@@ -90,9 +90,9 @@ public interface ISkRegRefInfoService
   void removeSection( String aSectionId );
 
   /**
-   * Возвращает историю редактирования НСИ.
+   * Returns the history of the RRI parameter values changes.
    *
-   * @return {@link ISkRriHistory} - доступ к истории редактирования НСИ
+   * @return {@link ISkRriHistory} - the RRI history
    */
   ISkRriHistory history();
 

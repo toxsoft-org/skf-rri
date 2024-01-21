@@ -6,13 +6,13 @@ import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 
 /**
- * {@link ISkRriParamInfo} implementation.
+ * {@link IDtoRriParamInfo} implementation.
  *
  * @author mvk
  */
-class SkRriParamInfo
+public class DtoRriParamInfo
     extends StridableParameterizedSer
-    implements ISkRriParamInfo {
+    implements IDtoRriParamInfo {
 
   private static final long serialVersionUID = 4997500209361567648L;
 
@@ -20,33 +20,31 @@ class SkRriParamInfo
   private final IDtoLinkInfo linkInfo;
 
   /**
-   * Конструктор параметра НСИ типа 'атрибут'
+   * Constructor for the attribute parameter.
    *
-   * @param aAttrInfo {@link IDtoAttrInfo} описание атрибута
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalArgumentRtException идентификатор не ИД-путь
+   * @param aAttrInfo {@link IDtoAttrInfo} - attribute description
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  SkRriParamInfo( IDtoAttrInfo aAttrInfo ) {
+  public DtoRriParamInfo( IDtoAttrInfo aAttrInfo ) {
     super( aAttrInfo.id(), aAttrInfo.params() );
     attrInfo = TsNullArgumentRtException.checkNull( aAttrInfo );
     linkInfo = null;
   }
 
   /**
-   * Конструктор параметра НСИ типа 'связь'
+   * Constructor for the link parameter.
    *
-   * @param aLinkInfo {@link IDtoAttrInfo} описание атрибута
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException идентификатор не ИД-путь
+   * @param aLinkInfo {@link IDtoLinkInfo} - the link description
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  SkRriParamInfo( IDtoLinkInfo aLinkInfo ) {
+  public DtoRriParamInfo( IDtoLinkInfo aLinkInfo ) {
     super( aLinkInfo.id(), aLinkInfo.params() );
     attrInfo = null;
     linkInfo = TsNullArgumentRtException.checkNull( aLinkInfo );
   }
 
   // ------------------------------------------------------------------------------------
-  // IRriParamInfo
+  // IDtoRriParamInfo
   //
 
   @Override
@@ -65,4 +63,5 @@ class SkRriParamInfo
     TsUnsupportedFeatureRtException.checkFalse( isLink() );
     return linkInfo;
   }
+
 }
