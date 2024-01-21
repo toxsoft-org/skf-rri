@@ -133,11 +133,11 @@ public class AttrParamM5LifeCycleManager
       return new ElemArrayList<>();
     }
 
-    IStridablesList<ISkRriParamInfo> paramInfoes = rriSection.listParamInfoes( classInfo.id() );
+    IStridablesList<IDtoRriParamInfo> paramInfoes = rriSection.listParamInfoes( classInfo.id() );
 
     IListEdit<AttrParam> params = new ElemArrayList<>();
 
-    for( ISkRriParamInfo pInfo : paramInfoes ) {
+    for( IDtoRriParamInfo pInfo : paramInfoes ) {
       if( !pInfo.isLink() ) {
         params.add( formRriAttrParam( pInfo.attrInfo() ) );
       }

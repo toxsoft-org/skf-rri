@@ -13,6 +13,7 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
+import org.toxsoft.skf.rri.lib.impl.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 import org.toxsoft.uskat.core.impl.dto.*;
 
@@ -88,7 +89,9 @@ public class AttributeLifeCycleManager
     IDtoAttrInfo dpuSdAttrInfo =
         DtoAttrInfo.create2( id.asString(), type, TSID_NAME, name.asString(), TSID_DESCRIPTION, descr.asString() );
 
-    return master().getSection( sectionId ).defineAttrParam( classId, dpuSdAttrInfo ).attrInfo();
+    IDtoRriParamInfo dtoRriParamInfo = new DtoRriParamInfo( dpuSdAttrInfo );
+    master().getSection( sectionId ).defineParam( classId, dtoRriParamInfo );
+    return dpuSdAttrInfo;
   }
 
   @Override
@@ -101,7 +104,9 @@ public class AttributeLifeCycleManager
     IDtoAttrInfo dpuSdAttrInfo =
         DtoAttrInfo.create2( id.asString(), type, TSID_NAME, name.asString(), TSID_DESCRIPTION, descr.asString() );
 
-    return master().getSection( sectionId ).defineAttrParam( classId, dpuSdAttrInfo ).attrInfo();
+    IDtoRriParamInfo dtoRriParamInfo = new DtoRriParamInfo( dpuSdAttrInfo );
+    master().getSection( sectionId ).defineParam( classId, dtoRriParamInfo );
+    return dpuSdAttrInfo;
   }
 
   @Override
@@ -114,11 +119,11 @@ public class AttributeLifeCycleManager
     if( classId == null || classId.equals( TsLibUtils.EMPTY_STRING ) ) {
       return IList.EMPTY;
     }
-    IStridablesList<ISkRriParamInfo> allParamInfoes = master().getSection( sectionId ).listParamInfoes( classId );
+    IStridablesList<IDtoRriParamInfo> allParamInfoes = master().getSection( sectionId ).listParamInfoes( classId );
 
     ElemArrayList<IDtoAttrInfo> result = new ElemArrayList<>();
 
-    for( ISkRriParamInfo param : allParamInfoes ) {
+    for( IDtoRriParamInfo param : allParamInfoes ) {
       if( !param.isLink() ) {
         result.add( param.attrInfo() );
       }

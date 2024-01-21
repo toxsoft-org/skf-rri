@@ -138,11 +138,11 @@ public class LinkParamM5LifeCycleManager
     if( rriSection == null ) {
       return new ElemArrayList<>();
     }
-    IStridablesList<ISkRriParamInfo> paramInfoes = rriSection.listParamInfoes( classInfo.id() );
+    IStridablesList<IDtoRriParamInfo> paramInfoes = rriSection.listParamInfoes( classInfo.id() );
 
     IListEdit<LinkParam> params = new ElemArrayList<>();
 
-    for( ISkRriParamInfo pInfo : paramInfoes ) {
+    for( IDtoRriParamInfo pInfo : paramInfoes ) {
       if( pInfo.isLink() ) {
         params.add( formRriAttrParam( pInfo.linkInfo() ) );
       }

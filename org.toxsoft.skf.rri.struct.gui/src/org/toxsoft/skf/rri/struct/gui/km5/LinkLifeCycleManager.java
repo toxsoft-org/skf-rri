@@ -15,6 +15,7 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
+import org.toxsoft.skf.rri.lib.impl.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 import org.toxsoft.uskat.core.impl.dto.*;
@@ -83,15 +84,17 @@ public class LinkLifeCycleManager
   @Override
   protected IDtoLinkInfo doCreate( IM5Bunch<IDtoLinkInfo> aValues ) {
     IDtoLinkInfo dpuSdLinkInfo = makeLinkInfoDpu( aValues );
-
-    return master().getSection( sectionId ).defineLinkParam( classId, dpuSdLinkInfo ).linkInfo();
+    IDtoRriParamInfo dtoRriParamInfo = new DtoRriParamInfo( dpuSdLinkInfo );
+    master().getSection( sectionId ).defineParam( classId, dtoRriParamInfo );
+    return dpuSdLinkInfo;
   }
 
   @Override
   protected IDtoLinkInfo doEdit( IM5Bunch<IDtoLinkInfo> aValues ) {
     IDtoLinkInfo dpuSdLinkInfo = makeLinkInfoDpu( aValues );
-
-    return master().getSection( sectionId ).defineLinkParam( classId, dpuSdLinkInfo ).linkInfo();
+    IDtoRriParamInfo dtoRriParamInfo = new DtoRriParamInfo( dpuSdLinkInfo );
+    master().getSection( sectionId ).defineParam( classId, dtoRriParamInfo );
+    return dpuSdLinkInfo;
   }
 
   @SuppressWarnings( "unchecked" )
@@ -128,11 +131,11 @@ public class LinkLifeCycleManager
     if( classId == null || classId.equals( TsLibUtils.EMPTY_STRING ) ) {
       return IList.EMPTY;
     }
-    IStridablesList<ISkRriParamInfo> allParamInfoes = master().getSection( sectionId ).listParamInfoes( classId );
+    IStridablesList<IDtoRriParamInfo> allParamInfoes = master().getSection( sectionId ).listParamInfoes( classId );
 
     ElemArrayList<IDtoLinkInfo> result = new ElemArrayList<>();
 
-    for( ISkRriParamInfo param : allParamInfoes ) {
+    for( IDtoRriParamInfo param : allParamInfoes ) {
       if( param.isLink() ) {
         result.add( param.linkInfo() );
       }
