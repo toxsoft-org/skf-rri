@@ -12,30 +12,32 @@ public interface ITsResources {
   // ---------------------------------------------------------
   // AttrParamM5Model
 
-  String ATTR_PARAM_MODEL_NAME = Messages.ATTR_PARAM_MODEL_NAME;
-  String DIFFERENT_VALUE_STR   = Messages.DIFFERENT_VALUE_STR;
-  String FDESCR_REASON_ATTR    = Messages.FDESCR_REASON_ATTR;
-  String FNAME_REASON_ATTR     = Messages.FNAME_REASON_ATTR;
-  String FDESCR_VALUE_ATTR     = Messages.FDESCR_VALUE_ATTR;
-  String FNAME_VALUE_ATTR      = Messages.FNAME_VALUE_ATTR;
-  String FDESCR_VIS_NAME_ATTR  = Messages.FDESCR_VIS_NAME_ATTR;
-  String FNAME_VIS_NAME_ATTR   = Messages.FNAME_VIS_NAME_ATTR;
+  String ATTR_PARAM_MODEL_NAME          = Messages.ATTR_PARAM_MODEL_NAME;
+  String DIFFERENT_VALUE_STR            = Messages.DIFFERENT_VALUE_STR;
+  String FDESCR_REASON_ATTR             = Messages.FDESCR_REASON_ATTR;
+  String FNAME_REASON_ATTR              = Messages.FNAME_REASON_ATTR;
+  String FDESCR_VALUE_ATTR              = Messages.FDESCR_VALUE_ATTR;
+  String FNAME_VALUE_ATTR               = Messages.FNAME_VALUE_ATTR;
+  String FDESCR_VIS_NAME_ATTR           = Messages.FDESCR_VIS_NAME_ATTR;
+  String FNAME_VIS_NAME_ATTR            = Messages.FNAME_VIS_NAME_ATTR;
+  String STR_DLG_TITLE_EDITING_RRI_ATTR = Messages.STR_DLG_TITLE_EDITING_RRI_ATTR;
 
   //
   // ---------------------------------------------------------
   // LinkParamM5Model
 
-  String FNAME_VIS_NAME_LINK      = Messages.FNAME_VIS_NAME_LINK;
-  String FDESCR_VIS_NAME_LINK     = Messages.FDESCR_VIS_NAME_LINK;
-  String FDESCR_VIS_VALUE_LINK    = Messages.FDESCR_VIS_VALUE_LINK;
-  String FNAME_VIS_VALUE_LINK     = Messages.FNAME_VIS_VALUE_LINK;
-  String FDESCR_MUILTI_VALUE_LINK = Messages.FDESCR_MUILTI_VALUE_LINK;
-  String FDESCR_SINGLE_VALUE_LINK = Messages.FDESCR_SINGLE_VALUE_LINK;
-  String FNAME_SINGLE_VALUE_LINK  = Messages.FNAME_SINGLE_VALUE_LINK;
-  String FNAME_MUILTI_VALUE_LINK  = Messages.FNAME_MUILTI_VALUE_LINK;
-  String LINK_PARAM_MODEL_NAME    = Messages.LINK_PARAM_MODEL_NAME;
-  String FNAME_REASON_LINK        = Messages.FNAME_REASON_LINK;
-  String FDESCR_REASON_LINK       = Messages.FDESCR_REASON_LINK;
+  String FNAME_VIS_NAME_LINK            = Messages.FNAME_VIS_NAME_LINK;
+  String FDESCR_VIS_NAME_LINK           = Messages.FDESCR_VIS_NAME_LINK;
+  String FDESCR_VIS_VALUE_LINK          = Messages.FDESCR_VIS_VALUE_LINK;
+  String FNAME_VIS_VALUE_LINK           = Messages.FNAME_VIS_VALUE_LINK;
+  String FDESCR_MUILTI_VALUE_LINK       = Messages.FDESCR_MUILTI_VALUE_LINK;
+  String FDESCR_SINGLE_VALUE_LINK       = Messages.FDESCR_SINGLE_VALUE_LINK;
+  String FNAME_SINGLE_VALUE_LINK        = Messages.FNAME_SINGLE_VALUE_LINK;
+  String FNAME_MUILTI_VALUE_LINK        = Messages.FNAME_MUILTI_VALUE_LINK;
+  String LINK_PARAM_MODEL_NAME          = Messages.LINK_PARAM_MODEL_NAME;
+  String FNAME_REASON_LINK              = Messages.FNAME_REASON_LINK;
+  String FDESCR_REASON_LINK             = Messages.FDESCR_REASON_LINK;
+  String STR_DLG_TITLE_EDITING_RRI_LINK = Messages.STR_DLG_TITLE_EDITING_RRI_LINK;
 
   //
   // ---------------------------------------------------------

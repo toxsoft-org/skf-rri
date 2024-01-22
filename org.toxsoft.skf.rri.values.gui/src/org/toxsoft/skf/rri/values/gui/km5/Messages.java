@@ -47,6 +47,8 @@ public class Messages
   public static String FNAME_DESCR_OBJ;
   public static String ACT_T_EDIT_ENTITY_NAME_DESCR;
   public static String ACT_N_EDIT_ENTITY_NAME_DESCR;
+  public static String STR_DLG_TITLE_EDITING_RRI_ATTR;
+  public static String STR_DLG_TITLE_EDITING_RRI_LINK;
 
   static {
     // initialize resource bundle

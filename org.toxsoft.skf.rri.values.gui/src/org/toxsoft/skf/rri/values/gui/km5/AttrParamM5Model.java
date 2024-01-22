@@ -140,7 +140,6 @@ public class AttrParamM5Model
   /**
    * Конструктор.
    */
-  @SuppressWarnings( { "rawtypes", "unchecked" } )
   public AttrParamM5Model() {
     super( MODEL_ID, AttrParam.class );
 
@@ -166,8 +165,8 @@ public class AttrParamM5Model
                 // editValue = aItem.getValue();
                 // return super.doEditItem( aItem );
 
-                TsDialogInfo cdi =
-                    new TsDialogInfo( aContext, null, "Редактирование атрибута НСИ", "Редактирование атрибута НСИ", 0 );
+                TsDialogInfo cdi = new TsDialogInfo( aContext, null, STR_DLG_TITLE_EDITING_RRI_ATTR,
+                    STR_DLG_TITLE_EDITING_RRI_ATTR, 0 );
 
                 IM5EntityPanel<AttrParam> editPanel =
                     new M5DefaultEntityEditorPanel<>( aContext, model(), aLifecycleManager ) {

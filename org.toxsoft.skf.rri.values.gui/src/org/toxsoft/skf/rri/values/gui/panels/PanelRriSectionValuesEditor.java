@@ -22,6 +22,7 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
+import org.toxsoft.skf.rri.struct.gui.km5.*;
 import org.toxsoft.skf.rri.values.gui.*;
 import org.toxsoft.skf.rri.values.gui.km5.*;
 import org.toxsoft.uskat.core.api.objserv.*;

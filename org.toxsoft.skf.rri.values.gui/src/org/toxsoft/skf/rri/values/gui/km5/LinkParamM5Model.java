@@ -258,7 +258,6 @@ public class LinkParamM5Model
    *
    * @param aModelId String - идентификатор модели.
    */
-  @SuppressWarnings( { "rawtypes", "unchecked" } )
   public LinkParamM5Model( String aModelId ) {
     super( aModelId, LinkParam.class );
 
@@ -296,8 +295,8 @@ public class LinkParamM5Model
                       new ObjectsLookupProvider( aContext, aItem.getName().rightClassIds(), true ) );
                 }
 
-                TsDialogInfo cdi =
-                    new TsDialogInfo( aContext, null, "Редактирование связи НСИ", "Редактирование связи НСИ", 0 );
+                TsDialogInfo cdi = new TsDialogInfo( aContext, null, STR_DLG_TITLE_EDITING_RRI_LINK,
+                    STR_DLG_TITLE_EDITING_RRI_LINK, 0 );
 
                 IM5EntityPanel<LinkParam> editPanel =
                     new M5DefaultEntityEditorPanel<>( aContext, model(), aLifecycleManager ) {
@@ -397,7 +396,7 @@ public class LinkParamM5Model
   /**
    * Возвращает отредактированное значение множественной связи.
    *
-   * @param aValues
+   * @param aValues IM5Bunch - field values, never is null
    * @return ITsReferenceCollection - значение связи.
    */
   @SuppressWarnings( "unchecked" )

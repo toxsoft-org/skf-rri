@@ -8,13 +8,9 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
-import org.toxsoft.core.tslib.gw.skid.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.uskat.core.*;
-import org.toxsoft.uskat.core.api.linkserv.*;
 import org.toxsoft.uskat.core.api.objserv.*;
-import org.toxsoft.uskat.core.api.sysdescr.*;
 
 /**
  * Менеджер ЖЦ объектов классов НСИ.
@@ -40,12 +36,6 @@ public class ObjectsM5LifeCycleManager
    * объекта. Если связи нет - выдаются все загруженные объекты классов. (не меняется за время ЖЦ)
    */
   private boolean hasLink = false;
-
-  /**
-   * Идентификатор специальной связи. Если связи нет - выдаются все загруженные объекты классов. (не меняется за время
-   * ЖЦ)
-   */
-  private String linkId = TsLibUtils.EMPTY_STRING;
 
   /**
    * Конструктор.
@@ -97,17 +87,11 @@ public class ObjectsM5LifeCycleManager
     classIds = aClassIds;
   }
 
-  private IListEdit<ISkObject> filterObjects( IListEdit<ISkObject> aResult ) {
-    System.out.println( linkId );
-    return aResult;
-  }
-
   @Override
   public IList<ISkObject> doListEntities() {
     IListEdit<ISkObject> result = new ElemArrayList<>( false );
 
     if( hasLink && topObject != null && topObject != ISkObject.NONE ) {
-      System.out.println( linkId );
       addChildren( topObject, result );
       return result;
     }
@@ -119,24 +103,8 @@ public class ObjectsM5LifeCycleManager
   }
 
   private void addChildren( ISkObject aLocalTopObj, IListEdit<ISkObject> aAddResult ) {
-
     if( classIds.hasElem( aLocalTopObj.classId() ) ) {
       aAddResult.add( aLocalTopObj );
-    }
-
-    ISkClassInfo classInfo = master().sysdescr().getClassInfo( aLocalTopObj.classId() );
-    if( !classInfo.links().list().hasKey( linkId ) ) {
-      return;
-    }
-
-    ISkLinkService lService = master().linkService();
-
-    IDtoLinkFwd linkObjs = lService.getLinkFwd( new Skid( aLocalTopObj.classId(), aLocalTopObj.strid() ), linkId );
-
-    ISkObjectService objService = master().objService();
-    IList<ISkObject> children = objService.getObjs( linkObjs.rightSkids() );
-    for( ISkObject child : children ) {
-      addChildren( child, aAddResult );
     }
   }
 }
