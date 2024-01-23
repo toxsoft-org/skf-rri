@@ -4,37 +4,50 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkResources.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkRriServiceHardConstants.*;
 
-import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.bricks.ctx.*;
-import org.toxsoft.core.tslib.bricks.events.*;
-import org.toxsoft.core.tslib.bricks.events.msg.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
-import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.bricks.validator.impl.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.helpers.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
-import org.toxsoft.core.tslib.gw.*;
-import org.toxsoft.core.tslib.gw.skid.*;
-import org.toxsoft.core.tslib.utils.*;
-import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
-import org.toxsoft.core.tslib.utils.txtmatch.*;
+import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
+import org.toxsoft.core.tslib.av.opset.IOptionSet;
+import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
+import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
+import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
+import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
+import org.toxsoft.core.tslib.bricks.events.ITsEventer;
+import org.toxsoft.core.tslib.bricks.events.msg.GenericMessage;
+import org.toxsoft.core.tslib.bricks.events.msg.GtMessage;
+import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
+import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
+import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.validator.ITsValidationSupport;
+import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tslib.bricks.validator.impl.AbstractTsValidationSupport;
+import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
+import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
+import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.gw.IGwHardConstants;
+import org.toxsoft.core.tslib.gw.skid.ISkidList;
+import org.toxsoft.core.tslib.gw.skid.Skid;
+import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.txtmatch.ETextMatchMode;
+import org.toxsoft.core.tslib.utils.txtmatch.TextMatcher;
 import org.toxsoft.skf.rri.lib.*;
-import org.toxsoft.uskat.core.*;
-import org.toxsoft.uskat.core.api.linkserv.*;
+import org.toxsoft.uskat.core.ISkHardConstants;
+import org.toxsoft.uskat.core.ISkServiceCreator;
+import org.toxsoft.uskat.core.api.linkserv.ISkLinkService;
+import org.toxsoft.uskat.core.api.linkserv.ISkLinkServiceValidator;
 import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
-import org.toxsoft.uskat.core.api.sysdescr.dto.*;
-import org.toxsoft.uskat.core.devapi.*;
-import org.toxsoft.uskat.core.impl.*;
-import org.toxsoft.uskat.core.impl.dto.*;
+import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoClassInfo;
+import org.toxsoft.uskat.core.devapi.IDevCoreApi;
+import org.toxsoft.uskat.core.impl.AbstractSkService;
+import org.toxsoft.uskat.core.impl.dto.DtoClassInfo;
+import org.toxsoft.uskat.core.impl.dto.DtoObject;
 
 /**
  * {@link ISkRegRefInfoService} implementation.
@@ -488,7 +501,6 @@ public class SkRegRefInfoService
     }
     GtMessage msg = BaMsgRriSectionsListChange.BUILDER.makeMessage( ECrudOp.CREATE, aId );
     sendMessageToSiblings( msg );
-    coreApi().doJobInCoreMainThread();
     return sect;
   }
 
@@ -507,7 +519,6 @@ public class SkRegRefInfoService
     }
     GtMessage msg = BaMsgRriSectionsListChange.BUILDER.makeMessage( ECrudOp.REMOVE, aSectionId );
     sendMessageToSiblings( msg );
-    coreApi().doJobInCoreMainThread();
   }
 
   @Override
