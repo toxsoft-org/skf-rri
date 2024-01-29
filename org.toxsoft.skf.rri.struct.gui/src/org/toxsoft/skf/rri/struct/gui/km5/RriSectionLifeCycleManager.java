@@ -29,11 +29,15 @@ public class RriSectionLifeCycleManager
     TsNullArgumentRtException.checkNulls( aModel, aMaster );
   }
 
+  private RriSectionModel m() {
+    return (RriSectionModel)model();
+  }
+
   @Override
   protected ISkRriSection doCreate( IM5Bunch<ISkRriSection> aValues ) {
-    String id = RriSectionModel.STRID.getFieldValue( aValues ).asString();
-    String name = RriSectionModel.NAME.getFieldValue( aValues ).asString();
-    String descr = RriSectionModel.DESCR.getFieldValue( aValues ).asString();
+    String id = m().STRID.getFieldValue( aValues ).asString();
+    String name = m().NAME.getFieldValue( aValues ).asString();
+    String descr = m().DESCR.getFieldValue( aValues ).asString();
 
     IOptionSetEdit optSet = new OptionSet();
     IAvMetaConstants.DDEF_NAME.setValue( optSet, AvUtils.avStr( name ) );

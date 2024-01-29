@@ -26,12 +26,12 @@ public class RriSectionModel
   /**
    * Attribute {@link ISkRriSection#id() } string id
    */
-  static M5StdFieldDefId<ISkRriSection> STRID = new M5StdFieldDefId<>();
+  final M5StdFieldDefId<ISkRriSection> STRID = new M5StdFieldDefId<>();
 
   /**
    * Attribute {@link ISkRriSection#nmName() } name
    */
-  static M5StdFieldDefName<ISkRriSection> NAME = new M5StdFieldDefName<>() {
+  final M5StdFieldDefName<ISkRriSection> NAME = new M5StdFieldDefName<>() {
 
     @Override
     protected IAtomicValue doGetFieldValue( ISkRriSection aEntity ) {
@@ -43,7 +43,7 @@ public class RriSectionModel
   /**
    * Attribute {@link ISkRriSection#description() } description
    */
-  static M5StdFieldDefDescription<ISkRriSection> DESCR = new M5StdFieldDefDescription<>();
+  final M5StdFieldDefDescription<ISkRriSection> DESCR = new M5StdFieldDefDescription<>();
 
   /**
    * Constructor.
