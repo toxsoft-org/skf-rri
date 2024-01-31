@@ -5,6 +5,7 @@ import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.skf.rri.struct.skide.ISkidePluginRriStructSharedResources.*;
 import static org.toxsoft.skide.core.ISkideCoreConstants.*;
+import static org.toxsoft.skide.core.api.ucateg.ISkideUnitCategoryConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -28,6 +29,7 @@ public class SkideUnitRriValues
     super( UNIT_ID, OptionSetUtils.createOpSet( //
         TSID_NAME, STR_SKIDE_TEMPLATE_UNIT_2, //
         TSID_DESCRIPTION, STR_SKIDE_TEMPLATE_UNIT_2_D, //
+        OPDEF_SKIDE_UNIT_CATEGORY, UCATEGID_DEVELOPMENT_DEBUG, //
         TSID_ICON_ID, ICONID_ARROW_RIGHT_DOUBLE //
     ), aContext, aCreator );
     unitActions().add( ACDEF_ABOUT );
