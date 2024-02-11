@@ -1,11 +1,17 @@
 package org.toxsoft.skf.rri.values.gui.km5;
 
+import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
+import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.skf.rri.values.gui.km5.ITsResources.*;
+import static org.toxsoft.uskat.core.ISkHardConstants.*;
 
+import org.eclipse.swt.dnd.*;
+import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.*;
@@ -14,14 +20,17 @@ import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.panels.toolbar.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.skf.rri.values.gui.utils.*;
+import org.toxsoft.uskat.core.api.objserv.*;
 
 /**
  * Модель для редактирования списка атрибутов
@@ -30,6 +39,11 @@ import org.toxsoft.skf.rri.values.gui.utils.*;
  */
 public class AttrParamM5Model
     extends M5Model<AttrParam> {
+
+  final static String ACTID_COPY_GWID = SK_ID + "rri.values.gui.copy.gwid"; //$NON-NLS-1$
+
+  final static TsActionDef ACDEF_COPY_GWID =
+      TsActionDef.ofPush2( ACTID_COPY_GWID, STR_N_COPY_TO_CLIPBOARD, STR_D_COPY_TO_CLIPBOARD, ICONID_EDIT_COPY );
 
   /**
    * Идентификатор модели.
@@ -161,6 +175,46 @@ public class AttrParamM5Model
             new MultiPaneComponentModown<>( aContext, model(), aItemsProvider, aLifecycleManager ) {
 
               @Override
+              protected ITsToolbar doCreateToolbar( ITsGuiContext aaContext, String aName, EIconSize aIconSize,
+                  IListEdit<ITsActionDef> aActs ) {
+
+                aActs.add( ACDEF_SEPARATOR );
+                aActs.add( ACDEF_COPY_GWID );
+
+                ITsToolbar toolbar =
+
+                    super.doCreateToolbar( aaContext, aName, aIconSize, aActs );
+
+                toolbar.addListener( aActionId -> {
+                  // nop
+
+                } );
+
+                return toolbar;
+              }
+
+              @Override
+              protected void doProcessAction( String aActionId ) {
+
+                switch( aActionId ) {
+                  case ACTID_COPY_GWID:
+                    AttrParam param = selectedItem();
+                    ISkObject obj = ((AttrParamM5LifeCycleManager)aLifecycleManager).getObjects().first();
+
+                    String paramId = param.getAttrInfo().id();
+
+                    String s = Gwid.createAttr( obj.classId(), obj.id(), paramId ).asString();
+
+                    Clipboard clipboard = new Clipboard( getDisplay() );
+                    clipboard.setContents( new String[] { s }, new Transfer[] { TextTransfer.getInstance() } );
+                    clipboard.dispose();
+                    break;
+                  default:
+                    break;
+                }
+              }
+
+              @Override
               protected AttrParam doEditItem( AttrParam aItem ) {
                 // editValue = aItem.getValue();
                 // return super.doEditItem( aItem );
@@ -192,6 +246,12 @@ public class AttrParamM5Model
 
               protected boolean doGetIsEditAllowed( AttrParam aSel ) {
                 return ((AttrParamM5LifeCycleManager)aLifecycleManager).getObjects().size() > 0;
+              }
+
+              @Override
+              protected void doUpdateActionsState( boolean aIsAlive, boolean aIsSel, AttrParam aSel ) {
+                boolean isEnable = ((AttrParamM5LifeCycleManager)aLifecycleManager).getObjects().size() == 1 && aIsSel;
+                toolbar().setActionEnabled( ACTID_COPY_GWID, isEnable );
               }
 
             };

@@ -49,6 +49,8 @@ public class Messages
   public static String ACT_N_EDIT_ENTITY_NAME_DESCR;
   public static String STR_DLG_TITLE_EDITING_RRI_ATTR;
   public static String STR_DLG_TITLE_EDITING_RRI_LINK;
+  public static String STR_N_COPY_TO_CLIPBOARD;
+  public static String STR_D_COPY_TO_CLIPBOARD;
 
   static {
     // initialize resource bundle

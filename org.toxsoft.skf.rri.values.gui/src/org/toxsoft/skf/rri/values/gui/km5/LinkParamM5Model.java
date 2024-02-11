@@ -1,12 +1,16 @@
 package org.toxsoft.skf.rri.values.gui.km5;
 
+import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.skf.rri.values.gui.km5.ITsResources.*;
 
+import org.eclipse.swt.dnd.*;
+import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.*;
@@ -16,12 +20,14 @@ import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.m5.valeds.*;
+import org.toxsoft.core.tsgui.panels.toolbar.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.uskat.core.api.objserv.*;
@@ -275,6 +281,46 @@ public class LinkParamM5Model
             new MultiPaneComponentModown<>( aContext, model(), aItemsProvider, aLifecycleManager ) {
 
               @Override
+              protected ITsToolbar doCreateToolbar( ITsGuiContext aaContext, String aName, EIconSize aIconSize,
+                  IListEdit<ITsActionDef> aActs ) {
+
+                aActs.add( ACDEF_SEPARATOR );
+                aActs.add( AttrParamM5Model.ACDEF_COPY_GWID );
+
+                ITsToolbar toolbar =
+
+                    super.doCreateToolbar( aaContext, aName, aIconSize, aActs );
+
+                toolbar.addListener( aActionId -> {
+                  // nop
+
+                } );
+
+                return toolbar;
+              }
+
+              @Override
+              protected void doProcessAction( String aActionId ) {
+
+                switch( aActionId ) {
+                  case AttrParamM5Model.ACTID_COPY_GWID:
+                    LinkParam param = selectedItem();
+                    ISkObject obj = ((LinkParamM5LifeCycleManager)aLifecycleManager).getObjects().first();
+
+                    String paramId = param.getName().id();
+
+                    String s = Gwid.createLink( obj.classId(), obj.id(), paramId ).asString();
+
+                    Clipboard clipboard = new Clipboard( getDisplay() );
+                    clipboard.setContents( new String[] { s }, new Transfer[] { TextTransfer.getInstance() } );
+                    clipboard.dispose();
+                    break;
+                  default:
+                    break;
+                }
+              }
+
+              @Override
               protected LinkParam doEditItem( LinkParam aItem ) {
 
                 // установка списка возможных значений
@@ -344,6 +390,12 @@ public class LinkParamM5Model
 
               protected boolean doGetIsEditAllowed( LinkParam aSel ) {
                 return ((LinkParamM5LifeCycleManager)aLifecycleManager).getObjects().size() > 0;
+              }
+
+              @Override
+              protected void doUpdateActionsState( boolean aIsAlive, boolean aIsSel, LinkParam aSel ) {
+                boolean isEnable = ((LinkParamM5LifeCycleManager)aLifecycleManager).getObjects().size() == 1 && aIsSel;
+                toolbar().setActionEnabled( AttrParamM5Model.ACTID_COPY_GWID, isEnable );
               }
             };
         return new M5CollectionPanelMpcModownWrapper<>( mpc, false );

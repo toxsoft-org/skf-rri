@@ -21,6 +21,8 @@ public interface ITsResources {
   String FDESCR_VIS_NAME_ATTR           = Messages.FDESCR_VIS_NAME_ATTR;
   String FNAME_VIS_NAME_ATTR            = Messages.FNAME_VIS_NAME_ATTR;
   String STR_DLG_TITLE_EDITING_RRI_ATTR = Messages.STR_DLG_TITLE_EDITING_RRI_ATTR;
+  String STR_N_COPY_TO_CLIPBOARD        = Messages.STR_N_COPY_TO_CLIPBOARD;
+  String STR_D_COPY_TO_CLIPBOARD        = Messages.STR_D_COPY_TO_CLIPBOARD;
 
   //
   // ---------------------------------------------------------
