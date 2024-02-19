@@ -26,11 +26,13 @@ import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.values.gui.utils.*;
 import org.toxsoft.uskat.core.api.objserv.*;
+import org.toxsoft.uskat.core.connection.*;
+import org.toxsoft.uskat.core.gui.conn.*;
 
 /**
  * Модель для редактирования списка атрибутов
@@ -54,6 +56,16 @@ public class AttrParamM5Model
    * Идентификатор поля {@link #VIS_NAME}.
    */
   public static final String FID_VIS_NAME = "VisName"; //$NON-NLS-1$
+
+  /**
+   * Идентификатор поля {@link #DESCRIPTION}.
+   */
+  public static final String FID_DESCRIPTION = "ts.Description"; //$NON-NLS-1$
+
+  /**
+   * Идентификатор поля {@link #GWID}.
+   */
+  public static final String FID_GWID = "ts.Gwid"; //$NON-NLS-1$
 
   /**
    * Идентификатор поля {@link #VALUE}.
@@ -80,6 +92,53 @@ public class AttrParamM5Model
     @Override
     protected IAtomicValue doGetFieldValue( AttrParam aEntity ) {
       return AvUtils.avStr( aEntity.getAttrInfo().nmName() );
+    }
+
+  };
+
+  /**
+   * Описание параметра
+   */
+  public final M5AttributeFieldDef<AttrParam> DESCRIPTION = new M5AttributeFieldDef<>( FID_DESCRIPTION, STRING ) {
+
+    @Override
+    protected void doInit() {
+      setNameAndDescription( FNAME_DESCRIPTION_ATTR, FDESCR_DESCRIPTION_ATTR );
+      setDefaultValue( IAtomicValue.NULL );
+      setFlags( M5FF_DETAIL | M5FF_READ_ONLY );
+    }
+
+    @Override
+    protected IAtomicValue doGetFieldValue( AttrParam aEntity ) {
+      return AvUtils.avStr( aEntity.getAttrInfo().description() );
+    }
+
+  };
+
+  /**
+   * Gwid параметра
+   */
+  public final M5AttributeFieldDef<AttrParam> GWID = new M5AttributeFieldDef<>( FID_GWID, STRING ) {
+
+    @Override
+    protected void doInit() {
+      setNameAndDescription( FNAME_GWID_ATTR, FDESCR_GWID_ATTR );
+      setDefaultValue( IAtomicValue.NULL );
+      setFlags( M5FF_COLUMN | M5FF_READ_ONLY );
+    }
+
+    @Override
+    protected IAtomicValue doGetFieldValue( AttrParam aEntity ) {
+      IList<ISkObject> objs = ((AttrParamM5LifeCycleManager)getLifecycleManager( null )).getObjects();
+      if( objs.size() == 0 ) {
+        return AvUtils.AV_STR_EMPTY;
+      }
+      ISkObject obj = objs.first();
+
+      String paramId = aEntity.getAttrInfo().id();
+
+      String s = Gwid.createAttr( obj.classId(), obj.id(), paramId ).asString();
+      return AvUtils.avStr( s );
     }
 
   };
@@ -158,12 +217,8 @@ public class AttrParamM5Model
     super( MODEL_ID, AttrParam.class );
 
     setNameAndDescription( ATTR_PARAM_MODEL_NAME, ATTR_PARAM_MODEL_NAME );
-    IListEdit<IM5FieldDef<?, ?>> fDefs = new ElemArrayList<>();
-    fDefs.add( VIS_NAME );
-    fDefs.add( VALUE );
-    fDefs.add( REASON );
 
-    addFieldDefs( VIS_NAME, VALUE, REASON );
+    addFieldDefs( VIS_NAME, GWID, VALUE, REASON, DESCRIPTION );
 
     setPanelCreator( new M5DefaultPanelCreator<AttrParam>() {
 
@@ -277,6 +332,25 @@ public class AttrParamM5Model
       // }
     } );
 
+  }
+
+  @Override
+  protected IM5LifecycleManager<AttrParam> doCreateLifecycleManager( Object aMaster ) {
+    ITsGuiContext context = tsContext();
+
+    return new AttrParamM5LifeCycleManager( context, this, (ISkRegRefInfoService)aMaster );
+  }
+
+  @Override
+  protected IM5LifecycleManager<AttrParam> doCreateDefaultLifecycleManager() {
+    ITsGuiContext context = tsContext();
+
+    ISkConnectionSupplier connSup = context.get( ISkConnectionSupplier.class );
+    ISkConnection conn = connSup.defConn();
+
+    ISkRegRefInfoService serv = conn.coreApi().getService( ISkRegRefInfoService.SERVICE_ID );
+
+    return new AttrParamM5LifeCycleManager( context, this, serv );
   }
 
 }

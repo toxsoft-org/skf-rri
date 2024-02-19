@@ -96,24 +96,26 @@ public class PanelRriSectionValuesEditor
 
   };
 
+  private ITsGuiContext context;
+
   /**
    * Конструктор панели.
    * <p>
    * Конструктор просто запоминает ссылку на контекст, без создания копии.
    *
    * @param aParent {@link Composite} - родительская панель
-   * @param aContext {@link ITsGuiContext} - контекст панели
+   * @param abContext {@link ITsGuiContext} - контекст панели
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public PanelRriSectionValuesEditor( Composite aParent, ITsGuiContext aContext ) {
-    super( aParent, aContext );
+  public PanelRriSectionValuesEditor( Composite aParent, ITsGuiContext abContext ) {
+    super( aParent, abContext );
 
     // ITsGuiContext ctx = new TsGuiContext( aContext );
     // ctx.params().addAll( aContext.params() );
 
     this.setLayout( new BorderLayout() );
 
-    ISkConnectionSupplier connSup = aContext.get( ISkConnectionSupplier.class );
+    ISkConnectionSupplier connSup = abContext.get( ISkConnectionSupplier.class );
     conn = connSup.defConn();
 
     final IM5Domain m5 = conn.scope().get( IM5Domain.class );
@@ -121,11 +123,13 @@ public class PanelRriSectionValuesEditor
     SashForm sfMain = new SashForm( this, SWT.HORIZONTAL );
     sfMain.setLayoutData( BorderLayout.CENTER );
 
+    context = m5.tsContext();
+
     // IMultiPaneComponentConstants.OPDEF_IS_DETAILS_PANE.setValue( ctx.params(), AvUtils.AV_FALSE );
     // IMultiPaneComponentConstants.OPDEF_DETAILS_PANE_PLACE.setValue( ctx.params(),
     // avValobj( EBorderLayoutPlacement.SOUTH ) );
 
-    TsGuiContext clsCtx = new TsGuiContext( aContext );
+    TsGuiContext clsCtx = new TsGuiContext( context );
 
     // добавляем в панель фильтр
     IMultiPaneComponentConstants.OPDEF_IS_FILTER_PANE.setValue( clsCtx.params(), AvUtils.AV_TRUE );
@@ -154,7 +158,7 @@ public class PanelRriSectionValuesEditor
     IM5Model<ISkObject> objModel = m5.getModel( ObjectCheckableM5Model.MODEL_ID, ISkObject.class );
 
     // Менеджер ЖЦ списка объектов.
-    TsGuiContext checkCtx = new TsGuiContext( aContext );
+    TsGuiContext checkCtx = new TsGuiContext( context );
     IMultiPaneComponentConstants.OPDEF_IS_FILTER_PANE.setValue( checkCtx.params(), AvUtils.AV_TRUE );
     IMultiPaneComponentConstants.OPDEF_IS_TOOLBAR_NAME.setValue( checkCtx.params(), AvUtils.AV_TRUE );
     IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( checkCtx.params(), AvUtils.AV_FALSE );
@@ -206,12 +210,13 @@ public class PanelRriSectionValuesEditor
     TabItem attrItem = new TabItem( paramsFolder, SWT.NONE );
     attrItem.setText( ATTRS_TAB_NAME );
 
-    TsGuiContext attrCtx = new TsGuiContext( aContext );
+    TsGuiContext attrCtx = new TsGuiContext( context );
     IM5Model<AttrParam> attrModel = m5.getModel( AttrParamM5Model.MODEL_ID, AttrParam.class );
 
     ISkRegRefInfoService rriService =
         (ISkRegRefInfoService)conn.coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
-    attrLm = new AttrParamM5LifeCycleManager( attrCtx, attrModel, rriService );
+    attrLm = (AttrParamM5LifeCycleManager)attrModel.getLifecycleManager( null ); // new AttrParamM5LifeCycleManager(
+                                                                                 // attrCtx, attrModel, rriService );
 
     attrsListPanel = attrModel.panelCreator().createCollEditPanel( attrCtx, attrLm.itemsProvider(), attrLm );
 
@@ -221,10 +226,11 @@ public class PanelRriSectionValuesEditor
     TabItem linkItem = new TabItem( paramsFolder, SWT.NONE );
     linkItem.setText( LINKS_TAB_NAME );
 
-    TsGuiContext lnkCtx = new TsGuiContext( aContext );
+    TsGuiContext lnkCtx = new TsGuiContext( context );
     LinkParamM5Model linkModel = (LinkParamM5Model)m5.getModel( LinkParamM5Model.MODEL_ID, LinkParam.class );
 
     linkLm = new LinkParamM5LifeCycleManager( lnkCtx, linkModel, rriService );
+    // (LinkParamM5LifeCycleManager)linkModel.getLifecycleManager(
 
     linksListPanel = linkModel.panelCreator().createCollEditPanel( lnkCtx, linkLm.itemsProvider(), linkLm );
 
@@ -242,7 +248,7 @@ public class PanelRriSectionValuesEditor
    */
   public void setRriSection( ISkRriSection aRriSection ) {
     String sectionId = aRriSection != null ? aRriSection.id() : TsLibUtils.EMPTY_STRING;
-    tsContext().put( IRegRefInfoConstants.REG_REF_INFO_DEFAULT_SECTION_ID.id(), sectionId );
+    context.put( IRegRefInfoConstants.REG_REF_INFO_DEFAULT_SECTION_ID.id(), sectionId );
     if( clm == null ) {
       return;
     }
