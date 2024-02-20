@@ -213,8 +213,6 @@ public class PanelRriSectionValuesEditor
     TsGuiContext attrCtx = new TsGuiContext( context );
     IM5Model<AttrParam> attrModel = m5.getModel( AttrParamM5Model.MODEL_ID, AttrParam.class );
 
-    ISkRegRefInfoService rriService =
-        (ISkRegRefInfoService)conn.coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
     attrLm = (AttrParamM5LifeCycleManager)attrModel.getLifecycleManager( null ); // new AttrParamM5LifeCycleManager(
                                                                                  // attrCtx, attrModel, rriService );
 
@@ -229,8 +227,9 @@ public class PanelRriSectionValuesEditor
     TsGuiContext lnkCtx = new TsGuiContext( context );
     LinkParamM5Model linkModel = (LinkParamM5Model)m5.getModel( LinkParamM5Model.MODEL_ID, LinkParam.class );
 
-    linkLm = new LinkParamM5LifeCycleManager( lnkCtx, linkModel, rriService );
-    // (LinkParamM5LifeCycleManager)linkModel.getLifecycleManager(
+    linkLm = (LinkParamM5LifeCycleManager)linkModel.getLifecycleManager( null );
+    // new LinkParamM5LifeCycleManager( lnkCtx, linkModel, rriService );
+    //
 
     linksListPanel = linkModel.panelCreator().createCollEditPanel( lnkCtx, linkLm.itemsProvider(), linkLm );
 

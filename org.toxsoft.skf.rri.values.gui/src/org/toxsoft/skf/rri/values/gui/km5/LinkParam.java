@@ -35,7 +35,7 @@ public class LinkParam {
    *
    * @return ISkLinkInfo - описание связи.
    */
-  public IDtoLinkInfo getName() {
+  public IDtoLinkInfo getLinkInfo() {
     return linkInfo;
   }
 

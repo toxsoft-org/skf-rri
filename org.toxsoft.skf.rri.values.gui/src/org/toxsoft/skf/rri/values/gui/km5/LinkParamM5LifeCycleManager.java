@@ -105,13 +105,13 @@ public class LinkParamM5LifeCycleManager
       }
     }
 
-    LinkParam newParam = new LinkParam( orig.getName(), links, false );
+    LinkParam newParam = new LinkParam( orig.getLinkInfo(), links, false );
 
     IAtomicValue reason = aValues.getAsAv( LinkParamM5Model.FID_REASON );
     System.out.println( reason.asString() );
     try {
       for( ISkObject obj : objects ) {
-        rriSection.setLinkParamValue( new Skid( obj.classId(), obj.strid() ), orig.getName().id(), links,
+        rriSection.setLinkParamValue( new Skid( obj.classId(), obj.strid() ), orig.getLinkInfo().id(), links,
             reason.asString() );
       }
     }

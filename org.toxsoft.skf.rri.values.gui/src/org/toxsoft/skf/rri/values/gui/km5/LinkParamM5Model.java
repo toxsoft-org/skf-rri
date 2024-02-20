@@ -30,8 +30,10 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.connection.*;
+import org.toxsoft.uskat.core.gui.conn.*;
 
 /**
  * Модель для теста редактирования списка параметров-связей НСИ
@@ -55,6 +57,16 @@ public class LinkParamM5Model
    * Идентификатор поля {@link #VIS_NAME}.
    */
   public static final String FID_VIS_NAME = "VisName"; //$NON-NLS-1$
+
+  /**
+   * Идентификатор поля {@link #DESCRIPTION}.
+   */
+  public static final String FID_DESCRIPTION = "ts.Description"; //$NON-NLS-1$
+
+  /**
+   * Идентификатор поля {@link #GWID}.
+   */
+  public static final String FID_GWID = "ts.Gwid"; //$NON-NLS-1$
 
   /**
    * Идентификатор поля {@link #VIS_VALUE}.
@@ -90,7 +102,7 @@ public class LinkParamM5Model
 
     @Override
     protected IAtomicValue doGetFieldValue( LinkParam aEntity ) {
-      return avStr( aEntity.getName().nmName() );
+      return avStr( aEntity.getLinkInfo().nmName() );
     }
   };
 
@@ -111,7 +123,7 @@ public class LinkParamM5Model
       if( aEntity.isDifferent() ) {
         return DIFFERENT_VALUE_STR;
       }
-      boolean singleEdit = aEntity.getName().linkConstraint().maxCount() == 1;
+      boolean singleEdit = aEntity.getLinkInfo().linkConstraint().maxCount() == 1;
       if( singleEdit ) {
         return SINGLE_VALUE.getter().getName( aEntity );
       }
@@ -122,6 +134,53 @@ public class LinkParamM5Model
     @Override
     protected IAtomicValue doGetFieldValue( LinkParam aEntity ) {
       return avStr( doGetFieldValueName( aEntity ) );
+    }
+
+  };
+
+  /**
+   * Описание параметра
+   */
+  public final M5AttributeFieldDef<LinkParam> DESCRIPTION = new M5AttributeFieldDef<>( FID_DESCRIPTION, STRING ) {
+
+    @Override
+    protected void doInit() {
+      setNameAndDescription( FNAME_DESCRIPTION_LINK, FDESCR_DESCRIPTION_LINK );
+      setDefaultValue( IAtomicValue.NULL );
+      setFlags( M5FF_DETAIL | M5FF_READ_ONLY );
+    }
+
+    @Override
+    protected IAtomicValue doGetFieldValue( LinkParam aEntity ) {
+      return AvUtils.avStr( aEntity.getLinkInfo().description() );
+    }
+
+  };
+
+  /**
+   * Gwid параметра
+   */
+  public final M5AttributeFieldDef<LinkParam> GWID = new M5AttributeFieldDef<>( FID_GWID, STRING ) {
+
+    @Override
+    protected void doInit() {
+      setNameAndDescription( FNAME_GWID_LINK, FDESCR_GWID_LINK );
+      setDefaultValue( IAtomicValue.NULL );
+      setFlags( M5FF_COLUMN | M5FF_READ_ONLY );
+    }
+
+    @Override
+    protected IAtomicValue doGetFieldValue( LinkParam aEntity ) {
+      IList<ISkObject> objs = ((LinkParamM5LifeCycleManager)getLifecycleManager( null )).getObjects();
+      if( objs.size() == 0 ) {
+        return AvUtils.AV_STR_EMPTY;
+      }
+      ISkObject obj = objs.first();
+
+      String paramId = aEntity.getLinkInfo().id();
+
+      String s = Gwid.createLink( obj.classId(), obj.id(), paramId ).asString();
+      return AvUtils.avStr( s );
     }
 
   };
@@ -140,12 +199,12 @@ public class LinkParamM5Model
 
         @Override
         protected IList<ISkObject> doGetFieldValue( LinkParam aEntity ) {
-          if( aEntity.getName().linkConstraint().maxCount() == 1 ) {
+          if( aEntity.getLinkInfo().linkConstraint().maxCount() == 1 ) {
             return IList.EMPTY;
           }
 
-          if( extraMultiValuesFields.hasKey( aEntity.getName().id() ) ) {
-            return extraMultiValuesFields.getByKey( aEntity.getName().id() ).getFieldValue( aEntity );
+          if( extraMultiValuesFields.hasKey( aEntity.getLinkInfo().id() ) ) {
+            return extraMultiValuesFields.getByKey( aEntity.getLinkInfo().id() ).getFieldValue( aEntity );
           }
 
           ITsGuiContext usingContext = modelContext != null ? modelContext : domain().tsContext();
@@ -188,7 +247,7 @@ public class LinkParamM5Model
 
         @Override
         protected ISkObject doGetFieldValue( LinkParam aEntity ) {
-          if( aEntity.getName().linkConstraint().maxCount() != 1 ) {
+          if( aEntity.getLinkInfo().linkConstraint().maxCount() != 1 ) {
             return null;// ISkObject.NULL;
           }
 
@@ -269,7 +328,7 @@ public class LinkParamM5Model
 
     setNameAndDescription( LINK_PARAM_MODEL_NAME, LINK_PARAM_MODEL_NAME );
 
-    addFieldDefs( VIS_NAME, VIS_VALUE, MULTI_VALUE, SINGLE_VALUE, REASON );
+    addFieldDefs( VIS_NAME, GWID, VIS_VALUE, MULTI_VALUE, SINGLE_VALUE, REASON, DESCRIPTION );
 
     setPanelCreator( new M5DefaultPanelCreator<LinkParam>() {
 
@@ -307,7 +366,7 @@ public class LinkParamM5Model
                     LinkParam param = selectedItem();
                     ISkObject obj = ((LinkParamM5LifeCycleManager)aLifecycleManager).getObjects().first();
 
-                    String paramId = param.getName().id();
+                    String paramId = param.getLinkInfo().id();
 
                     String s = Gwid.createLink( obj.classId(), obj.id(), paramId ).asString();
 
@@ -324,21 +383,21 @@ public class LinkParamM5Model
               protected LinkParam doEditItem( LinkParam aItem ) {
 
                 // установка списка возможных значений
-                boolean singleEdit = aItem.getName().linkConstraint().maxCount() == 1;
+                boolean singleEdit = aItem.getLinkInfo().linkConstraint().maxCount() == 1;
                 if( !singleEdit ) {
-                  if( extraMultiValuesFields.hasKey( aItem.getName().id() ) ) {
-                    extraMultiValuesFields.getByKey( aItem.getName().id() )
+                  if( extraMultiValuesFields.hasKey( aItem.getLinkInfo().id() ) ) {
+                    extraMultiValuesFields.getByKey( aItem.getLinkInfo().id() )
                         .setLookupProvider( getLookupProviderBeforeEdit( aContext, aItem ) );
                   }
                   else {
-                    MULTI_VALUE
-                        .setLookupProvider( new ObjectsLookupProvider( aContext, aItem.getName().rightClassIds() ) );
+                    MULTI_VALUE.setLookupProvider(
+                        new ObjectsLookupProvider( aContext, aItem.getLinkInfo().rightClassIds() ) );
                   }
                 }
 
                 if( singleEdit ) {
                   SINGLE_VALUE.setLookupProvider(
-                      new ObjectsLookupProvider( aContext, aItem.getName().rightClassIds(), true ) );
+                      new ObjectsLookupProvider( aContext, aItem.getLinkInfo().rightClassIds(), true ) );
                 }
 
                 TsDialogInfo cdi = new TsDialogInfo( aContext, null, STR_DLG_TITLE_EDITING_RRI_LINK,
@@ -361,8 +420,8 @@ public class LinkParamM5Model
                           if( !singleEdit && fDef.id().equals( FID_SINGLE_VALUE ) ) {
                             continue;
                           }
-                          if( !singleEdit && extraMultiValuesFields.hasKey( aItem.getName().id() )
-                              && extraMultiValuesFields.getByKey( aItem.getName().id() ) != fDef ) {
+                          if( !singleEdit && extraMultiValuesFields.hasKey( aItem.getLinkInfo().id() )
+                              && extraMultiValuesFields.getByKey( aItem.getLinkInfo().id() ) != fDef ) {
                             continue;
                           }
                           if( (fDef.flags() & M5FF_HIDDEN) == 0 ) {
@@ -423,6 +482,25 @@ public class LinkParamM5Model
 
   }
 
+  @Override
+  protected IM5LifecycleManager<LinkParam> doCreateLifecycleManager( Object aMaster ) {
+    ITsGuiContext context = tsContext();
+
+    return new LinkParamM5LifeCycleManager( context, this, (ISkRegRefInfoService)aMaster );
+  }
+
+  @Override
+  protected IM5LifecycleManager<LinkParam> doCreateDefaultLifecycleManager() {
+    ITsGuiContext context = tsContext();
+
+    ISkConnectionSupplier connSup = context.get( ISkConnectionSupplier.class );
+    ISkConnection conn = connSup.defConn();
+
+    ISkRegRefInfoService serv = conn.coreApi().getService( ISkRegRefInfoService.SERVICE_ID );
+
+    return new LinkParamM5LifeCycleManager( context, this, serv );
+  }
+
   /**
    * Добавление дополнительного поля редактирования множественной связи
    *
@@ -442,7 +520,7 @@ public class LinkParamM5Model
    * @return IM5LookupProvider - поставщик возможных значений
    */
   protected IM5LookupProvider<ISkObject> getLookupProviderBeforeEdit( ITsGuiContext aContext, LinkParam aItem ) {
-    return new ObjectsLookupProvider( aContext, aItem.getName().rightClassIds() );
+    return new ObjectsLookupProvider( aContext, aItem.getLinkInfo().rightClassIds() );
   }
 
   /**
@@ -454,15 +532,15 @@ public class LinkParamM5Model
   @SuppressWarnings( "unchecked" )
   public ITsCollection<ISkObject> getMultiLinkValue( IM5Bunch<LinkParam> aValues ) {
     LinkParam orig = aValues.originalEntity();
-    boolean singleEdit = orig.getName().linkConstraint().maxCount() == 1;
+    boolean singleEdit = orig.getLinkInfo().linkConstraint().maxCount() == 1;
     if( singleEdit ) {
       return new ElemArrayList<>( (ISkObject)aValues.get( LinkParamM5Model.FID_SINGLE_VALUE ) );
     }
 
     String fieldId = LinkParamM5Model.FID_MULTI_VALUE;
 
-    if( extraMultiValuesFields.hasKey( orig.getName().id() ) ) {
-      fieldId = extraMultiValuesFields.getByKey( orig.getName().id() ).id();
+    if( extraMultiValuesFields.hasKey( orig.getLinkInfo().id() ) ) {
+      fieldId = extraMultiValuesFields.getByKey( orig.getLinkInfo().id() ).id();
     }
 
     ITsCollection<ISkObject> objs = (ITsCollection<ISkObject>)aValues.get( fieldId );

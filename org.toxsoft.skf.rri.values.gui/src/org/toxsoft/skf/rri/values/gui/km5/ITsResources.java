@@ -20,10 +20,10 @@ public interface ITsResources {
   String FNAME_VALUE_ATTR               = Messages.FNAME_VALUE_ATTR;
   String FDESCR_VIS_NAME_ATTR           = Messages.FDESCR_VIS_NAME_ATTR;
   String FNAME_VIS_NAME_ATTR            = Messages.FNAME_VIS_NAME_ATTR;
-  String FNAME_DESCRIPTION_ATTR         = "Описание";
-  String FDESCR_DESCRIPTION_ATTR        = "Описание атрибута";
-  String FNAME_GWID_ATTR                = "Gwid";
-  String FDESCR_GWID_ATTR               = "Gwid атрибута НСИ";
+  String FNAME_DESCRIPTION_ATTR         = Messages.FNAME_DESCRIPTION_ATTR;
+  String FDESCR_DESCRIPTION_ATTR        = Messages.FDESCR_DESCRIPTION_ATTR;
+  String FNAME_GWID_ATTR                = Messages.FNAME_GWID_ATTR;
+  String FDESCR_GWID_ATTR               = Messages.FDESCR_GWID_ATTR;
   String STR_DLG_TITLE_EDITING_RRI_ATTR = Messages.STR_DLG_TITLE_EDITING_RRI_ATTR;
   String STR_N_COPY_TO_CLIPBOARD        = Messages.STR_N_COPY_TO_CLIPBOARD;
   String STR_D_COPY_TO_CLIPBOARD        = Messages.STR_D_COPY_TO_CLIPBOARD;
@@ -36,6 +36,10 @@ public interface ITsResources {
   String FDESCR_VIS_NAME_LINK           = Messages.FDESCR_VIS_NAME_LINK;
   String FDESCR_VIS_VALUE_LINK          = Messages.FDESCR_VIS_VALUE_LINK;
   String FNAME_VIS_VALUE_LINK           = Messages.FNAME_VIS_VALUE_LINK;
+  String FNAME_DESCRIPTION_LINK         = Messages.FNAME_DESCRIPTION_LINK;
+  String FDESCR_DESCRIPTION_LINK        = Messages.FDESCR_DESCRIPTION_LINK;
+  String FNAME_GWID_LINK                = Messages.FNAME_GWID_LINK;
+  String FDESCR_GWID_LINK               = Messages.FDESCR_GWID_LINK;
   String FDESCR_MUILTI_VALUE_LINK       = Messages.FDESCR_MUILTI_VALUE_LINK;
   String FDESCR_SINGLE_VALUE_LINK       = Messages.FDESCR_SINGLE_VALUE_LINK;
   String FNAME_SINGLE_VALUE_LINK        = Messages.FNAME_SINGLE_VALUE_LINK;
