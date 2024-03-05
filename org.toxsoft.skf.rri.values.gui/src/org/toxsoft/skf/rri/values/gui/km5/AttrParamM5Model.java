@@ -27,7 +27,6 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.gw.gwid.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.values.gui.utils.*;
 import org.toxsoft.uskat.core.api.objserv.*;
@@ -205,7 +204,7 @@ public class AttrParamM5Model
 
     @Override
     protected IAtomicValue doGetFieldValue( AttrParam aEntity ) {
-      return AvUtils.avStr( TsLibUtils.EMPTY_STRING );
+      return AvUtils.avStr( STR_DEFAULT_REASON );
     }
 
   };

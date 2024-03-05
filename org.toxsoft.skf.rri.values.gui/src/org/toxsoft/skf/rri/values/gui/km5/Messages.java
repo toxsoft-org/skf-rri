@@ -51,6 +51,8 @@ public class Messages
   public static String STR_DLG_TITLE_EDITING_RRI_LINK;
   public static String STR_N_COPY_TO_CLIPBOARD;
   public static String STR_D_COPY_TO_CLIPBOARD;
+
+  public static String STR_DEFAULT_REASON;
   public static String FDESCR_GWID_LINK;
   public static String FNAME_DESCRIPTION_LINK;
   public static String FDESCR_DESCRIPTION_LINK;
