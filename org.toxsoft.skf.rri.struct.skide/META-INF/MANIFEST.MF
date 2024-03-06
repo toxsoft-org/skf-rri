@@ -25,7 +25,9 @@ Require-Bundle: javax.annotation,
  org.toxsoft.uskat.core.gui,
  org.toxsoft.skide.core,
  org.toxsoft.skf.rri.struct.gui,
- org.toxsoft.skf.rri.values.gui;bundle-version="1.0.0"
+ org.toxsoft.skf.rri.values.gui;bundle-version="1.0.0",
+ org.toxsoft.skide.plugin.exconn,
+ org.toxsoft.skf.rri.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.skide.plugin.template
 Bundle-ActivationPolicy: lazy
