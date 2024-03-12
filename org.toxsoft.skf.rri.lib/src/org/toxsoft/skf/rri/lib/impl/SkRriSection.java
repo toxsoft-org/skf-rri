@@ -490,9 +490,9 @@ class SkRriSection
         .checkError( rriService.svs().validator().canSetLinkParamValue( this, aObjId, aParamId, aObjIds, aReason ) );
     String compClassId = makeCompanionId( aObjId.classId() );
     Skid compObjSkid = new Skid( compClassId, aObjId.strid() );
+    ISkObject compObj = ensureCompanionObject( compObjSkid );
     try {
       rriService.pauseExternalValidation();
-      ISkObject compObj = ensureCompanionObject( compObjSkid );
       ISkidList oldValue = compObj.getLinkSkids( aParamId );
       caLs.setLink( compObjSkid, aParamId, aObjIds );
       Gwid paramGwid = Gwid.createLink( aObjId.classId(), aObjId.strid(), aParamId );
