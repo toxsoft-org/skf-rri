@@ -33,7 +33,7 @@ public class SkideUnitRriStruct
         TSID_NAME, STR_SKIDE_TEMPLATE_UNIT_1, //
         TSID_DESCRIPTION, STR_SKIDE_TEMPLATE_UNIT_1_D, //
         OPDEF_SKIDE_UNIT_CATEGORY, UCATEGID_SYSDESCR, //
-        TSID_ICON_ID, ICONID_SKIDE_PLUGIN_RRI //
+        TSID_ICON_ID, ICONID_SKIDE_PLUGIN_RRI_STRUCT_EDITOR //
     ), aContext, aCreator );
     unitActions().add( ACDEF_ABOUT );
   }

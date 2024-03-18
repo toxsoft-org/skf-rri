@@ -32,7 +32,7 @@ public class SkidePluginRriStruct
     super( SKIDE_PLUGIN_ID, OptionSetUtils.createOpSet( //
         TSID_NAME, STR_SKIDE_PLUGIN_TEMPLATE, //
         TSID_DESCRIPTION, STR_SKIDE_PLUGIN_TEMPLATE_D, //
-        TSID_ICON_ID, ICONID_SKIDE_PLUGIN_RRI //
+        TSID_ICON_ID, ICONID_SKIDE_PLUGIN_RRI_STRUCT_EDITOR //
     ) );
   }
 

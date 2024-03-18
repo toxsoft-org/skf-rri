@@ -1,8 +1,8 @@
 package org.toxsoft.skf.rri.struct.skide.main;
 
 import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
-import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+import static org.toxsoft.skf.rri.struct.skide.ISkidePluginRriStructConstants.*;
 import static org.toxsoft.skf.rri.struct.skide.ISkidePluginRriStructSharedResources.*;
 import static org.toxsoft.skide.core.ISkideCoreConstants.*;
 import static org.toxsoft.skide.core.api.ucateg.ISkideUnitCategoryConstants.*;
@@ -33,7 +33,7 @@ public class SkideUnitRriValues
         TSID_NAME, STR_SKIDE_TEMPLATE_UNIT_2, //
         TSID_DESCRIPTION, STR_SKIDE_TEMPLATE_UNIT_2_D, //
         OPDEF_SKIDE_UNIT_CATEGORY, UCATEGID_DEVELOPMENT_DEBUG, //
-        TSID_ICON_ID, ICONID_ARROW_RIGHT_DOUBLE //
+        TSID_ICON_ID, ICONID_SKIDE_PLUGIN_RRI_VALUE_EDITOR //
     ), aContext, aCreator );
     unitActions().add( ACDEF_ABOUT );
   }

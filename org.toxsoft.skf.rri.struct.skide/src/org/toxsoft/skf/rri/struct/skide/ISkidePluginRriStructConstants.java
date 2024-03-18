@@ -15,7 +15,9 @@ public interface ISkidePluginRriStructConstants {
   // Icons
 
   String PREFIX_OF_ICON_FIELD_NAME = "ICONID_"; //$NON-NLS-1$
-  String ICONID_SKIDE_PLUGIN_RRI   = "app-nsi"; //$NON-NLS-1$
+  // String ICONID_SKIDE_PLUGIN_RRI = "app-nsi"; //$NON-NLS-1$
+  String ICONID_SKIDE_PLUGIN_RRI_VALUE_EDITOR  = "app-nsi-values"; //$NON-NLS-1$
+  String ICONID_SKIDE_PLUGIN_RRI_STRUCT_EDITOR = "app-nsi";        //$NON-NLS-1$
 
   /**
    * Constants registration.
