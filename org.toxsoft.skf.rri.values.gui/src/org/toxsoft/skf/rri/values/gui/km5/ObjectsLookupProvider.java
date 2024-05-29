@@ -5,6 +5,7 @@ import static org.toxsoft.skf.rri.values.gui.km5.ITsResources.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -183,6 +184,16 @@ public class ObjectsLookupProvider
     @Override
     public <T extends ISkObject> IList<T> getLinkRevObjs( String aClassId, String aLinkId ) {
       throw new TsNullObjectErrorRtException();
+    }
+
+    @Override
+    public IAtomicValue readRtdataIfOpen( String aRtdataId ) {
+      return null;
+    }
+
+    @Override
+    public boolean writeRtdataIfOpen( String aRtdataId, IAtomicValue aValue ) {
+      return false;
     }
   }
 
