@@ -4,7 +4,7 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.gw.skid.*;
-import org.toxsoft.skf.legacy.Skop;
+import org.toxsoft.skf.legacy.*;
 
 /**
  * Набор значений (произвольное подмножество) параметров НСИ одного раздела.
