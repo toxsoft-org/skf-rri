@@ -21,6 +21,7 @@ public class SkfRriUtils {
     if( rriService != null ) {
       ISkUgwiService uServ = aCoreApi.ugwiService();
       uServ.registerKind( UgwiKindRriAttr.INSTANCE.createUgwiKind( aCoreApi ) );
+      uServ.registerKind( UgwiKindRriLink.INSTANCE.createUgwiKind( aCoreApi ) );
       // TODO add other RRI-related UGWI kinds
     }
   };
@@ -30,6 +31,7 @@ public class SkfRriUtils {
    */
   public static void initialize() {
     SkUgwiUtils.registerUgwiKind( UgwiKindRriAttr.INSTANCE );
+    SkUgwiUtils.registerUgwiKind( UgwiKindRriLink.INSTANCE );
     // TODO add other RRI-related UGWI kinds
     SkCoreUtils.registerCoreApiHandler( coreRegistrationHandler );
   }
