@@ -3,16 +3,26 @@ package org.toxsoft.skf.rri.struct.gui;
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
 import org.toxsoft.skf.rri.lib.impl.*;
+import org.toxsoft.skf.rri.lib.ugwi.*;
 import org.toxsoft.skf.rri.struct.gui.km5.*;
+import org.toxsoft.skf.rri.struct.gui.ugwi.*;
+import org.toxsoft.uskat.core.api.*;
+import org.toxsoft.uskat.core.api.ugwis.*;
+import org.toxsoft.uskat.core.devapi.*;
 import org.toxsoft.uskat.core.gui.km5.*;
+import org.toxsoft.uskat.core.gui.ugwi.gui.*;
 
 /**
  * The library quant.
+ * <p>
+ * Implements {@link ISkCoreExternalHandler#processSkCoreInitialization(IDevCoreApi)} for Sk-connection related stuff
+ * registration.
  *
  * @author max
  */
 public class QuantRegRefInfoStructGui
-    extends AbstractQuant {
+    extends AbstractQuant
+    implements ISkCoreExternalHandler {
 
   /**
    * Constructor.
@@ -24,6 +34,23 @@ public class QuantRegRefInfoStructGui
     KM5Utils.registerContributorCreator( KM5RriStructContributor.CREATOR );
   }
 
+  // ------------------------------------------------------------------------------------
+  // ISkCoreExternalHandler
+  //
+
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
+  @Override
+  public void processSkCoreInitialization( IDevCoreApi aCoreApi ) {
+    ISkUgwiService uServ = aCoreApi.ugwiService();
+    ISkUgwiKind uk;
+    uk = uServ.listKinds().getByKey( UgwiKindRriAttr.KIND_ID );
+    uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriAttr( (AbstractSkUgwiKind)uk.ugwiKind() ) );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // AbstractQuant
+  //
+
   @Override
   protected void doInitApp( IEclipseContext aAppContext ) {
     // nop
@@ -31,7 +58,7 @@ public class QuantRegRefInfoStructGui
 
   @Override
   protected void doInitWin( IEclipseContext aWinContext ) {
-    // IVetrolSystoolsGuiConstants.init( aWinContext );
+    // nop
   }
 
 }
