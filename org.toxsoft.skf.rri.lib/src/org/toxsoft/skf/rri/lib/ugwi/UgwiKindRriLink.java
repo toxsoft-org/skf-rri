@@ -116,7 +116,7 @@ public class UgwiKindRriLink
   /**
    * The UGWI kind ID.
    */
-  public static final String KIND_ID = SK_ID + ".rri.attr"; //$NON-NLS-1$
+  public static final String KIND_ID = SK_ID + ".rri.link"; //$NON-NLS-1$
 
   /**
    * The singleton instance.

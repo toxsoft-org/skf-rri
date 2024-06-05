@@ -45,6 +45,8 @@ public class QuantRegRefInfoStructGui
     ISkUgwiKind uk;
     uk = uServ.listKinds().getByKey( UgwiKindRriAttr.KIND_ID );
     uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriAttr( (AbstractSkUgwiKind)uk.ugwiKind() ) );
+    uk = uServ.listKinds().getByKey( UgwiKindRriLink.KIND_ID );
+    uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriLink( (AbstractSkUgwiKind)uk.ugwiKind() ) );
   }
 
   // ------------------------------------------------------------------------------------
