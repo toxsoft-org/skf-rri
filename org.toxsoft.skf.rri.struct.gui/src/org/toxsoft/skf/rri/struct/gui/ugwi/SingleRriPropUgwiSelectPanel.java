@@ -1,8 +1,8 @@
-package org.toxsoft.skf.rri.values.gui.ugwi;
+package org.toxsoft.skf.rri.struct.gui.ugwi;
 
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
-import static org.toxsoft.skf.rri.values.gui.ugwi.ISkResources.*;
+import static org.toxsoft.skf.rri.struct.gui.ugwi.ISkResources.*;
 import static org.toxsoft.uskat.core.gui.km5.sgw.ISgwM5Constants.*;
 import static org.toxsoft.uskat.core.gui.ugwi.valed.ValedUgwiSelectorFactory.*;
 

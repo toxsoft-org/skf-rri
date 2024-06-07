@@ -1,4 +1,4 @@
-package org.toxsoft.skf.rri.values.gui.ugwi;
+package org.toxsoft.skf.rri.struct.gui.ugwi;
 
 /**
  * Localizable resources.
