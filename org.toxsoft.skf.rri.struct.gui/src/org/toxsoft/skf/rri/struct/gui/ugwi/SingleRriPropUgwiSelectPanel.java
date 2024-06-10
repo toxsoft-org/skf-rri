@@ -3,6 +3,7 @@ package org.toxsoft.skf.rri.struct.gui.ugwi;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.skf.rri.struct.gui.ugwi.ISkResources.*;
+import static org.toxsoft.uskat.core.gui.ISkCoreGuiConstants.*;
 import static org.toxsoft.uskat.core.gui.km5.sgw.ISgwM5Constants.*;
 import static org.toxsoft.uskat.core.gui.ugwi.valed.ValedUgwiSelectorFactory.*;
 
@@ -26,6 +27,7 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.more.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -78,7 +80,8 @@ public class SingleRriPropUgwiSelectPanel
    */
   public SingleRriPropUgwiSelectPanel( ITsGuiContext aContext, boolean aIsViewer ) {
     super( aContext, aIsViewer );
-    coreApi = ISkCoreGuiConstants.REFDEF_SK_VALED_CORE_API.getRef( aContext );
+
+    coreApi = skCoreApi( aContext );
     TsInternalErrorRtException.checkNull( coreApi );
     skClassPropKind = SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.getValue( tsContext().params() ).asValobj();
     // IM5Domain m5 = aContext.get( IM5Domain.class );
@@ -223,13 +226,14 @@ public class SingleRriPropUgwiSelectPanel
    *
    * @param aDialogInfo {@link ITsDialogInfo} - the dialog window parameters
    * @param aInitVal {@link Ugwi} - initial value or <code>null</code>
-   * @param aCoreApi {@link ISkCoreApi} - core API
+   * @param aIdChain {@link IdChain} - core API connect id
    * @return {@link Ugwi} - edited value or <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static Ugwi selectUgwi( ITsDialogInfo aDialogInfo, Ugwi aInitVal, ISkCoreApi aCoreApi ) {
+  public static Ugwi selectUgwi( ITsDialogInfo aDialogInfo, Ugwi aInitVal, IdChain aIdChain ) {
     TsNullArgumentRtException.checkNulls( aDialogInfo );
-    ISkCoreGuiConstants.REFDEF_SK_VALED_CORE_API.setRef( aDialogInfo.tsContext(), aCoreApi );
+    ISkCoreGuiConstants.OPDEF_SUPPLIED_SK_CONN_ID.setValue( aDialogInfo.tsContext().params(),
+        AvUtils.avValobj( aIdChain ) );
     IDialogPanelCreator<Ugwi, Object> creator = ( par, od ) //
     -> new TsDialogGenericEntityEditPanel<>( par, od, ( aContext, aViewer ) -> {
       SingleRriPropUgwiSelectPanel panel = new SingleRriPropUgwiSelectPanel( aContext, aViewer );
