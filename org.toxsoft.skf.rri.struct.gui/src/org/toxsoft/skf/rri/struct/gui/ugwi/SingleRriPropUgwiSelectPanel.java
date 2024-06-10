@@ -27,12 +27,14 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.more.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.ugwi.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.struct.gui.km5.*;
@@ -41,7 +43,6 @@ import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 import org.toxsoft.uskat.core.connection.*;
-import org.toxsoft.uskat.core.gui.conn.*;
 import org.toxsoft.uskat.core.gui.ugwi.kinds.*;
 import org.toxsoft.uskat.core.impl.*;
 
@@ -162,6 +163,8 @@ public class SingleRriPropUgwiSelectPanel
   }
 
   private void createSelectionPanel( Composite aParent ) {
+    BorderLayout borderLayout = new BorderLayout();
+    aParent.setLayout( borderLayout );
 
     TsComposite board = new TsComposite( aParent );
     FillLayout fillLayout = new FillLayout();
@@ -205,15 +208,33 @@ public class SingleRriPropUgwiSelectPanel
     rriSectionCombo = new ValedComboSelector<>( tsContext(), sectionList, visualsProvider );
     rriSectionCombo.createControl( aBkPanel )
         .setLayoutData( new GridData( GridData.FILL, GridData.FILL, true, false ) );
-    currRriSection = sectionList.first();
-    rriSectionCombo.setSelectedItem( currRriSection );
 
     rriSectionCombo.eventer().addListener( ( aSource, aEditFinished ) -> {
       currRriSection = rriSectionCombo.selectedItem();
       if( currRriSection != null ) {
-        lmClasses.setSectionId( currRriSection.id() );
+        setRriSection( currRriSection );
       }
     } );
+    currRriSection = sectionList.first();
+    rriSectionCombo.setSelectedItem( currRriSection );
+    setRriSection( currRriSection );
+  }
+
+  /**
+   * Sets RRI section for editing values of its objects.
+   *
+   * @param aRriSection ISkRriSection - RRI section for editing values of its objects.
+   */
+  public void setRriSection( ISkRriSection aRriSection ) {
+    String sectionId = aRriSection != null ? aRriSection.id() : TsLibUtils.EMPTY_STRING;
+    lmClasses.setSectionId( sectionId );
+
+    // objLm.setClassIds( IStringList.EMPTY );
+
+    panelClasses.refresh();
+    panelObjects.refresh();
+    panelProps.refresh();
+
   }
 
   // ------------------------------------------------------------------------------------
@@ -225,13 +246,11 @@ public class SingleRriPropUgwiSelectPanel
    *
    * @param aDialogInfo {@link ITsDialogInfo} - the dialog window parameters
    * @param aInitVal {@link Ugwi} - initial value or <code>null</code>
-   * @param aSkConnKey {@link IdChain} - key for {@link ISkConnectionSupplier} of the Sk-connection to use
    * @return {@link Ugwi} - edited value or <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static Ugwi selectUgwi( ITsDialogInfo aDialogInfo, Ugwi aInitVal, IdChain aSkConnKey ) {
+  public static Ugwi selectUgwi( ITsDialogInfo aDialogInfo, Ugwi aInitVal ) {
     TsNullArgumentRtException.checkNulls( aDialogInfo );
-    setCtxSkConnKey( aDialogInfo.tsContext(), aSkConnKey );
     IDialogPanelCreator<Ugwi, Object> creator = ( par, od ) //
     -> new TsDialogGenericEntityEditPanel<>( par, od, ( aContext, aViewer ) -> {
       SingleRriPropUgwiSelectPanel panel = new SingleRriPropUgwiSelectPanel( aContext, aViewer );
@@ -318,10 +337,37 @@ public class SingleRriPropUgwiSelectPanel
     if( sel != null ) {
       M5DefaultItemsProvider<IDtoClassPropInfoBase> itemsProvider = new M5DefaultItemsProvider<>();
       ISkClassInfo cinf = panelClasses.selectedItem();
-      itemsProvider.items().setAll( cinf.props( getClassPropKind() ).list() );
+      IStridablesList<IDtoRriParamInfo> rriParamInfoes = currRriSection.listParamInfoes( cinf.id() );
+      IListEdit<IDtoClassPropInfoBase> params = new ElemArrayList<>();
+      for( IDtoRriParamInfo rriParamInfo : rriParamInfoes ) {
+        params.add( getPropInfo( rriParamInfo ) );
+      }
+      itemsProvider.items().setAll( params );
       panelProps.setItemsProvider( itemsProvider );
       panelProps.refresh();
     }
+  }
+
+  private IDtoClassPropInfoBase getPropInfo( IDtoRriParamInfo aRriParamInfo ) {
+    switch( skClassPropKind ) {
+      case ATTR:
+        return aRriParamInfo.attrInfo();
+      case CLOB:
+        break;
+      case CMD:
+        break;
+      case EVENT:
+        break;
+      case LINK:
+        return aRriParamInfo.linkInfo();
+      case RIVET:
+        break;
+      case RTDATA:
+        break;
+      default:
+        break;
+    }
+    throw new TsIllegalStateRtException();
   }
 
   void whenPropDoubleClicked( IDtoClassPropInfoBase aSel ) {

@@ -42,5 +42,6 @@ public class AddonSkidePluginRriStruct
   protected void doRegisterQuants( IQuantRegistrator aQuantRegistrator ) {
     aQuantRegistrator.registerQuant( new org.toxsoft.skf.rri.struct.gui.QuantRegRefInfoStructGui() );
     aQuantRegistrator.registerQuant( new org.toxsoft.skf.rri.values.gui.QuantRegRefInfoValuesGui() );
+
   }
 }

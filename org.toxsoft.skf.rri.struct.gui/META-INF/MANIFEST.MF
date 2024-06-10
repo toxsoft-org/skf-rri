@@ -22,4 +22,5 @@ Automatic-Module-Name: org.toxsoft.skf.rri.struct.gui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.toxsoft.skf.rri.struct.gui,
  org.toxsoft.skf.rri.struct.gui.km5,
- org.toxsoft.skf.rri.struct.gui.panels
+ org.toxsoft.skf.rri.struct.gui.panels,
+ org.toxsoft.skf.rri.struct.gui.ugwi
