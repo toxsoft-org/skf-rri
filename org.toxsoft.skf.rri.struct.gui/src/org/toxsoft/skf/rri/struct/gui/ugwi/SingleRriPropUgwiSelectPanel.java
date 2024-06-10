@@ -41,7 +41,6 @@ import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 import org.toxsoft.uskat.core.connection.*;
-import org.toxsoft.uskat.core.gui.*;
 import org.toxsoft.uskat.core.gui.ugwi.kinds.*;
 import org.toxsoft.uskat.core.impl.*;
 
@@ -232,8 +231,7 @@ public class SingleRriPropUgwiSelectPanel
    */
   public static Ugwi selectUgwi( ITsDialogInfo aDialogInfo, Ugwi aInitVal, IdChain aIdChain ) {
     TsNullArgumentRtException.checkNulls( aDialogInfo );
-    ISkCoreGuiConstants.OPDEF_SUPPLIED_SK_CONN_ID.setValue( aDialogInfo.tsContext().params(),
-        AvUtils.avValobj( aIdChain ) );
+    setCtxSkConnKey( aDialogInfo.tsContext(), aIdChain );
     IDialogPanelCreator<Ugwi, Object> creator = ( par, od ) //
     -> new TsDialogGenericEntityEditPanel<>( par, od, ( aContext, aViewer ) -> {
       SingleRriPropUgwiSelectPanel panel = new SingleRriPropUgwiSelectPanel( aContext, aViewer );
