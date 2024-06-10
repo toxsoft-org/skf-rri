@@ -61,10 +61,10 @@ public class UgwiKindRriAttr
    *
    * @author hazard157
    */
-  public static class Kind
+  public static class RriAttrKind
       extends AbstractSkUgwiKind<IAtomicValue> {
 
-    Kind( AbstractUgwiKind<IAtomicValue> aRegistrator, ISkCoreApi aCoreApi ) {
+    RriAttrKind( AbstractUgwiKind<IAtomicValue> aRegistrator, ISkCoreApi aCoreApi ) {
       super( aRegistrator, aCoreApi );
     }
 
@@ -156,7 +156,7 @@ public class UgwiKindRriAttr
 
   @Override
   protected AbstractSkUgwiKind<?> doCreateUgwiKind( ISkCoreApi aSkConn ) {
-    return new Kind( this, aSkConn );
+    return new RriAttrKind( this, aSkConn );
   }
 
   // ------------------------------------------------------------------------------------

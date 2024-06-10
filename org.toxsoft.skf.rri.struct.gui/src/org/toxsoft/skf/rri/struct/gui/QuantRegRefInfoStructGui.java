@@ -11,6 +11,7 @@ import org.toxsoft.uskat.core.api.ugwis.*;
 import org.toxsoft.uskat.core.devapi.*;
 import org.toxsoft.uskat.core.gui.km5.*;
 import org.toxsoft.uskat.core.gui.ugwi.gui.*;
+import org.toxsoft.uskat.core.impl.*;
 
 /**
  * The library quant.
@@ -32,6 +33,7 @@ public class QuantRegRefInfoStructGui
     SkfRriUtils.initialize();
     // GUI registration
     KM5Utils.registerContributorCreator( KM5RriStructContributor.CREATOR );
+    SkCoreUtils.registerCoreApiHandler( this );
   }
 
   // ------------------------------------------------------------------------------------
@@ -44,9 +46,10 @@ public class QuantRegRefInfoStructGui
     ISkUgwiService uServ = aCoreApi.ugwiService();
     ISkUgwiKind uk;
     uk = uServ.listKinds().getByKey( UgwiKindRriAttr.KIND_ID );
-    uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriAttr( (AbstractSkUgwiKind)uk.ugwiKind() ) );
+    uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriAttr( (AbstractSkUgwiKind)uk ) );
     uk = uServ.listKinds().getByKey( UgwiKindRriLink.KIND_ID );
-    uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriLink( (AbstractSkUgwiKind)uk.ugwiKind() ) );
+    uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriLink( (AbstractSkUgwiKind)uk ) );
+
   }
 
   // ------------------------------------------------------------------------------------

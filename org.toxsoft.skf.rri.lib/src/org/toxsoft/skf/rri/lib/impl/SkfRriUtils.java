@@ -17,6 +17,7 @@ public class SkfRriUtils {
    * Core handler to register all registered Sk-connection bound {@link ISkUgwiKind} when connection opens.
    */
   private static final ISkCoreExternalHandler coreRegistrationHandler = aCoreApi -> {
+
     ISkRegRefInfoService rriService = aCoreApi.getService( ISkRegRefInfoService.SERVICE_ID );
     if( rriService != null ) {
       ISkUgwiService uServ = aCoreApi.ugwiService();
