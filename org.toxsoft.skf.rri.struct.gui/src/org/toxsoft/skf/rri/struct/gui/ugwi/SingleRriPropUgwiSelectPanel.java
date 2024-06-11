@@ -30,7 +30,6 @@ import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.more.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -96,8 +95,7 @@ public class SingleRriPropUgwiSelectPanel
    */
   public SingleRriPropUgwiSelectPanel( ITsGuiContext aContext, boolean aIsViewer ) {
     super( aContext, aIsViewer );
-
-    coreApi = skCoreApi( aContext );
+    coreApi = skCoreApi( tsContext() );
     TsInternalErrorRtException.checkNull( coreApi );
     skClassPropKind = SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.getValue( tsContext().params() ).asValobj();
     // IM5Domain m5 = aContext.get( IM5Domain.class );
@@ -262,13 +260,11 @@ public class SingleRriPropUgwiSelectPanel
    *
    * @param aDialogInfo {@link ITsDialogInfo} - the dialog window parameters
    * @param aInitVal {@link Ugwi} - initial value or <code>null</code>
-   * @param aIdChain {@link IdChain} - core API connect id
    * @return {@link Ugwi} - edited value or <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static Ugwi selectUgwi( ITsDialogInfo aDialogInfo, Ugwi aInitVal, IdChain aIdChain ) {
+  public static Ugwi selectUgwi( ITsDialogInfo aDialogInfo, Ugwi aInitVal ) {
     TsNullArgumentRtException.checkNulls( aDialogInfo );
-    setCtxSkConnKey( aDialogInfo.tsContext(), aIdChain );
     IDialogPanelCreator<Ugwi, Object> creator = ( par, od ) //
     -> new TsDialogGenericEntityEditPanel<>( par, od, ( aContext, aViewer ) -> {
       SingleRriPropUgwiSelectPanel panel = new SingleRriPropUgwiSelectPanel( aContext, aViewer );
