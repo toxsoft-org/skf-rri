@@ -42,6 +42,8 @@ public class UgwiGuiHelperRriAttr
     // set kind of RRI prop (attr)
     SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(),
         avValobj( ESkClassPropKind.ATTR ) );
+    SingleRriPropUgwiSelectPanel.OPDEF_RRI_UGWI_KIND_ID.setValue( aTsContext.params(),
+        avStr( UgwiKindRriAttr.KIND_ID ) );
     return new SingleRriPropUgwiSelectPanel( aTsContext, aViewer );
   }
 
@@ -50,6 +52,8 @@ public class UgwiGuiHelperRriAttr
     // set kind of RRI prop (attr)
     SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(),
         avValobj( ESkClassPropKind.ATTR ) );
+    SingleRriPropUgwiSelectPanel.OPDEF_RRI_UGWI_KIND_ID.setValue( aTsContext.params(),
+        avStr( UgwiKindRriAttr.KIND_ID ) );
     return new SingleRriPropUgwiSelectPanel( aTsContext, aViewer );
   }
 

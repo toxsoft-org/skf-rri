@@ -1,11 +1,12 @@
 package org.toxsoft.skf.rri.struct.gui.ugwi;
 
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
+import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.skf.rri.struct.gui.ugwi.ISkResources.*;
 import static org.toxsoft.uskat.core.gui.ISkCoreGuiConstants.*;
 import static org.toxsoft.uskat.core.gui.km5.sgw.ISgwM5Constants.*;
-import static org.toxsoft.uskat.core.gui.ugwi.valed.ValedUgwiSelectorFactory.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
@@ -27,6 +28,7 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.more.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
@@ -38,6 +40,7 @@ import org.toxsoft.core.tslib.gw.ugwi.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
+import org.toxsoft.skf.rri.lib.ugwi.*;
 import org.toxsoft.skf.rri.struct.gui.km5.*;
 import org.toxsoft.uskat.core.*;
 import org.toxsoft.uskat.core.api.objserv.*;
@@ -56,6 +59,17 @@ import org.toxsoft.uskat.core.impl.*;
 public class SingleRriPropUgwiSelectPanel
     extends AbstractGenericEntityEditPanel<Ugwi>
     implements IGenericSelectorPanel<Ugwi> {
+
+  /**
+   * ID of option {@link #OPDEF_RRI_UGWI_KIND_ID}.
+   */
+  public static final String OPID_RRI_UGWI_KIND_ID = TS_ID + ".gui.ugwi.edit.UgwiRriKindId"; //$NON-NLS-1$
+
+  /**
+   * option: ID of the RRI Ugwi kind .
+   */
+  public static final IDataDef OPDEF_RRI_UGWI_KIND_ID = DataDef.create( OPID_RRI_UGWI_KIND_ID, STRING, //
+      TSID_DEFAULT_VALUE, UgwiKindRriAttr.KIND_ID );
 
   static String MPC_OP_ID = TS_ID + ".rri.values.gui.ugwi"; //$NON-NLS-1$
 
@@ -272,7 +286,7 @@ public class SingleRriPropUgwiSelectPanel
     ESkClassPropKind kind = getClassPropKind();
     String namespace = currRriSection.id();
     Gwid gwid = kind.createConcreteGwid( selObj.skid(), selProp.id() );
-    String ugwiKindId = tsContext().params().getStr( OPDEF_SINGLE_UGWI_KIND_ID );
+    String ugwiKindId = tsContext().params().getStr( OPDEF_RRI_UGWI_KIND_ID );
     Ugwi retVal = Ugwi.of( ugwiKindId, namespace, gwid.canonicalString() );
     return retVal;
   }

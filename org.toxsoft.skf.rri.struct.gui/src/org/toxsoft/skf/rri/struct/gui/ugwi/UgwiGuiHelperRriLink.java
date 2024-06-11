@@ -41,6 +41,9 @@ public class UgwiGuiHelperRriLink
     // set kind of RRI prop (link)
     SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(),
         avValobj( ESkClassPropKind.LINK ) );
+    SingleRriPropUgwiSelectPanel.OPDEF_RRI_UGWI_KIND_ID.setValue( aTsContext.params(),
+        avStr( UgwiKindRriLink.KIND_ID ) );
+
     return new SingleRriPropUgwiSelectPanel( aTsContext, aViewer );
   }
 
@@ -48,6 +51,9 @@ public class UgwiGuiHelperRriLink
   protected IGenericSelectorPanel<Ugwi> doCreateSelectorPanel( ITsGuiContext aTsContext, boolean aViewer ) {
     SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(),
         avValobj( ESkClassPropKind.LINK ) );
+    SingleRriPropUgwiSelectPanel.OPDEF_RRI_UGWI_KIND_ID.setValue( aTsContext.params(),
+        avStr( UgwiKindRriLink.KIND_ID ) );
+
     return new SingleRriPropUgwiSelectPanel( aTsContext, aViewer );
   }
 
