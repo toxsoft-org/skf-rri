@@ -11,6 +11,7 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.more.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.gw.ugwi.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -231,6 +232,26 @@ public class UgwiKindRriAttr
     TsValidationFailedRtException.checkError( INSTANCE.validateUgwi( aUgwi ) );
     IdChain chain = IdChain.of( aUgwi.essence() );
     return chain.get( IDX_ATTR_ID );
+  }
+
+  /**
+   * Creates the UGWI of this kind.
+   *
+   * @param aSectId String - the RRI section ID
+   * @param aGwid {@link Gwid} - concrete GWID of kind {@link EGwidKind#GW_ATTR}
+   * @return {@link Ugwi} - created UGWI
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
+   * @throws TsIllegalArgumentRtException GWID is abstract
+   * @throws TsIllegalArgumentRtException GWID is not of kind {@link EGwidKind#GW_ATTR}
+   */
+  public static Ugwi makeUgwi( String aSectId, Gwid aGwid ) {
+    StridUtils.checkValidIdPath( aSectId );
+    TsNullArgumentRtException.checkNull( aGwid );
+    TsIllegalArgumentRtException.checkTrue( aGwid.isAbstract() );
+    TsIllegalArgumentRtException.checkTrue( aGwid.kind() != EGwidKind.GW_ATTR );
+    IdChain chain = new IdChain( aSectId, aGwid.classId(), aGwid.strid(), aGwid.propId() );
+    return Ugwi.of( KIND_ID, chain.canonicalString() );
   }
 
   /**
