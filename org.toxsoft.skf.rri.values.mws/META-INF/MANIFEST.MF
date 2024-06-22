@@ -5,8 +5,8 @@ Bundle-SymbolicName: org.toxsoft.skf.rri.values.mws;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.toxsoft.skf.rri.values.mws.Activator
 Bundle-Vendor: Toxsoft
-Require-Bundle: javax.annotation,
- javax.inject,
+Require-Bundle: jakarta.inject.jakarta.inject-api,
+ jakarta.annotation-api,
  org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.e4.core.contexts,
@@ -21,7 +21,7 @@ Require-Bundle: javax.annotation,
  org.toxsoft.skf.rri.lib,
  org.toxsoft.skf.rri.values.gui,
  org.toxsoft.skf.rri.struct.gui
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.toxsoft.skf.rri.values.mws
 Bundle-ActivationPolicy: lazy
 Export-Package: org.toxsoft.skf.rri.values.mws,
