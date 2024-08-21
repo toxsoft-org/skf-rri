@@ -199,6 +199,24 @@ public class UgwiKindRriAttrInfo
    *
    * @param aSectionId String - RRI section ID
    * @param aClassId String - class ID
+   * @param aAttrId String - attribute ID
+   * @return {@link Ugwi} - created UGWI
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
+   */
+  public static Ugwi makeUgwi( String aSectionId, String aClassId, String aAttrId ) {
+    StridUtils.checkValidIdPath( aSectionId );
+    StridUtils.checkValidIdPath( aClassId );
+    StridUtils.checkValidIdPath( aAttrId );
+    IdChain chain = new IdChain( aSectionId, aClassId, aAttrId );
+    return Ugwi.of( KIND_ID, chain.canonicalString() );
+  }
+
+  /**
+   * Creates the UGWI of {@link UgwiKindRriAttr} kind.
+   *
+   * @param aSectionId String - RRI section ID
+   * @param aClassId String - class ID
    * @param aObjStrid String - object STRID
    * @param aAttrId String - attribute ID
    * @return {@link Ugwi} - created UGWI
@@ -211,11 +229,11 @@ public class UgwiKindRriAttrInfo
     StridUtils.checkValidIdPath( aObjStrid );
     StridUtils.checkValidIdPath( aAttrId );
     IdChain chain = new IdChain( aSectionId, aClassId, aObjStrid, aAttrId );
-    return Ugwi.of( KIND_ID, chain.canonicalString() );
+    return Ugwi.of( UgwiKindRriAttr.KIND_ID, chain.canonicalString() );
   }
 
   /**
-   * Creates the UGWI of this kind.
+   * Creates the UGWI of {@link UgwiKindRriAttr} kind.
    *
    * @param aSectionId String - RRI section ID
    * @param aObjSkid {@link Skid} - SKID of the object
@@ -229,7 +247,7 @@ public class UgwiKindRriAttrInfo
     TsIllegalArgumentRtException.checkTrue( aObjSkid == Skid.NONE );
     StridUtils.checkValidIdPath( aAttrId );
     IdChain chain = new IdChain( aSectionId, aObjSkid.classId(), aObjSkid.strid(), aAttrId );
-    return Ugwi.of( KIND_ID, chain.canonicalString() );
+    return Ugwi.of( UgwiKindRriAttr.KIND_ID, chain.canonicalString() );
   }
 
 }

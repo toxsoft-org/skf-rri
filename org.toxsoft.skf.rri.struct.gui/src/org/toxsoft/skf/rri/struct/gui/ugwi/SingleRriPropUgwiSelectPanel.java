@@ -8,54 +8,46 @@ import static org.toxsoft.skf.rri.struct.gui.ugwi.ISkResources.*;
 import static org.toxsoft.uskat.core.gui.ISkCoreGuiConstants.*;
 import static org.toxsoft.uskat.core.gui.km5.sgw.ISgwM5Constants.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.cond.IPanelSingleCondInfo;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContext;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsSelectionChangeListener;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.cond.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
-import org.toxsoft.core.tsgui.m5.IM5Domain;
-import org.toxsoft.core.tsgui.m5.IM5Model;
-import org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5CollectionPanel;
-import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
-import org.toxsoft.core.tsgui.m5.model.impl.M5DefaultItemsProvider;
-import org.toxsoft.core.tsgui.panels.generic.AbstractGenericEntityEditPanel;
-import org.toxsoft.core.tsgui.panels.generic.IGenericSelectorPanel;
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.panels.generic.*;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
-import org.toxsoft.core.tsgui.utils.layout.EBorderLayoutPlacement;
-import org.toxsoft.core.tsgui.valed.controls.basic.ValedComboSelector;
-import org.toxsoft.core.tsgui.widgets.TsComposite;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.gw.gwid.Gwid;
-import org.toxsoft.core.tslib.gw.ugwi.Ugwi;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tsgui.valed.controls.basic.*;
+import org.toxsoft.core.tsgui.widgets.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
+import org.toxsoft.core.tslib.gw.ugwi.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
-import org.toxsoft.skf.rri.lib.ugwi.UgwiKindRriAttr;
-import org.toxsoft.skf.rri.struct.gui.km5.RriClassInfoLifeCycleManager;
-import org.toxsoft.uskat.core.ISkCoreApi;
-import org.toxsoft.uskat.core.api.objserv.ISkObject;
-import org.toxsoft.uskat.core.api.sysdescr.ESkClassPropKind;
-import org.toxsoft.uskat.core.api.sysdescr.ISkClassInfo;
-import org.toxsoft.uskat.core.api.sysdescr.dto.IDtoClassPropInfoBase;
-import org.toxsoft.uskat.core.connection.ISkConnection;
-import org.toxsoft.uskat.core.gui.ugwi.kinds.SingleSkPropUgwiSelectPanel;
-import org.toxsoft.uskat.core.impl.SkCoreApi;
+import org.toxsoft.skf.rri.lib.ugwi.*;
+import org.toxsoft.skf.rri.struct.gui.km5.*;
+import org.toxsoft.uskat.core.*;
+import org.toxsoft.uskat.core.api.objserv.*;
+import org.toxsoft.uskat.core.api.sysdescr.*;
+import org.toxsoft.uskat.core.api.sysdescr.dto.*;
+import org.toxsoft.uskat.core.connection.*;
+import org.toxsoft.uskat.core.gui.ugwi.kinds.*;
+import org.toxsoft.uskat.core.impl.*;
 
 /**
  * {@link IGenericSelectorPanel} implementation for selection RRI prop
@@ -284,15 +276,19 @@ public class SingleRriPropUgwiSelectPanel
 
   @Override
   public Ugwi selectedItem() {
-    TsValidationFailedRtException.checkError( canGetEntity() );
+    // TsValidationFailedRtException.checkError( canGetEntity() );
+    // ISkObject selObj = panelObjects.selectedItem();
+    // IDtoClassPropInfoBase selProp = panelProps.selectedItem();
+    // ESkClassPropKind kind = getClassPropKind();
+    // String namespace = currRriSection.id();
+    // Gwid gwid = kind.createConcreteGwid( selObj.skid(), selProp.id() );
+    // String ugwiKindId = tsContext().params().getStr( OPDEF_RRI_UGWI_KIND_ID );
+    // Ugwi retVal = Ugwi.of( ugwiKindId, namespace, gwid.canonicalString() );
+    // return retVal;
+
     ISkObject selObj = panelObjects.selectedItem();
     IDtoClassPropInfoBase selProp = panelProps.selectedItem();
-    ESkClassPropKind kind = getClassPropKind();
-    String namespace = currRriSection.id();
-    Gwid gwid = kind.createConcreteGwid( selObj.skid(), selProp.id() );
-    String ugwiKindId = tsContext().params().getStr( OPDEF_RRI_UGWI_KIND_ID );
-    Ugwi retVal = Ugwi.of( ugwiKindId, namespace, gwid.canonicalString() );
-    return retVal;
+    return UgwiKindRriAttr.makeUgwi( currRriSection.id(), selObj.skid(), selProp.id() );
   }
 
   @Override
