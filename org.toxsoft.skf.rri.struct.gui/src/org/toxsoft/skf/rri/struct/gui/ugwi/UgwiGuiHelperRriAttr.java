@@ -10,8 +10,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.ugwi.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.ugwis.*;
+import org.toxsoft.uskat.core.gui.glib.gwidsel.*;
 import org.toxsoft.uskat.core.gui.ugwi.gui.*;
-import org.toxsoft.uskat.core.gui.ugwi.kinds.*;
 
 /**
  * {@link IUgwiKindGuiHelper} implementation for {@link UgwiKindRriAttr}.
@@ -40,8 +40,7 @@ public class UgwiGuiHelperRriAttr
   @Override
   protected IGenericEntityEditPanel<Ugwi> doCreateEntityPanel( ITsGuiContext aTsContext, boolean aViewer ) {
     // set kind of RRI prop (attr)
-    SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(),
-        avValobj( ESkClassPropKind.ATTR ) );
+    IGwidSelectorConstants.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(), avValobj( ESkClassPropKind.ATTR ) );
     SingleRriPropUgwiSelectPanel.OPDEF_RRI_UGWI_KIND_ID.setValue( aTsContext.params(),
         avStr( UgwiKindRriAttr.KIND_ID ) );
     return new SingleRriPropUgwiSelectPanel( aTsContext, aViewer );
@@ -50,8 +49,7 @@ public class UgwiGuiHelperRriAttr
   @Override
   protected IGenericSelectorPanel<Ugwi> doCreateSelectorPanel( ITsGuiContext aTsContext, boolean aViewer ) {
     // set kind of RRI prop (attr)
-    SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(),
-        avValobj( ESkClassPropKind.ATTR ) );
+    IGwidSelectorConstants.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(), avValobj( ESkClassPropKind.ATTR ) );
     SingleRriPropUgwiSelectPanel.OPDEF_RRI_UGWI_KIND_ID.setValue( aTsContext.params(),
         avStr( UgwiKindRriAttr.KIND_ID ) );
     return new SingleRriPropUgwiSelectPanel( aTsContext, aViewer );

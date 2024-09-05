@@ -10,8 +10,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.ugwi.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.ugwis.*;
+import org.toxsoft.uskat.core.gui.glib.gwidsel.*;
 import org.toxsoft.uskat.core.gui.ugwi.gui.*;
-import org.toxsoft.uskat.core.gui.ugwi.kinds.*;
 
 /**
  * {@link IUgwiKindGuiHelper} implementation for {@link UgwiKindRriLink}.
@@ -39,8 +39,7 @@ public class UgwiGuiHelperRriLink
   @Override
   protected IGenericEntityEditPanel<Ugwi> doCreateEntityPanel( ITsGuiContext aTsContext, boolean aViewer ) {
     // set kind of RRI prop (link)
-    SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(),
-        avValobj( ESkClassPropKind.LINK ) );
+    IGwidSelectorConstants.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(), avValobj( ESkClassPropKind.LINK ) );
     SingleRriPropUgwiSelectPanel.OPDEF_RRI_UGWI_KIND_ID.setValue( aTsContext.params(),
         avStr( UgwiKindRriLink.KIND_ID ) );
 
@@ -49,8 +48,7 @@ public class UgwiGuiHelperRriLink
 
   @Override
   protected IGenericSelectorPanel<Ugwi> doCreateSelectorPanel( ITsGuiContext aTsContext, boolean aViewer ) {
-    SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(),
-        avValobj( ESkClassPropKind.LINK ) );
+    IGwidSelectorConstants.OPDEF_CLASS_PROP_KIND.setValue( aTsContext.params(), avValobj( ESkClassPropKind.LINK ) );
     SingleRriPropUgwiSelectPanel.OPDEF_RRI_UGWI_KIND_ID.setValue( aTsContext.params(),
         avStr( UgwiKindRriLink.KIND_ID ) );
 
