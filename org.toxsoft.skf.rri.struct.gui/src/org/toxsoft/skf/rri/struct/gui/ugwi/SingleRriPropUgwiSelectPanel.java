@@ -46,7 +46,7 @@ import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 import org.toxsoft.uskat.core.connection.*;
-import org.toxsoft.uskat.core.gui.ugwi.kinds.*;
+import org.toxsoft.uskat.core.gui.glib.gwidsel.*;
 import org.toxsoft.uskat.core.impl.*;
 
 /**
@@ -97,7 +97,7 @@ public class SingleRriPropUgwiSelectPanel
     super( aContext, aIsViewer );
     coreApi = skCoreApi( tsContext() );
     TsInternalErrorRtException.checkNull( coreApi );
-    skClassPropKind = SingleSkPropUgwiSelectPanel.OPDEF_CLASS_PROP_KIND.getValue( tsContext().params() ).asValobj();
+    skClassPropKind = IGwidSelectorConstants.OPDEF_CLASS_PROP_KIND.getValue( tsContext().params() ).asValobj();
     // IM5Domain m5 = aContext.get( IM5Domain.class );
     ISkConnection conn = ((SkCoreApi)coreApi).skConn();
     IM5Domain m5 = conn.scope().get( IM5Domain.class );
@@ -297,7 +297,9 @@ public class SingleRriPropUgwiSelectPanel
     panelObjects.setSelectedItem( null );
     panelClasses.setSelectedItem( null );
     if( aItem != null ) {
-      Gwid gwid = Gwid.of( aItem.essence() );
+      // Gwid gwid = Gwid.of( aItem.essence() );
+      Gwid gwid = Gwid.createAttr( UgwiKindRriAttr.getClassId( aItem ), UgwiKindRriAttr.getObjStrid( aItem ),
+          UgwiKindRriAttr.getAttrId( aItem ) );
       ISkClassInfo cinf = coreApi.sysdescr().findClassInfo( gwid.classId() );
       if( cinf != null ) {
         panelClasses.setSelectedItem( cinf );
