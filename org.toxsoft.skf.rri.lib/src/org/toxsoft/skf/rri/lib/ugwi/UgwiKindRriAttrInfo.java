@@ -109,7 +109,7 @@ public class UgwiKindRriAttrInfo
   /**
    * The UGWI kind ID.
    */
-  public static final String KIND_ID = SK_ID + ".sk.attr"; //$NON-NLS-1$
+  public static final String KIND_ID = SK_ID + ".rri.attr.info"; //$NON-NLS-1$
 
   /**
    * The singleton instance.

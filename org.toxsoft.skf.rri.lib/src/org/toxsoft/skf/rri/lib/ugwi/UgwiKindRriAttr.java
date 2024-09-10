@@ -17,6 +17,7 @@ import org.toxsoft.core.tslib.gw.ugwi.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.uskat.core.*;
+import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.ugwis.*;
 import org.toxsoft.uskat.core.impl.*;
 
@@ -291,6 +292,34 @@ public class UgwiKindRriAttr
     StridUtils.checkValidIdPath( aAttrId );
     IdChain chain = new IdChain( aSectId, aObjSkid.classId(), aObjSkid.strid(), aAttrId );
     return Ugwi.of( KIND_ID, chain.canonicalString() );
+  }
+
+  /**
+   * Возвращает признак существования объекта и НСИ атрибута, на которые указывает {@link Ugwi}.<br>
+   *
+   * @param aUgwi {@link Ugwi} - ИД сущности
+   * @param aCoreApi {@link ISkCoreApi} - API сервера
+   * @return <b>true</b> - сущность есть<br>
+   *         <b>false</b> - сущность отсутствует
+   */
+  public static boolean isEntityExists( Ugwi aUgwi, ISkCoreApi aCoreApi ) {
+    if( INSTANCE.validateUgwi( aUgwi ) != ValidationResult.SUCCESS ) {
+      return false;
+    }
+    TsIllegalArgumentRtException.checkFalse( aUgwi.kindId().equals( KIND_ID ) );
+    ISkObject skObj = aCoreApi.objService().find( getSkid( aUgwi ) );
+    if( skObj != null ) {
+      ISkRegRefInfoService rriServ = aCoreApi.getService( ISkRegRefInfoService.SERVICE_ID );
+      ISkRriSection section = rriServ.getSection( getSectionId( aUgwi ) );
+      try {
+        section.getAttrParamValue( skObj.skid(), getAttrId( aUgwi ) );
+        return true;
+      }
+      catch( Throwable e ) {
+        e.printStackTrace();
+      }
+    }
+    return false;
   }
 
 }
