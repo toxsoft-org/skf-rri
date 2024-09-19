@@ -307,7 +307,9 @@ public class SingleRriPropUgwiSelectPanel
           ISkObject obj = coreApi.objService().find( gwid.skid() );
           if( obj != null && gwid.isProp() ) {
             panelObjects.setSelectedItem( obj );
-            IDtoClassPropInfoBase prop = cinf.props( getClassPropKind() ).list().findByKey( gwid.propId() );
+            IStridablesList<IDtoRriParamInfo> rriParamInfoes = currRriSection.listParamInfoes( cinf.id() );
+            IDtoRriParamInfo rriParamInfo = rriParamInfoes.findByKey( gwid.propId() );
+            IDtoClassPropInfoBase prop = getPropInfo( rriParamInfo );
             panelProps.setSelectedItem( prop );
           }
         }

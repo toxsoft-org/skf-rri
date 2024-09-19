@@ -236,6 +236,20 @@ public class UgwiKindRriAttr
   }
 
   /**
+   * Extracts Gwid from the UGWI of this kind.
+   *
+   * @param aUgwi {@link Ugwi} - the UGWI
+   * @return {@link Gwid} - the GWID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException invalid UGWI for this kind
+   */
+  public static Gwid getGwid( Ugwi aUgwi ) {
+    TsValidationFailedRtException.checkError( INSTANCE.validateUgwi( aUgwi ) );
+    IdChain chain = IdChain.of( aUgwi.essence() );
+    return Gwid.createAttr( getClassId( aUgwi ), chain.get( IDX_OBJ_STRID ), chain.get( IDX_ATTR_ID ) );
+  }
+
+  /**
    * Creates the UGWI of this kind.
    *
    * @param aSectId String - the RRI section ID
