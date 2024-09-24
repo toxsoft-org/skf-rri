@@ -343,6 +343,8 @@ public class SingleRriPropUgwiSelectPanel
   //
   private void whenClassSelectionChanges() {
     panelProps.setSelectedItem( null );
+    panelProps.setItemsProvider( null );
+    panelProps.refresh();
     panelObjects.setSelectedItem( null );
     ISkClassInfo cinf = panelClasses.selectedItem();
     if( cinf != null ) {
