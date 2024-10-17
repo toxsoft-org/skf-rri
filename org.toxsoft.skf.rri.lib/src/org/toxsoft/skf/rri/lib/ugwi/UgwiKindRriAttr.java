@@ -95,7 +95,7 @@ public class UgwiKindRriAttr
 
     @Override
     protected IAtomicValue doFindAtomicValue( Ugwi aUgwi ) {
-      return doFindAtomicValue( aUgwi );
+      return doFindContent( aUgwi );
     }
 
     @Override
