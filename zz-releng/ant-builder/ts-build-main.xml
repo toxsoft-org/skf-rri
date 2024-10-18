@@ -17,6 +17,10 @@
   <!-- TODO: -->
   <target name="build-lib-jar" depends="clean" description="Сборка общих плагинов">
     <ant dir="../../org.toxsoft.skf.rri.lib" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.skf.rri.values.gui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.skf.rri.values.mws" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.skf.rri.struct.gui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.skf.rri.struct.skide" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
   </target>
 
   <!-- ЦЕЛЬ: сборка plugin-ов -->
@@ -27,7 +31,11 @@
                        exportSource="true"
                        exportSourceBundle="false"
                        exportType="directory"
-                       plugins="org.toxsoft.skf.rri.lib"
+                       plugins="org.toxsoft.skf.rri.lib,
+                               org.toxsoft.skf.rri.values.gui,
+                               org.toxsoft.skf.rri.values.mws,
+                               org.toxsoft.skf.rri.struct.gui,
+                               org.toxsoft.skf.rri.struct.skide"
                        useworkspacecompiledclasses="true"
                        useJARFormat="true" />
   </target>

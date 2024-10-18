@@ -565,6 +565,10 @@
   </profiles>
   <modules>
     <module>org.toxsoft.skf.rri.lib</module>
+    <module>org.toxsoft.skf.rri.values.gui</module>
+    <module>org.toxsoft.skf.rri.values.mws</module>
+    <module>org.toxsoft.skf.rri.struct.gui</module>
+    <module>org.toxsoft.skf.rri.struct.skide</module>
 
     <module>zz-releng/p2.main</module>
     <module>zz-releng/ant.main</module>

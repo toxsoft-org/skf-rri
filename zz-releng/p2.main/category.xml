@@ -6,8 +6,16 @@
       </description>
    </category-def>
    <bundle id="org.toxsoft.skf.rri.lib"/>
+   <bundle id="org.toxsoft.skf.rri.values.gui"/>
+   <bundle id="org.toxsoft.skf.rri.values.mws"/>
+   <bundle id="org.toxsoft.skf.rri.struct.gui"/>
+   <bundle id="org.toxsoft.skf.rri.struct.skide"/>
 
    <!-- sources -->
    <bundle id="org.toxsoft.skf.rri.lib.source"/>
+   <bundle id="org.toxsoft.skf.rri.values.gui.source"/>
+   <bundle id="org.toxsoft.skf.rri.values.mws.source"/>
+   <bundle id="org.toxsoft.skf.rri.struct.gui.source"/>
+   <bundle id="org.toxsoft.skf.rri.struct.skide.source"/>
 
 </site>

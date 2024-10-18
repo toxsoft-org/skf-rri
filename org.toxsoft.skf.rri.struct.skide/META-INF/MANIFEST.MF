@@ -29,5 +29,5 @@ Require-Bundle: jakarta.inject.jakarta.inject-api,
  org.toxsoft.skide.plugin.exconn,
  org.toxsoft.skf.rri.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Automatic-Module-Name: org.toxsoft.skide.plugin.template
+Automatic-Module-Name: org.toxsoft.skf.rri.struct.skide
 Bundle-ActivationPolicy: lazy
