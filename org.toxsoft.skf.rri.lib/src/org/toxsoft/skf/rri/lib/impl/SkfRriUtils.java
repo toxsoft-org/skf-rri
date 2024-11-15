@@ -17,13 +17,19 @@ public class SkfRriUtils {
    * Core handler to register all registered Sk-connection bound {@link ISkUgwiKind} when connection opens.
    */
   private static final ISkCoreExternalHandler coreRegistrationHandler = aCoreApi -> {
-
-    ISkRegRefInfoService rriService = aCoreApi.getService( ISkRegRefInfoService.SERVICE_ID );
-    if( rriService != null ) {
+    // 2024-11-15 mvk ---+++ правка кода позволяет использовать initialize() при старте сервера до создания
+    // локальных(внутри сервера) соединений
+    // ISkRegRefInfoService rriService = aCoreApi.getService( ISkRegRefInfoService.SERVICE_ID );
+    // if( rriService != null ) {
+    ISkRegRefInfoService rriService =
+        (ISkRegRefInfoService)aCoreApi.services().findByKey( ISkRegRefInfoService.SERVICE_ID );
+    if( rriService == null ) {
+      rriService = aCoreApi.addService( SkRegRefInfoService.CREATOR );
       ISkUgwiService uServ = aCoreApi.ugwiService();
       uServ.registerKind( UgwiKindRriAttr.INSTANCE.createUgwiKind( aCoreApi ) );
       uServ.registerKind( UgwiKindRriLink.INSTANCE.createUgwiKind( aCoreApi ) );
       // TODO add other RRI-related UGWI kinds
+
     }
   };
 
