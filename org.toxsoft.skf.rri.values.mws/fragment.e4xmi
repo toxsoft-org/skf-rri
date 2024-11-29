@@ -18,12 +18,12 @@
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_HmYAkK-lEe6ijfV_AjmUeQ" featurename="children" parentElementId="org.toxsoft.mws.menu.main.perspectives">
-    <elements xsi:type="menu:HandledMenuItem" xmi:id="_QJAI8K-lEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.handledmenuitem.1" label="%Persp_Rri_Values" iconURI="platform:/plugin/org.toxsoft.skf.rri.values.mws/icons/is24x24/app-nsi.png" tooltip="%Persp_Rri_Values_D" command="_sHTm4K-lEe6ijfV_AjmUeQ">
+    <elements xsi:type="menu:HandledMenuItem" xmi:id="_QJAI8K-lEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.handledmenuitem.1" label="%Persp_Rri_Values" iconURI="platform:/plugin/org.toxsoft.skf.rri.values.mws/icons/is24x24/app-nsi.png" tooltip="%Persp_Rri_Values_D" type="Radio" command="_sHTm4K-lEe6ijfV_AjmUeQ">
       <parameters xmi:id="_Lfw3gK-mEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.parameter.0" name="org.toxsoft.mws.cmd.switch_persp.arg.perspId" value="org.toxsoft.skf.rri.values.mws.perspective.rrivalues"/>
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_TZx9MK-lEe6ijfV_AjmUeQ" featurename="children" parentElementId="org.toxsoft.mws.toolbar.main">
-    <elements xsi:type="menu:HandledToolItem" xmi:id="_Yg5A8K-lEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.handledtoolitem.1" label="%Persp_Rri_Values" iconURI="platform:/plugin/org.toxsoft.skf.rri.values.mws/icons/is24x24/app-nsi.png" tooltip="%Persp_Rri_Values_D" command="_sHTm4K-lEe6ijfV_AjmUeQ">
+    <elements xsi:type="menu:HandledToolItem" xmi:id="_Yg5A8K-lEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.handledtoolitem.1" label="%Persp_Rri_Values" iconURI="platform:/plugin/org.toxsoft.skf.rri.values.mws/icons/is24x24/app-nsi.png" tooltip="%Persp_Rri_Values_D" type="Radio" command="_sHTm4K-lEe6ijfV_AjmUeQ">
       <parameters xmi:id="_QeNHcK-mEe6ijfV_AjmUeQ" elementId="org.toxsoft.skf.rri.values.mws.parameter.1" name="org.toxsoft.mws.cmd.switch_persp.arg.perspId" value="org.toxsoft.skf.rri.values.mws.perspective.rrivalues"/>
     </elements>
   </fragments>
