@@ -1,0 +1,5 @@
+не вынесены константы:
+    org.toxsoft.skf.rri.values.gui.IRegRefInfoConstants
+    org.toxsoft.skf.rri.values.gui.utils.RriUtils
+    org.toxsoft.skf.rri.values.gui.utils.ValedDurationText
+    
