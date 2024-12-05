@@ -1,0 +1,1 @@
+++- org.toxsoft.skf.rri.struct.skide (нет грузинской локализации)
