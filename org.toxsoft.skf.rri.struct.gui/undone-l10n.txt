@@ -1,0 +1,3 @@
+++- org.toxsoft.skf.rri.struct.gui.km5 (нет грузинской локализации)
+++- org.toxsoft.skf.rri.struct.gui.panels (нет грузинской локализации)
+--- org.toxsoft.skf.rri.struct.gui.ugwi
