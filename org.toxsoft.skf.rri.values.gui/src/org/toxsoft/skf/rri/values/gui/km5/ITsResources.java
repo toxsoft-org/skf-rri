@@ -12,80 +12,80 @@ public interface ITsResources {
   // ---------------------------------------------------------
   // AttrParamM5Model
 
-  String ATTR_PARAM_MODEL_NAME          = Messages.ATTR_PARAM_MODEL_NAME;
-  String DIFFERENT_VALUE_STR            = Messages.DIFFERENT_VALUE_STR;
-  String FDESCR_REASON_ATTR             = Messages.FDESCR_REASON_ATTR;
-  String FNAME_REASON_ATTR              = Messages.FNAME_REASON_ATTR;
-  String FDESCR_VALUE_ATTR              = Messages.FDESCR_VALUE_ATTR;
-  String FNAME_VALUE_ATTR               = Messages.FNAME_VALUE_ATTR;
-  String FDESCR_VIS_NAME_ATTR           = Messages.FDESCR_VIS_NAME_ATTR;
-  String FNAME_VIS_NAME_ATTR            = Messages.FNAME_VIS_NAME_ATTR;
-  String FNAME_DESCRIPTION_ATTR         = Messages.FNAME_DESCRIPTION_ATTR;
-  String FDESCR_DESCRIPTION_ATTR        = Messages.FDESCR_DESCRIPTION_ATTR;
-  String FNAME_GWID_ATTR                = Messages.FNAME_GWID_ATTR;
-  String FDESCR_GWID_ATTR               = Messages.FDESCR_GWID_ATTR;
-  String STR_DLG_TITLE_EDITING_RRI_ATTR = Messages.STR_DLG_TITLE_EDITING_RRI_ATTR;
-  String STR_N_COPY_TO_CLIPBOARD        = Messages.STR_N_COPY_TO_CLIPBOARD;
-  String STR_D_COPY_TO_CLIPBOARD        = Messages.STR_D_COPY_TO_CLIPBOARD;
-  String STR_DEFAULT_REASON             = Messages.STR_DEFAULT_REASON;
+  String ATTR_PARAM_MODEL_NAME          = Messages.getString( "ATTR_PARAM_MODEL_NAME" );          //$NON-NLS-1$
+  String DIFFERENT_VALUE_STR            = Messages.getString( "DIFFERENT_VALUE_STR" );            //$NON-NLS-1$
+  String FDESCR_REASON_ATTR             = Messages.getString( "FDESCR_REASON_ATTR" );             //$NON-NLS-1$
+  String FNAME_REASON_ATTR              = Messages.getString( "FNAME_REASON_ATTR" );              //$NON-NLS-1$
+  String FDESCR_VALUE_ATTR              = Messages.getString( "FDESCR_VALUE_ATTR" );              //$NON-NLS-1$
+  String FNAME_VALUE_ATTR               = Messages.getString( "FNAME_VALUE_ATTR" );               //$NON-NLS-1$
+  String FDESCR_VIS_NAME_ATTR           = Messages.getString( "FDESCR_VIS_NAME_ATTR" );           //$NON-NLS-1$
+  String FNAME_VIS_NAME_ATTR            = Messages.getString( "FNAME_VIS_NAME_ATTR" );            //$NON-NLS-1$
+  String FNAME_DESCRIPTION_ATTR         = Messages.getString( "FNAME_DESCRIPTION_ATTR" );         //$NON-NLS-1$
+  String FDESCR_DESCRIPTION_ATTR        = Messages.getString( "FDESCR_DESCRIPTION_ATTR" );        //$NON-NLS-1$
+  String FNAME_GWID_ATTR                = Messages.getString( "FNAME_GWID_ATTR" );                //$NON-NLS-1$
+  String FDESCR_GWID_ATTR               = Messages.getString( "FDESCR_GWID_ATTR" );               //$NON-NLS-1$
+  String STR_DLG_TITLE_EDITING_RRI_ATTR = Messages.getString( "STR_DLG_TITLE_EDITING_RRI_ATTR" ); //$NON-NLS-1$
+  String STR_N_COPY_TO_CLIPBOARD        = Messages.getString( "STR_N_COPY_TO_CLIPBOARD" );        //$NON-NLS-1$
+  String STR_D_COPY_TO_CLIPBOARD        = Messages.getString( "STR_D_COPY_TO_CLIPBOARD" );        //$NON-NLS-1$
+  String STR_DEFAULT_REASON             = Messages.getString( "STR_DEFAULT_REASON" );             //$NON-NLS-1$
 
   //
   // ---------------------------------------------------------
   // LinkParamM5Model
 
-  String FNAME_VIS_NAME_LINK            = Messages.FNAME_VIS_NAME_LINK;
-  String FDESCR_VIS_NAME_LINK           = Messages.FDESCR_VIS_NAME_LINK;
-  String FDESCR_VIS_VALUE_LINK          = Messages.FDESCR_VIS_VALUE_LINK;
-  String FNAME_VIS_VALUE_LINK           = Messages.FNAME_VIS_VALUE_LINK;
-  String FNAME_DESCRIPTION_LINK         = Messages.FNAME_DESCRIPTION_LINK;
-  String FDESCR_DESCRIPTION_LINK        = Messages.FDESCR_DESCRIPTION_LINK;
-  String FNAME_GWID_LINK                = Messages.FNAME_GWID_LINK;
-  String FDESCR_GWID_LINK               = Messages.FDESCR_GWID_LINK;
-  String FDESCR_MUILTI_VALUE_LINK       = Messages.FDESCR_MUILTI_VALUE_LINK;
-  String FDESCR_SINGLE_VALUE_LINK       = Messages.FDESCR_SINGLE_VALUE_LINK;
-  String FNAME_SINGLE_VALUE_LINK        = Messages.FNAME_SINGLE_VALUE_LINK;
-  String FNAME_MUILTI_VALUE_LINK        = Messages.FNAME_MUILTI_VALUE_LINK;
-  String LINK_PARAM_MODEL_NAME          = Messages.LINK_PARAM_MODEL_NAME;
-  String FNAME_REASON_LINK              = Messages.FNAME_REASON_LINK;
-  String FDESCR_REASON_LINK             = Messages.FDESCR_REASON_LINK;
-  String STR_DLG_TITLE_EDITING_RRI_LINK = Messages.STR_DLG_TITLE_EDITING_RRI_LINK;
+  String FNAME_VIS_NAME_LINK            = Messages.getString( "FNAME_VIS_NAME_LINK" );            //$NON-NLS-1$
+  String FDESCR_VIS_NAME_LINK           = Messages.getString( "FDESCR_VIS_NAME_LINK" );           //$NON-NLS-1$
+  String FDESCR_VIS_VALUE_LINK          = Messages.getString( "FDESCR_VIS_VALUE_LINK" );          //$NON-NLS-1$
+  String FNAME_VIS_VALUE_LINK           = Messages.getString( "FNAME_VIS_VALUE_LINK" );           //$NON-NLS-1$
+  String FNAME_DESCRIPTION_LINK         = Messages.getString( "FNAME_DESCRIPTION_LINK" );         //$NON-NLS-1$
+  String FDESCR_DESCRIPTION_LINK        = Messages.getString( "FDESCR_DESCRIPTION_LINK" );        //$NON-NLS-1$
+  String FNAME_GWID_LINK                = Messages.getString( "FNAME_GWID_LINK" );                //$NON-NLS-1$
+  String FDESCR_GWID_LINK               = Messages.getString( "FDESCR_GWID_LINK" );               //$NON-NLS-1$
+  String FDESCR_MUILTI_VALUE_LINK       = Messages.getString( "FDESCR_MUILTI_VALUE_LINK" );       //$NON-NLS-1$
+  String FDESCR_SINGLE_VALUE_LINK       = Messages.getString( "FDESCR_SINGLE_VALUE_LINK" );       //$NON-NLS-1$
+  String FNAME_SINGLE_VALUE_LINK        = Messages.getString( "FNAME_SINGLE_VALUE_LINK" );        //$NON-NLS-1$
+  String FNAME_MUILTI_VALUE_LINK        = Messages.getString( "FNAME_MUILTI_VALUE_LINK" );        //$NON-NLS-1$
+  String LINK_PARAM_MODEL_NAME          = Messages.getString( "LINK_PARAM_MODEL_NAME" );          //$NON-NLS-1$
+  String FNAME_REASON_LINK              = Messages.getString( "FNAME_REASON_LINK" );              //$NON-NLS-1$
+  String FDESCR_REASON_LINK             = Messages.getString( "FDESCR_REASON_LINK" );             //$NON-NLS-1$
+  String STR_DLG_TITLE_EDITING_RRI_LINK = Messages.getString( "STR_DLG_TITLE_EDITING_RRI_LINK" ); //$NON-NLS-1$
 
   //
   // ---------------------------------------------------------
   // ObjectCheckableM5Model
 
-  String CHECKABLE_OBJECT_LIST_MODEL_NAME = Messages.CHECKABLE_OBJECT_LIST_MODEL_NAME;
-  String FDESCR_ID_OBJ                    = Messages.FDESCR_ID_OBJ;
-  String FNAME_ID_OBJ                     = Messages.FNAME_ID_OBJ;
-  String FDESCR_DESCR_OBJ                 = Messages.FDESCR_DESCR_OBJ;
-  String FNAME_DESCR_OBJ                  = Messages.FNAME_DESCR_OBJ;
-  String ACT_T_EDIT_ENTITY_NAME_DESCR     = Messages.ACT_T_EDIT_ENTITY_NAME_DESCR;
-  String ACT_N_EDIT_ENTITY_NAME_DESCR     = Messages.ACT_N_EDIT_ENTITY_NAME_DESCR;
+  String CHECKABLE_OBJECT_LIST_MODEL_NAME = Messages.getString( "CHECKABLE_OBJECT_LIST_MODEL_NAME" ); //$NON-NLS-1$
+  String FDESCR_ID_OBJ                    = Messages.getString( "FDESCR_ID_OBJ" );                    //$NON-NLS-1$
+  String FNAME_ID_OBJ                     = Messages.getString( "FNAME_ID_OBJ" );                     //$NON-NLS-1$
+  String FDESCR_DESCR_OBJ                 = Messages.getString( "FDESCR_DESCR_OBJ" );                 //$NON-NLS-1$
+  String FNAME_DESCR_OBJ                  = Messages.getString( "FNAME_DESCR_OBJ" );                  //$NON-NLS-1$
+  String ACT_T_EDIT_ENTITY_NAME_DESCR     = Messages.getString( "ACT_T_EDIT_ENTITY_NAME_DESCR" );     //$NON-NLS-1$
+  String ACT_N_EDIT_ENTITY_NAME_DESCR     = Messages.getString( "ACT_N_EDIT_ENTITY_NAME_DESCR" );     //$NON-NLS-1$
 
   //
   // ---------------------------------------------------------
   // ObjectsLookupProvider
 
-  String EMPTY_LINK_OBJECT_VIS_NAME = Messages.EMPTY_LINK_OBJECT_VIS_NAME;
+  String EMPTY_LINK_OBJECT_VIS_NAME = Messages.getString( "EMPTY_LINK_OBJECT_VIS_NAME" ); //$NON-NLS-1$
 
   //
   // ---------------------------------------------------------
   // ClassObjectPairM5Model
 
-  String CLASS_OBJECT_MODEL_NAME        = Messages.CLASS_OBJECT_MODEL_NAME;
-  String FNAME_OBJ_STRID_CLASS_OBJECT   = Messages.FNAME_OBJ_STRID_CLASS_OBJECT;
-  String FDESCR_OBJ_STRID_CLASS_OBJECT  = Messages.FDESCR_OBJ_STRID_CLASS_OBJECT;
-  String FDESCR_CLASS_NAME_CLASS_OBJECT = Messages.FDESCR_CLASS_NAME_CLASS_OBJECT;
-  String FNAME_CLASS_NAME_CLASS_OBJECT  = Messages.FNAME_CLASS_NAME_CLASS_OBJECT;
+  String CLASS_OBJECT_MODEL_NAME        = Messages.getString( "CLASS_OBJECT_MODEL_NAME" );        //$NON-NLS-1$
+  String FNAME_OBJ_STRID_CLASS_OBJECT   = Messages.getString( "FNAME_OBJ_STRID_CLASS_OBJECT" );   //$NON-NLS-1$
+  String FDESCR_OBJ_STRID_CLASS_OBJECT  = Messages.getString( "FDESCR_OBJ_STRID_CLASS_OBJECT" );  //$NON-NLS-1$
+  String FDESCR_CLASS_NAME_CLASS_OBJECT = Messages.getString( "FDESCR_CLASS_NAME_CLASS_OBJECT" ); //$NON-NLS-1$
+  String FNAME_CLASS_NAME_CLASS_OBJECT  = Messages.getString( "FNAME_CLASS_NAME_CLASS_OBJECT" );  //$NON-NLS-1$
 
   //
   // ---------------------------------------------------------
   // DefaultRriObjectM5Model
 
-  String DEFAULT_VIS_NAME_COLUMN_TITLE = Messages.DEFAULT_VIS_NAME_COLUMN_TITLE;
-  String RRI_TABLE_TITLE_FORMAT        = Messages.RRI_TABLE_TITLE_FORMAT;
-  String DEFAULT_RRI_TABLE_TITLE       = Messages.DEFAULT_RRI_TABLE_TITLE;
-  String CAUSE_COLUMN_TITLE            = Messages.CAUSE_COLUMN_TITLE;
+  String DEFAULT_VIS_NAME_COLUMN_TITLE = Messages.getString( "DEFAULT_VIS_NAME_COLUMN_TITLE" ); //$NON-NLS-1$
+  String RRI_TABLE_TITLE_FORMAT        = Messages.getString( "RRI_TABLE_TITLE_FORMAT" );        //$NON-NLS-1$
+  String DEFAULT_RRI_TABLE_TITLE       = Messages.getString( "DEFAULT_RRI_TABLE_TITLE" );       //$NON-NLS-1$
+  String CAUSE_COLUMN_TITLE            = Messages.getString( "CAUSE_COLUMN_TITLE" );            //$NON-NLS-1$
 
   //
   // ---------------------------------------------------------
