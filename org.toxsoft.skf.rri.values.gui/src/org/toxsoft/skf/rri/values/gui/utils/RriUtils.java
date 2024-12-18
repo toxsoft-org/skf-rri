@@ -2,9 +2,14 @@ package org.toxsoft.skf.rri.values.gui.utils;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.controls.av.*;
+import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 import org.toxsoft.skf.rri.values.gui.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
 
@@ -19,10 +24,23 @@ public class RriUtils {
   /**
    * Проводит поиск подходящего для параметра редактора (фабрики редактора)
    *
-   * @param aAttrInfo IAttrInfo - описание параметра
-   * @return IValedControlFactory - фабрика редактора параметра.
+   * @param aAttrInfo {@link IDtoAttrInfo} - описание параметра
+   * @param aContext {@link ITsGuiContext} - контекст вызова
+   * @return IValedControlFactory - фабрика редактора значения параметра.
    */
-  public static IValedControlFactory searchValedControlFactory( IDtoAttrInfo aAttrInfo ) {
+  public static IValedControlFactory searchValedControlFactory( IDtoAttrInfo aAttrInfo, ITsGuiContext aContext ) {
+    // dima 18.12.24 add enum combo editor
+    IDataType dt = aAttrInfo.dataType();
+    if( dt.atomicType() == EAtomicType.VALOBJ ) {
+      IEntityKeeper<?> keeper = TsValobjUtils.findKeeperById( dt.keeperId() );
+      if( keeper != null ) {
+        Class<?> rawClass = keeper.entityClass();
+        if( rawClass != null && rawClass.isEnum() ) {
+          IValedEnumConstants.REFDEF_ENUM_CLASS.setRef( aContext, rawClass );
+        }
+        return ValedAvValobjEnumCombo.FACTORY;
+      }
+    }
     IValedControlFactory result = ValedControlUtils.getDefaultFactory( aAttrInfo.dataType().atomicType() );
     // TODO - регистрировать заранее и
     // изменить формат в скрипте

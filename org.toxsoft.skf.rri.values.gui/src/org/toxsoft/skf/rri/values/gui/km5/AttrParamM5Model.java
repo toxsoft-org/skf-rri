@@ -285,7 +285,7 @@ public class AttrParamM5Model
                           IM5FieldDef<AttrParam, ?> aFieldDef, ITsGuiContext aContext ) {
                         IValedControlFactory factory = null;
                         if( aFieldDef.id().equals( FID_VALUE ) ) {
-                          factory = RriUtils.searchValedControlFactory( aItem.getAttrInfo() );
+                          factory = RriUtils.searchValedControlFactory( aItem.getAttrInfo(), aContext );
                         }
                         if( factory == null ) {
                           factory = aFactory;
