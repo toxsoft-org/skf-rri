@@ -14,5 +14,6 @@ Require-Bundle: org.toxsoft.core.tslib,
 Automatic-Module-Name: org.toxsoft.skf.rri.lib
 Export-Package: org.toxsoft.skf.legacy,
  org.toxsoft.skf.rri.lib,
+ org.toxsoft.skf.rri.lib.checkers,
  org.toxsoft.skf.rri.lib.impl,
  org.toxsoft.skf.rri.lib.ugwi
