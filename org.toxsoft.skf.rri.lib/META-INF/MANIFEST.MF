@@ -9,8 +9,7 @@ Require-Bundle: org.toxsoft.core.tslib,
  org.toxsoft.uskat.core,
  org.toxsoft.uskat.s5,
  org.toxsoft.uskat.core.inner;bundle-version="1.0.0",
- org.toxsoft.skf.alarms.lib,
- org.toxsoft.uskat.core.gui
+ org.toxsoft.skf.alarms.lib
 Automatic-Module-Name: org.toxsoft.skf.rri.lib
 Export-Package: org.toxsoft.skf.legacy,
  org.toxsoft.skf.rri.lib,
