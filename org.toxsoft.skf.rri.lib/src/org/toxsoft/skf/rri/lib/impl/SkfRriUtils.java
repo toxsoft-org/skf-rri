@@ -1,7 +1,11 @@
 package org.toxsoft.skf.rri.lib.impl;
 
+import org.toxsoft.core.tslib.math.cond.checker.*;
+import org.toxsoft.skf.alarms.lib.*;
 import org.toxsoft.skf.rri.lib.*;
+import org.toxsoft.skf.rri.lib.checkers.*;
 import org.toxsoft.skf.rri.lib.ugwi.*;
+import org.toxsoft.uskat.core.*;
 import org.toxsoft.uskat.core.api.*;
 import org.toxsoft.uskat.core.api.ugwis.*;
 import org.toxsoft.uskat.core.impl.*;
@@ -30,6 +34,21 @@ public class SkfRriUtils {
       uServ.registerKind( UgwiKindRriLink.INSTANCE.createUgwiKind( aCoreApi ) );
       // TODO add other RRI-related UGWI kinds
 
+    }
+    // 23.12.24 dima moved here from SkfAlarmUtils
+    ISkAlarmService alarmService = aCoreApi.getService( ISkAlarmService.SERVICE_ID );
+    if( alarmService != null ) {
+      ITsCheckerTopicManager<ISkCoreApi> tm = alarmService.getAlarmCheckersTopicManager();
+
+      tm.registerType( new AlertCheckerRtdataVsRriType() );
+      tm.registerType( new AlertCheckerRriTypeGtZero() );
+
+      // dima 23.12.24 needles code
+      // ISkUgwiKind uk;
+      // uk = uServ.listKinds().getByKey( UgwiKindRriAttr.KIND_ID );
+      // uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriAttr( (AbstractSkUgwiKind)uk ) );
+      // uk = uServ.listKinds().getByKey( UgwiKindRriLink.KIND_ID );
+      // uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriLink( (AbstractSkUgwiKind)uk ) );
     }
   };
 
