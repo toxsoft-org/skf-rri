@@ -21,12 +21,7 @@ public class SkfRriUtils {
    * Core handler to register all registered Sk-connection bound {@link ISkUgwiKind} when connection opens.
    */
   private static final ISkCoreExternalHandler coreRegistrationHandler = aCoreApi -> {
-    // 2024-11-15 mvk ---+++ правка кода позволяет использовать initialize() при старте сервера до создания
-    // локальных(внутри сервера) соединений
-    // ISkRegRefInfoService rriService = aCoreApi.getService( ISkRegRefInfoService.SERVICE_ID );
-    // if( rriService != null ) {
-    ISkRegRefInfoService rriService =
-        (ISkRegRefInfoService)aCoreApi.services().findByKey( ISkRegRefInfoService.SERVICE_ID );
+    ISkRegRefInfoService rriService = (ISkRegRefInfoService)aCoreApi.findService( ISkRegRefInfoService.SERVICE_ID );
     if( rriService == null ) {
       rriService = aCoreApi.addService( SkRegRefInfoService.CREATOR );
       ISkUgwiService uServ = aCoreApi.ugwiService();
@@ -35,8 +30,7 @@ public class SkfRriUtils {
       // TODO add other RRI-related UGWI kinds
 
     }
-    // 23.12.24 dima moved here from SkfAlarmUtils
-    ISkAlarmService alarmService = aCoreApi.getService( ISkAlarmService.SERVICE_ID );
+    ISkAlarmService alarmService = aCoreApi.findService( ISkAlarmService.SERVICE_ID );
     if( alarmService != null ) {
       ITsCheckerTopicManager<ISkCoreApi> tm = alarmService.getAlarmCheckersTopicManager();
 
