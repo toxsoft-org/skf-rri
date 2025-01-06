@@ -3,6 +3,7 @@ package org.toxsoft.skf.rri.lib.impl;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkResources.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkRriServiceHardConstants.*;
+import static org.toxsoft.skf.rri.lib.l10n.ISkRriLibSharedResources.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
@@ -221,9 +222,9 @@ public class SkRegRefInfoService
     @Override
     public ValidationResult canCreateSection( String aSectionId, String aName, String aDescription,
         IOptionSet aParams ) {
-
-      // FIXME check ability is enabled
-
+      if( !userService().abilityManager().isAbilityAllowed( ABILITYID_EDIT_RRI ) ) { // check editing is enabled
+        return ValidationResult.error( MSG_ERR_RRI_EDITING_NOT_ALLOWED );
+      }
       if( listSections().hasKey( aSectionId ) ) {
         return ValidationResult.error( FMT_ERR_SECTION_ID_ALREADY_ESISTS, aSectionId );
       }
@@ -239,9 +240,9 @@ public class SkRegRefInfoService
     @Override
     public ValidationResult canRemoveSection( String aSectionId ) {
       TsNullArgumentRtException.checkNull( aSectionId );
-
-      // FIXME check ability is enabled
-
+      if( !userService().abilityManager().isAbilityAllowed( ABILITYID_EDIT_RRI ) ) { // check editing is enabled
+        return ValidationResult.error( MSG_ERR_RRI_EDITING_NOT_ALLOWED );
+      }
       if( !listSections().hasKey( aSectionId ) ) {
         return ValidationResult.error( FMT_ERR_SECTION_ID_NOT_ESISTS, aSectionId );
       }
@@ -251,6 +252,9 @@ public class SkRegRefInfoService
     @Override
     public ValidationResult canSetSectionProps( ISkRriSection aSection, String aName, String aDescription,
         IOptionSet aParams ) {
+      if( !userService().abilityManager().isAbilityAllowed( ABILITYID_EDIT_RRI ) ) { // check editing is enabled
+        return ValidationResult.error( MSG_ERR_RRI_EDITING_NOT_ALLOWED );
+      }
       // TODO Auto-generated method stub
       return ValidationResult.SUCCESS;
     }
@@ -258,9 +262,9 @@ public class SkRegRefInfoService
     @Override
     public ValidationResult canChangeParams( ISkRriSection aSection, ISkClassInfo aCompanionClassInfo,
         IStridablesList<IDtoRriParamInfo> aParamInfos ) {
-
-      // FIXME check ability is enabled
-
+      if( !userService().abilityManager().isAbilityAllowed( ABILITYID_EDIT_RRI ) ) { // check editing is enabled
+        return ValidationResult.error( MSG_ERR_RRI_EDITING_NOT_ALLOWED );
+      }
       // TODO ensure that no attribute and link has the same ID
 
       // TODO Auto-generated method stub
@@ -269,18 +273,18 @@ public class SkRegRefInfoService
 
     @Override
     public ValidationResult canRemoveParam( ISkRriSection aSection, String aClassId, String aRriParamId ) {
-
-      // FIXME check ability is enabled
-
+      if( !userService().abilityManager().isAbilityAllowed( ABILITYID_EDIT_RRI ) ) { // check editing is enabled
+        return ValidationResult.error( MSG_ERR_RRI_EDITING_NOT_ALLOWED );
+      }
       // TODO Auto-generated method stub
       return ValidationResult.SUCCESS;
     }
 
     @Override
     public ValidationResult canRemoveAll( ISkRriSection aSection, String aClassId ) {
-
-      // FIXME check ability is enabled
-
+      if( !userService().abilityManager().isAbilityAllowed( ABILITYID_EDIT_RRI ) ) { // check editing is enabled
+        return ValidationResult.error( MSG_ERR_RRI_EDITING_NOT_ALLOWED );
+      }
       // TODO Auto-generated method stub
       return ValidationResult.SUCCESS;
     }
@@ -288,9 +292,9 @@ public class SkRegRefInfoService
     @Override
     public ValidationResult canSetAttrParamValue( ISkRriSection aSection, Skid aObjId, String aParamId,
         IAtomicValue aValue, String aReason ) {
-
-      // FIXME check ability is enabled
-
+      if( !userService().abilityManager().isAbilityAllowed( ABILITYID_EDIT_RRI ) ) { // check editing is enabled
+        return ValidationResult.error( MSG_ERR_RRI_EDITING_NOT_ALLOWED );
+      }
       // TODO Auto-generated method stub
       return ValidationResult.SUCCESS;
     }
@@ -298,9 +302,9 @@ public class SkRegRefInfoService
     @Override
     public ValidationResult canSetLinkParamValue( ISkRriSection aSection, Skid aObjId, String aParamId,
         ISkidList aObjIds, String aReason ) {
-
-      // FIXME check ability is enabled
-
+      if( !userService().abilityManager().isAbilityAllowed( ABILITYID_EDIT_RRI ) ) { // check editing is enabled
+        return ValidationResult.error( MSG_ERR_RRI_EDITING_NOT_ALLOWED );
+      }
       // TODO warn if reason is a blank string
 
       // TODO Auto-generated method stub
@@ -310,8 +314,11 @@ public class SkRegRefInfoService
     @Override
     public ValidationResult canSetParamValues( ISkRriSection aSection, ISkRriParamValues aValues, String aReason ) {
 
-      // FIXME check ability is enabled
+      // TODO SkRegRefInfoService.builtinValidator.new ISkRegRefInfoServiceValidator() {...}.canSetParamValues()
 
+      if( !userService().abilityManager().isAbilityAllowed( ABILITYID_EDIT_RRI ) ) { // check editing is enabled
+        return ValidationResult.error( MSG_ERR_RRI_EDITING_NOT_ALLOWED );
+      }
       // TODO warn if reason is a blank string
 
       // TODO Auto-generated method stub
