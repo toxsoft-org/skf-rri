@@ -24,6 +24,12 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 public interface IWsRriValuesConstants {
 
   // ------------------------------------------------------------------------------------
+  // visual elements ids
+  String E4_VISUAL_ELEM_ID_PERSP_RRI_VALUES      = "org.toxsoft.skf.rri.values.mws.perspective.rrivalues";     //$NON-NLS-1$
+  String E4_VISUAL_ELEM_ID_MENU_ITEEM_RRI_VALUES = "org.toxsoft.skf.rri.values.mws.handledmenuitem.rrivalues"; //$NON-NLS-1$
+  String E4_VISUAL_ELEM_ID_TOOL_ITEEM_RRI_VALUES = "org.toxsoft.skf.rri.values.mws.handledtoolitem.rrivalues"; //$NON-NLS-1$
+
+  // ------------------------------------------------------------------------------------
   // WS_RB
 
   String WS_RRI_ID      = "wsrri";               //$NON-NLS-1$

@@ -14,7 +14,6 @@ import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.*;
-import org.toxsoft.core.tsgui.m5.gui.mpc.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
@@ -224,7 +223,8 @@ public class AttrParamM5Model
       @Override
       protected IM5CollectionPanel<AttrParam> doCreateCollEditPanel( ITsGuiContext aContext,
           IM5ItemsProvider<AttrParam> aItemsProvider, IM5LifecycleManager<AttrParam> aLifecycleManager ) {
-        IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AvUtils.AV_TRUE );
+        // dima 09.01.25 turn off here to apply edit restriction
+        // IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AvUtils.AV_TRUE );
         MultiPaneComponentModown<AttrParam> mpc =
             new MultiPaneComponentModown<>( aContext, model(), aItemsProvider, aLifecycleManager ) {
 

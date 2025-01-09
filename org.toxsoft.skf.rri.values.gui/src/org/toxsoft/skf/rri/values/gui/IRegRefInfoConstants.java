@@ -4,10 +4,14 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.impl.DataDef.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+import static org.toxsoft.skf.rri.values.gui.ITsResources.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.skf.rri.lib.impl.*;
+import org.toxsoft.uskat.core.api.users.ability.*;
+import org.toxsoft.uskat.core.impl.dto.*;
 
 /**
  * Описание настроечных констант редактора НСИ.
@@ -74,5 +78,17 @@ public interface IRegRefInfoConstants {
    * Топовый (корневой) объект НСИ (например линиия или расписание).
    */
   String RRI_CLASSES_OBJECTS_TREE_MAKER = "rri.classes.objects.tree.maker";
+
+  /**
+   * Create id ability to access values editor
+   */
+  String ABILITYID_RRI_PERSP_VALUES_EDITOR = ISkRriServiceHardConstants.SERVICE_ID + ".ability.rri.values.editor"; //$NON-NLS-1$
+
+  /**
+   * Create ability to access values editor
+   */
+  IDtoSkAbility ABILITY_ACCESS_RRI_VALUES_EDITOR =
+      DtoSkAbility.create( ABILITYID_RRI_PERSP_VALUES_EDITOR, ISkRriServiceHardConstants.ABKINDID_RRI,
+          STR_ABILITY_ACCESS_RRI_VALUES_EDITOR, STR_ABILITY_ACCESS_RRI_VALUES_EDITOR_D );
 
 }
