@@ -47,11 +47,11 @@ public class AddonWsRriValues
   protected void initWin( IEclipseContext aWinContext ) {
     IWsRriValuesConstants.init( aWinContext );
 
-    // implement access rights
-    // new version goga
     IWsRriSectionsManagementService rrims = new WsRriSectionsManagementService( new TsGuiContext( aWinContext ) );
     aWinContext.set( IWsRriSectionsManagementService.class, rrims );
 
+    // implement access rights
+    // new version goga
     GuiE4ElementsToAbilitiesBinder binder = new GuiE4ElementsToAbilitiesBinder( new TsGuiContext( aWinContext ) );
     binder.bindPerspective( ABILITYID_RRI_PERSP_VALUES_EDITOR, E4_VISUAL_ELEM_ID_PERSP_RRI_VALUES );
     binder.bindMenuElement( ABILITYID_RRI_PERSP_VALUES_EDITOR, E4_VISUAL_ELEM_ID_MENU_ITEEM_RRI_VALUES );
