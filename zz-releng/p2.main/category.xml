@@ -10,6 +10,7 @@
    <bundle id="org.toxsoft.skf.rri.values.mws"/>
    <bundle id="org.toxsoft.skf.rri.struct.gui"/>
    <bundle id="org.toxsoft.skf.rri.struct.skide"/>
+   <bundle id="org.toxsoft.skf.rri.virtdata"/>
 
    <!-- sources -->
    <bundle id="org.toxsoft.skf.rri.lib.source"/>
@@ -17,5 +18,6 @@
    <bundle id="org.toxsoft.skf.rri.values.mws.source"/>
    <bundle id="org.toxsoft.skf.rri.struct.gui.source"/>
    <bundle id="org.toxsoft.skf.rri.struct.skide.source"/>
+   <bundle id="org.toxsoft.skf.rri.virtdata.source"/>
 
 </site>

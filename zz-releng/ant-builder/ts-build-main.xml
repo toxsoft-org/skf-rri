@@ -21,6 +21,7 @@
     <ant dir="../../org.toxsoft.skf.rri.values.mws" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.skf.rri.struct.gui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.skf.rri.struct.skide" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.skf.rri.virtdata" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
   </target>
 
   <!-- ЦЕЛЬ: сборка plugin-ов -->
@@ -35,7 +36,8 @@
                                org.toxsoft.skf.rri.values.gui,
                                org.toxsoft.skf.rri.values.mws,
                                org.toxsoft.skf.rri.struct.gui,
-                               org.toxsoft.skf.rri.struct.skide"
+                               org.toxsoft.skf.rri.struct.skide,
+                               org.toxsoft.skf.rri.virtdata"
                        useworkspacecompiledclasses="true"
                        useJARFormat="true" />
   </target>
