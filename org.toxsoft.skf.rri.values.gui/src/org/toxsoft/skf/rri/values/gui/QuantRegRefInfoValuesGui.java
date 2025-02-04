@@ -54,6 +54,8 @@ public class QuantRegRefInfoValuesGui
     uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriAttr( (AbstractSkUgwiKind)uk ) );
     uk = uServ.listKinds().getByKey( UgwiKindRriLink.KIND_ID );
     uk.registerHelper( IUgwiKindGuiHelper.class, new UgwiGuiHelperRriLink( (AbstractSkUgwiKind)uk ) );
+    // register abilities
+    aCoreApi.userService().abilityManager().defineAbility( IRegRefInfoConstants.ABILITY_ACCESS_RRI_VALUES_EDITOR );
   }
 
 }

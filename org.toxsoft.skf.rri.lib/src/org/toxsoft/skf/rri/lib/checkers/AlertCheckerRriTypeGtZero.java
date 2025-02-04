@@ -19,7 +19,6 @@ import org.toxsoft.core.tslib.gw.ugwi.*;
 import org.toxsoft.core.tslib.math.cond.*;
 import org.toxsoft.core.tslib.math.cond.checker.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.skf.alarms.lib.checkers.*;
 import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.lib.ugwi.*;
@@ -77,30 +76,33 @@ public class AlertCheckerRriTypeGtZero
       ISkRegRefInfoService rriService =
           (ISkRegRefInfoService)coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
       rriSection = rriService.listSections().getByKey( sectionId );
-      try {
-        IAtomicValue val = rriSection.getAttrParamValue( rriGwid.skid(), rriGwid.propId() );
-        switch( val.atomicType() ) {
-          case NONE, STRING, TIMESTAMP, VALOBJ -> throw new TsIllegalArgumentRtException( FMT_ERR_INVALID_RRI_ATTR_TYPE,
-              val.atomicType().name() );
-          case BOOLEAN -> {
-            // nop
-          }
-          case FLOATING -> {
-            // nop
-          }
-          case INTEGER -> {
-            // nop
-          }
-          default -> {
-            // nop
-          }
-        }
-
-        init = true;
-      }
-      catch( @SuppressWarnings( "unused" ) Exception ex ) {
-        LoggerUtils.errorLogger().warning( FMT_WARN_CANT_FIND_RRI, rriGwid.canonicalString() );
-      }
+      // dima 13.01.25 commented try ... catch because that check is useless
+      // try {
+      // IAtomicValue val = rriSection.getAttrParamValue( rriGwid.skid(), rriGwid.propId() );
+      // // comment try ... catch
+      // switch( val.atomicType() ) {
+      // case NONE, STRING, TIMESTAMP, VALOBJ -> throw new TsIllegalArgumentRtException( FMT_ERR_INVALID_RRI_ATTR_TYPE,
+      // val.atomicType().name() );
+      // case BOOLEAN -> {
+      // // nop
+      // }
+      // case FLOATING -> {
+      // // nop
+      // }
+      // case INTEGER -> {
+      // // nop
+      // }
+      // default -> {
+      // // nop
+      // }
+      // }
+      //
+      // init = true;
+      // }
+      // catch( @SuppressWarnings( "unused" ) Exception ex ) {
+      // LoggerUtils.errorLogger().warning( FMT_WARN_CANT_FIND_RRI, rriGwid.canonicalString() );
+      // }
+      init = true;
     }
 
     protected IAtomicValue doGetXxxValue() {
@@ -123,7 +125,8 @@ public class AlertCheckerRriTypeGtZero
         case BOOLEAN -> val.asBool();
         case FLOATING -> val.asFloat() > 0;
         case INTEGER -> val.asInt() > 0;
-        case NONE, STRING, TIMESTAMP, VALOBJ -> throw new TsIllegalArgumentRtException( FMT_ERR_INVALID_RRI_ATTR_TYPE,
+        case NONE -> false; // none mean unknown value
+        case STRING, TIMESTAMP, VALOBJ -> throw new TsIllegalArgumentRtException( FMT_ERR_INVALID_RRI_ATTR_TYPE,
             val.atomicType().name() );
       };
       return retVal;

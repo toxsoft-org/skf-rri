@@ -22,11 +22,13 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.rri.lib.*;
+import org.toxsoft.skf.rri.lib.impl.*;
 import org.toxsoft.skf.rri.struct.gui.km5.*;
 import org.toxsoft.skf.rri.values.gui.*;
 import org.toxsoft.skf.rri.values.gui.km5.*;
 import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
+import org.toxsoft.uskat.core.api.users.ability.*;
 import org.toxsoft.uskat.core.connection.*;
 import org.toxsoft.uskat.core.gui.conn.*;
 import org.toxsoft.uskat.core.gui.km5.sgw.*;
@@ -211,10 +213,25 @@ public class PanelRriSectionValuesEditor
     attrItem.setText( ATTRS_TAB_NAME );
 
     TsGuiContext attrCtx = new TsGuiContext( context );
+
     IM5Model<AttrParam> attrModel = m5.getModel( AttrParamM5Model.MODEL_ID, AttrParam.class );
 
-    attrLm = (AttrParamM5LifeCycleManager)attrModel.getLifecycleManager( null ); // new AttrParamM5LifeCycleManager(
-                                                                                 // attrCtx, attrModel, rriService );
+    attrLm = (AttrParamM5LifeCycleManager)attrModel.getLifecycleManager( null );
+
+    // dima 09.01.25 check ability to edit and tune M5 panels accordingly
+    // FIXME max по хорошему здесь нужно использовать createCollViewerPanel() вместо createCollEditPanel() если
+    // редактирование запрещено, но в коде используется AttrParamM5LifeCycleManager и быстро переделать не получается
+    ISkAbility canEdit =
+        conn.coreApi().userService().abilityManager().findAbility( ISkRriServiceHardConstants.ABILITY_EDIT_RRI.id() );
+    if( !conn.coreApi().userService().abilityManager().isAbilityAllowed( canEdit.id() ) ) {
+      // turn off editing
+      IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( attrCtx.params(), AvUtils.AV_FALSE );
+      IMultiPaneComponentConstants.OPDEF_DBLCLICK_ACTION_ID.setValue( attrCtx.params(), AvUtils.AV_STR_EMPTY );
+    }
+    else {
+      // turn on editing
+      IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( attrCtx.params(), AvUtils.AV_TRUE );
+    }
 
     attrsListPanel = attrModel.panelCreator().createCollEditPanel( attrCtx, attrLm.itemsProvider(), attrLm );
 
@@ -228,8 +245,17 @@ public class PanelRriSectionValuesEditor
     LinkParamM5Model linkModel = (LinkParamM5Model)m5.getModel( LinkParamM5Model.MODEL_ID, LinkParam.class );
 
     linkLm = (LinkParamM5LifeCycleManager)linkModel.getLifecycleManager( null );
-    // new LinkParamM5LifeCycleManager( lnkCtx, linkModel, rriService );
-    //
+
+    // dima 09.01.25 check ability to edit and tune M5 panels accordingly
+    if( !conn.coreApi().userService().abilityManager().isAbilityAllowed( canEdit.id() ) ) {
+      // turn off editing
+      IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( lnkCtx.params(), AvUtils.AV_FALSE );
+      IMultiPaneComponentConstants.OPDEF_DBLCLICK_ACTION_ID.setValue( lnkCtx.params(), AvUtils.AV_STR_EMPTY );
+    }
+    else {
+      // turn on editing
+      IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD.setValue( lnkCtx.params(), AvUtils.AV_TRUE );
+    }
 
     linksListPanel = linkModel.panelCreator().createCollEditPanel( lnkCtx, linkLm.itemsProvider(), linkLm );
 
@@ -259,7 +285,6 @@ public class PanelRriSectionValuesEditor
     classesPanel.refresh();
     attrsListPanel.refresh();
     linksListPanel.refresh();
-
   }
 
 }

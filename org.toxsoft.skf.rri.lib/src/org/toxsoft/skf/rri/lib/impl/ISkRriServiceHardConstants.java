@@ -4,6 +4,7 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkResources.*;
+import static org.toxsoft.skf.rri.lib.l10n.ISkRriLibSharedResources.*;
 import static org.toxsoft.uskat.core.ISkHardConstants.*;
 
 import org.toxsoft.core.tslib.av.impl.*;
@@ -17,6 +18,7 @@ import org.toxsoft.core.tslib.gw.*;
 import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.uskat.core.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
+import org.toxsoft.uskat.core.api.users.ability.*;
 import org.toxsoft.uskat.core.impl.dto.*;
 
 /**
@@ -24,25 +26,25 @@ import org.toxsoft.uskat.core.impl.dto.*;
  *
  * @author hazard157
  */
-@SuppressWarnings( { "javadoc", "nls" } )
+@SuppressWarnings( "javadoc" )
 public interface ISkRriServiceHardConstants {
 
-  String SERVICE_ID = SK_SYSEXT_SERVICE_ID_PREFIX + ".RegRefService";
+  String SERVICE_ID = SK_SYSEXT_SERVICE_ID_PREFIX + ".RegRefService"; //$NON-NLS-1$
 
   // Identifier prefix of all classes owned by this service.
-  String CLASSID_PREFIX_OWNED = ISkHardConstants.SK_SYSEXT_SERVICE_ID_PREFIX + ".regref.";
+  String CLASSID_PREFIX_OWNED = ISkHardConstants.SK_SYSEXT_SERVICE_ID_PREFIX + ".regref."; //$NON-NLS-1$
 
   // Идентификатор класса объектов, соответствующих разделам {@link ISkRriSection}.
-  String CLASSID_RRI_SECTION = CLASSID_PREFIX_OWNED + "Section";
+  String CLASSID_RRI_SECTION = CLASSID_PREFIX_OWNED + "Section"; //$NON-NLS-1$
 
   // Base class for all companion classes of all sections.
-  String CLASSID_RRI_COMPANION_BASE = CLASSID_PREFIX_OWNED + "CompBase";
+  String CLASSID_RRI_COMPANION_BASE = CLASSID_PREFIX_OWNED + "CompBase"; //$NON-NLS-1$
 
   // Префикс идентификаторов классов объектов-компаньенов.
-  String CLASSID_START_COMPANION = CLASSID_PREFIX_OWNED + "comp";
+  String CLASSID_START_COMPANION = CLASSID_PREFIX_OWNED + "comp"; //$NON-NLS-1$
 
   // Связь связи от объекта компаньена к местер-объекту.
-  String LID_COMPANION_MASTER = "RriMasterObject";
+  String LID_COMPANION_MASTER = "RriMasterObject"; //$NON-NLS-1$
 
   DtoLinkInfo LINFO_COMPANION_MASTER = DtoLinkInfo.create1( //
       LID_COMPANION_MASTER, //
@@ -54,29 +56,30 @@ public interface ISkRriServiceHardConstants {
       ) );
 
   // Атрибут объекта раздела, который хранит параметры ISkRriSection.params()
-  String       AID_RRI_SECTION_PARAMS  = "Params";
-  IDtoAttrInfo AINF_RRI_SECTION_PARAMS = DtoAttrInfo.create1( AID_RRI_SECTION_PARAMS, DataType.create( VALOBJ,   //
-      TSID_NAME, STR_ATTR_RRI_SECTION_PARAMS,                                                                    //
-      TSID_DESCRIPTION, STR_ATTR_RRI_SECTION_PARAMS,                                                             //
-      TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID,                                                                 //
-      TSID_IS_NULL_ALLOWED, AV_FALSE,                                                                            //
-      TSID_DEFAULT_VALUE, avValobj( new OptionSet() )                                                            //
+  String AID_RRI_SECTION_PARAMS = "Params"; //$NON-NLS-1$
+
+  IDtoAttrInfo AINF_RRI_SECTION_PARAMS = DtoAttrInfo.create1( AID_RRI_SECTION_PARAMS, DataType.create( VALOBJ, //
+      TSID_NAME, STR_ATTR_RRI_SECTION_PARAMS, //
+      TSID_DESCRIPTION, STR_ATTR_RRI_SECTION_PARAMS, //
+      TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID, //
+      TSID_IS_NULL_ALLOWED, AV_FALSE, //
+      TSID_DEFAULT_VALUE, avValobj( new OptionSet() ) //
   ), IOptionSet.NULL );
 
   /**
    * The identifier off the event {@link #EVDTO_RRI_PARAM_CHANGE}.
    */
-  String EVID_RRI_PARAM_CHANGE = "RriParamsChange";
+  String EVID_RRI_PARAM_CHANGE = "RriParamsChange"; //$NON-NLS-1$
 
-  String EVPRMID_REASON       = "reason";
-  String EVPRMID_AUTHOR_LOGIN = "authorLogin";
-  String EVPRMID_SECTION_ID   = "sectionId";
-  String EVPRMID_PARAM_GWID   = "paramGwid";
-  String EVPRMID_IS_LINK      = "isLink";
-  String EVPRMID_OLD_VAL_ATTR = "oldAttr";
-  String EVPRMID_NEW_VAL_ATTR = "newAttr";
-  String EVPRMID_OLD_VAL_LINK = "oldLink";
-  String EVPRMID_NEW_VAL_LINK = "newLink";
+  String EVPRMID_REASON       = "reason";      //$NON-NLS-1$
+  String EVPRMID_AUTHOR_LOGIN = "authorLogin"; //$NON-NLS-1$
+  String EVPRMID_SECTION_ID   = "sectionId";   //$NON-NLS-1$
+  String EVPRMID_PARAM_GWID   = "paramGwid";   //$NON-NLS-1$
+  String EVPRMID_IS_LINK      = "isLink";      //$NON-NLS-1$
+  String EVPRMID_OLD_VAL_ATTR = "oldAttr";     //$NON-NLS-1$
+  String EVPRMID_NEW_VAL_ATTR = "newAttr";     //$NON-NLS-1$
+  String EVPRMID_OLD_VAL_LINK = "oldLink";     //$NON-NLS-1$
+  String EVPRMID_NEW_VAL_LINK = "newLink";     //$NON-NLS-1$
 
   IDataDef SDD_EVPRM_REASON = DataDef.create( EVPRMID_REASON, STRING, //
       TSID_NAME, STR_EVPRM_REASON, //
@@ -145,4 +148,14 @@ public interface ISkRriServiceHardConstants {
           IAvMetaConstants.TSID_NAME, STR_EVENT_RRI_EDIT, //
           IAvMetaConstants.TSID_DESCRIPTION, STR_EVENT_RRI_EDIT_D //
       ) );
+
+  String ABKINDID_RRI = SERVICE_ID + ".abkind.rri"; //$NON-NLS-1$
+
+  String ABILITYID_EDIT_RRI = SERVICE_ID + ".ability.edit_rri"; //$NON-NLS-1$
+
+  IDtoSkAbilityKind ABKIND_RRI = DtoSkAbilityKind.create( ABKINDID_RRI, STR_ABKIND_RRI, STR_ABKIND_RRI_D );
+
+  IDtoSkAbility ABILITY_EDIT_RRI =
+      DtoSkAbility.create( ABILITYID_EDIT_RRI, ABKINDID_RRI, STR_ABILITY_EDIT_RRI, STR_ABILITY_EDIT_RRI_D );
+
 }

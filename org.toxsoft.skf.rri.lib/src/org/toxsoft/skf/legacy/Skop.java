@@ -14,18 +14,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Идентификация свойства конкретного объекта.
  * <p>
- * В отличие от <code>Cod</code> этот класс для идентификации объекта использует {@link Skid}, а не <code>long</code>
- * идентификатор объекта. Таким образом, экземпляры этого класса:
- * <ul>
- * <li>можно создавать самому, в том числе в виде <code>static final</code> констант;</li>
- * <li>можно хранить перманентно, имея в виду, что strid идентификаторы объектов перманентны;</li>
- * <li>облегчают отладку благодаря осмысленному представлению {@link #toString()}.</li>
- * </ul>
- * <p>
  * Это неизменяемый класс.
  *
  * @author hazard157
- * @deprecated use GWID for GWIDable entities or complex data structures for non-GWIDable entities
+ * @deprecated use GWID for GWIDable entities or UGWIor complex data structures for non-GWIDable entities
  */
 @Deprecated
 public final class Skop

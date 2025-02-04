@@ -1,4 +1,2 @@
 --- org.toxsoft.skf.rri.lib.impl
 ++- org.toxsoft.skf.rri.lib.ugwi
-не вынесены константы:
-    org.toxsoft.skf.rri.lib.impl.ISkRriServiceHardConstants
