@@ -32,6 +32,7 @@ import org.toxsoft.uskat.core.api.linkserv.*;
 import org.toxsoft.uskat.core.api.objserv.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
+import org.toxsoft.uskat.core.impl.*;
 import org.toxsoft.uskat.core.impl.dto.*;
 import org.toxsoft.uskat.core.utils.*;
 
@@ -512,7 +513,7 @@ class SkRriSection
     long timestamp = System.currentTimeMillis();
     try {
       rriService.pauseExternalValidation();
-      IListEdit<SkEvent> events = new ElemLinkedBundleList<>();
+      SkEventList events = new SkEventList();
       for( Skid origObjSkid : aValues.listObjSkids() ) {
         String compClassId = makeCompanionId( origObjSkid.classId() );
         Skid compObjSkid = new Skid( compClassId, origObjSkid.strid() );
