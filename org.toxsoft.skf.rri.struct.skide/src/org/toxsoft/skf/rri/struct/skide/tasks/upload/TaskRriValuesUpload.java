@@ -1,10 +1,16 @@
 package org.toxsoft.skf.rri.struct.skide.tasks.upload;
 
+import static org.toxsoft.core.tslib.av.EAtomicType.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.bricks.gentask.IGenericTaskConstants.*;
 import static org.toxsoft.skf.rri.struct.skide.ISkidePluginRriStructSharedResources.*;
+import static org.toxsoft.skide.core.ISkideCoreConstants.*;
 import static org.toxsoft.skide.plugin.exconn.main.UploadToServerTaskProcessor.*;
 
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -36,6 +42,14 @@ public class TaskRriValuesUpload
 
   private final RriValuesUploadSelectionRules uploadSelectionRules = new RriValuesUploadSelectionRules();
 
+  static final String OPID_RRI_VALUES_DOWNLOAD = SKIDE_FULL_ID + ".RriValuesDownload"; //$NON-NLS-1$
+
+  static final IDataDef OPDEF_RRI_VALUES_DOWNLOAD = DataDef.create( OPID_RRI_VALUES_DOWNLOAD, BOOLEAN, //
+      TSID_NAME, STR_RRI_VALUES_DOWNLOAD, //
+      TSID_DESCRIPTION, STR_RRI_VALUES_DOWNLOAD_D, //
+      TSID_DEFAULT_VALUE, AV_FALSE //
+  );
+
   private ISkCoreApi srcCoreApi  = null;
   private ISkCoreApi destCoreApi = null;
 
@@ -46,29 +60,41 @@ public class TaskRriValuesUpload
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TaskRriValuesUpload( AbstractSkideUnit aOwnerUnit ) {
-    super( aOwnerUnit, UploadToServerTaskProcessor.INSTANCE.taskInfo(), //
-        new StridablesList<>( /* No cfg ops */ ) );
+    super( aOwnerUnit, UploadToServerTaskProcessor.INSTANCE.taskInfo(), // configuration options
+        new StridablesList<>( //
+            OPDEF_RRI_VALUES_DOWNLOAD //
+        ) );
   }
 
   @Override
   protected void doRunSync( ITsContextRo aInput, ITsContext aOutput ) {
     ILongOpProgressCallback lop = REFDEF_IN_PROGRESS_MONITOR.getRef( aInput );
-    // Начинаем процесс экспорта
-    lop.startWork( MSG_RRI_VALUES_UPLOAD, true );
+    String lopMessage = MSG_RRI_VALUES_UPLOAD;
     uploadSelectionRules.loadFromOptions( getCfgOptionValues() );
     ISkConnection srcConn = tsContext().get( ISkConnectionSupplier.class ).defConn();
     srcCoreApi = srcConn.coreApi();
     ISkConnection destConn = REFDEF_IN_OPEN_SK_CONN.getRef( aInput );
     destCoreApi = destConn.coreApi();
-    int uploadedObjectsCount = uploadRriValues();
-    lop.finished( ValidationResult.info( FMT_RRI_VALUES_UPLOADED, Integer.valueOf( uploadedObjectsCount ) ) );
+    boolean isDownload = OPDEF_RRI_VALUES_DOWNLOAD.getValue( getCfgOptionValues() ).asBool();
+    if( isDownload ) {
+      lopMessage = MSG_RRI_VALUES_DOWNLOAD;
+      // reverse direction
+      ISkCoreApi tmp = destCoreApi;
+      destCoreApi = srcCoreApi;
+      srcCoreApi = tmp;
+    }
+    // Начинаем процесс переноса
+    lop.startWork( lopMessage, true );
+    int transferedClassessCount = transferRriValues();
+    lop.finished( ValidationResult.info( isDownload ? FMT_RRI_VALUES_DOWNLOADED : FMT_RRI_VALUES_UPLOADED,
+        Integer.valueOf( transferedClassessCount ) ) );
   }
 
-  private int uploadRriValues() {
+  private int transferRriValues() {
     ISkRegRefInfoService sourceRriService = srcCoreApi.getService( ISkRegRefInfoService.SERVICE_ID );
     ISkRegRefInfoService targetRriService = destCoreApi.getService( ISkRegRefInfoService.SERVICE_ID );
 
-    int paramsCount = 0;
+    int classesCount = 0;
 
     // TODO 1. проверка наличия экспортируемых секций
     // TODO 2. проверка наличия целевых классов (проверка иерархии)
@@ -86,12 +112,11 @@ public class TaskRriValuesUpload
       for( String classId : rriSectionClassIds ) {
         ISkRriParamValues srcAllObjectsClassRriValues = getParamValuesByClassId( classId, srcSection );
         targetSection.setParamValues( srcAllObjectsClassRriValues, STR_REASON_IMPORT_FROM_SKIDE );
-        paramsCount++;
+        classesCount++;
       }
     }
 
-    // TODO Auto-generated method stub
-    return paramsCount;
+    return classesCount;
 
   }
 

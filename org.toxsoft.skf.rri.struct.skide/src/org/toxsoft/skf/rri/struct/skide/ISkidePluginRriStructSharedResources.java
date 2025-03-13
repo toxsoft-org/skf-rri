@@ -19,6 +19,11 @@ public interface ISkidePluginRriStructSharedResources {
   String FMT_RRI_VALUES_UPLOADED      = Messages.getString( "FMT_RRI_VALUES_UPLOADED" );      //$NON-NLS-1$
   String STR_REASON_IMPORT_FROM_SKIDE = Messages.getString( "STR_REASON_IMPORT_FROM_SKIDE" ); //$NON-NLS-1$
 
+  String MSG_RRI_VALUES_DOWNLOAD   = "Выгрузка НСИ с сервера в SkIDE";
+  String FMT_RRI_VALUES_DOWNLOADED = "Классов НСИ параметры объектов которых выгружены с сервера в SkIDE: %d";
+  String STR_RRI_VALUES_DOWNLOAD   = "выгрузить с сервера в SkIDE";
+  String STR_RRI_VALUES_DOWNLOAD_D = "Выгрузить с выбранного сервера в SkIDE uskat-system.textual";
+
   String FMT_RRI_STRUCT_UPLOADED = Messages.getString( "FMT_RRI_STRUCT_UPLOADED" ); //$NON-NLS-1$
   String MSG_RRI_STRUCT_UPLOAD   = Messages.getString( "MSG_RRI_STRUCT_UPLOAD" );   //$NON-NLS-1$
 }
