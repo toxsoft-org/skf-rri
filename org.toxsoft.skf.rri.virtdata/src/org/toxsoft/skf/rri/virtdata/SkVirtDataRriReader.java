@@ -53,7 +53,7 @@ public class SkVirtDataRriReader
    * @param aRriSectionId String RRI section ID
    * @param aRriIds {@link IStringList} list of read RRI IDs.
    * @param aChangeListener {@link IGenericChangeListener} input data change listener
-   * @throws TsNullArgumentRtException any argument = null.
+   * @throws TsNullArgumentRtException any argument = <b>null</b>.
    * @throws TsIllegalArgumentRtException object of another class.
    */
   public SkVirtDataRriReader( ISkCoreApi aCoreApi, Skid aObjId, String aRriSectionId, IStringList aRriIds,
@@ -84,6 +84,17 @@ public class SkVirtDataRriReader
   // Public API
   //
   /**
+   * Add the specified RRI IDs to the list of readable rri data.
+   *
+   * @param aRriIds {@link IGwidList} list of read RRI IDs.
+   * @throws TsNullArgumentRtException argument = <b>null</b>.
+   */
+  public final void addRriIds( IGwidList aRriIds ) {
+    TsNullArgumentRtException.checkNull( aRriIds );
+    ((GwidList)rriIds).addAll( aRriIds );
+  }
+
+  /**
    * Returns a list of parameters that have no value.
    *
    * @return {@link IGwidList} list identifiers of unassigned parameters.
@@ -91,7 +102,7 @@ public class SkVirtDataRriReader
   public final IGwidList listUnassigned() {
     GwidList retValue = new GwidList();
     for( Gwid rriId : rriIds ) {
-      if( !rriSection.getAttrParamValue( objId, rriId.propId() ).isAssigned() ) {
+      if( !rriSection.getAttrParamValue( rriId.skid(), rriId.propId() ).isAssigned() ) {
         retValue.add( rriId );
       }
     }
