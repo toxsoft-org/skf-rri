@@ -147,6 +147,11 @@ public class ObjectsLookupProvider
     }
 
     @Override
+    public IStringMap<IMappedSkids> rivetRevs() {
+      throw new TsNullObjectErrorRtException();
+    }
+
+    @Override
     public String classId() {
       return Skid.NONE.classId();
     }
