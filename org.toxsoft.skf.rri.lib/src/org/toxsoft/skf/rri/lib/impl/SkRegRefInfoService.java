@@ -1,6 +1,7 @@
 package org.toxsoft.skf.rri.lib.impl;
 
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkResources.*;
 import static org.toxsoft.skf.rri.lib.impl.ISkRriServiceHardConstants.*;
 import static org.toxsoft.skf.rri.lib.l10n.ISkRriLibSharedResources.*;
@@ -436,8 +437,11 @@ public class SkRegRefInfoService
   @Override
   protected void doInit( ITsContextRo aArgs ) {
     // ensure RRI section class exists
-    DtoClassInfo rriSectionClass =
-        new DtoClassInfo( CLASSID_RRI_SECTION, IGwHardConstants.GW_ROOT_CLASS_ID, IOptionSet.NULL );
+    DtoClassInfo rriSectionClass = new DtoClassInfo( CLASSID_RRI_SECTION, IGwHardConstants.GW_ROOT_CLASS_ID,
+        OptionSetUtils.createOpSet( //
+            TSID_NAME, STR_SECTION_CLASS, //
+            TSID_DESCRIPTION, STR_SECTION_CLASS_D //
+        ) );
     rriSectionClass.eventInfos().add( EVDTO_RRI_PARAM_CHANGE );
     rriSectionClass.attrInfos().add( AINF_RRI_SECTION_PARAMS );
     rriSectionClass.params().setBool( ISkHardConstants.OPDEF_SK_IS_SOURCE_CODE_DEFINED_CLASS, true );
