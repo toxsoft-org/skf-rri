@@ -200,6 +200,12 @@ public class ObjectsLookupProvider
     public boolean writeRtdataIfOpen( String aRtdataId, IAtomicValue aValue ) {
       return false;
     }
+
+    @Override
+    public void setClob( String aClobId, String aClobString ) {
+      throw new TsNullObjectErrorRtException();
+    }
+
   }
 
 }
