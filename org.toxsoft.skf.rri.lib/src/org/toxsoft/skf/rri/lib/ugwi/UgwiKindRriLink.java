@@ -14,6 +14,7 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.more.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.gw.ugwi.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -74,8 +75,8 @@ public class UgwiKindRriLink
   public static class Kind
       extends AbstractSkUgwiKind<ISkidList> {
 
-    Kind( AbstractUgwiKind<ISkidList> aRegistrator, ISkCoreApi aCoreApi ) {
-      super( aRegistrator, aCoreApi );
+    Kind( AbstractUgwiKind<ISkidList> aStaticKind, ISkCoreApi aCoreApi ) {
+      super( aStaticKind, aCoreApi );
     }
 
     @Override
@@ -127,14 +128,14 @@ public class UgwiKindRriLink
    * Constructor.
    */
   private UgwiKindRriLink() {
-    super( KIND_ID, OptionSetUtils.createOpSet( //
+    super( KIND_ID, true, OptionSetUtils.createOpSet( //
         TSID_NAME, STR_UK_RRI_LINK, //
         TSID_DESCRIPTION, STR_UK_RRI_LINK_D //
     ) );
   }
 
   // ------------------------------------------------------------------------------------
-  // AbstractUgwiKindRegistrator
+  // AbstractUgwiKind
   //
 
   @Override
@@ -153,6 +154,15 @@ public class UgwiKindRriLink
   @Override
   protected AbstractSkUgwiKind<?> doCreateUgwiKind( ISkCoreApi aSkConn ) {
     return new Kind( this, aSkConn );
+  }
+
+  @Override
+  protected Gwid doGetGwid( Ugwi aUgwi ) {
+    IdChain chain = IdChain.of( aUgwi.essence() );
+    String classId = chain.get( IDX_CLASS_ID );
+    String objStrid = chain.get( IDX_OBJ_STRID );
+    String attrId = chain.get( IDX_LINK_ID );
+    return Gwid.createLink( classId, objStrid, attrId );
   }
 
   // ------------------------------------------------------------------------------------

@@ -20,12 +20,12 @@ import org.toxsoft.core.tslib.math.cond.*;
 import org.toxsoft.core.tslib.math.cond.checker.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.skf.alarms.lib.checkers.*;
-import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.lib.ugwi.*;
 import org.toxsoft.uskat.core.*;
+import org.toxsoft.uskat.core.api.ugwis.*;
 
 /**
- * Alert checker type: compares specified RRI attribute value is true.
+ * Alert checker type: checks that specified RRI attribute value is > 0.
  * <p>
  * {@link ITsSingleCondType} implementation of condition formula: <b><i>RRI value</i></b> {@link Ugwi} == true.
  *
@@ -59,58 +59,17 @@ public class AlertCheckerRriTypeGtZero
   static class Checker
       extends AbstractAlertChecker {
 
-    private final Gwid          rriGwid;
-    private final ISkRriSection rriSection;
-    private boolean             init = false;
+    private final Ugwi        ugwi;
+    private final ISkUgwiKind ugwiKind;
 
     public Checker( ISkCoreApi aEnviron, IOptionSet aParams ) {
       super( aEnviron, aParams );
-      Ugwi ugwi = params().getValobj( AlertCheckerRriTypeGtZero.OPDEF_RRI_UGWI );
-      String sectionId = UgwiKindRriAttr.getSectionId( ugwi );
-      String classId = UgwiKindRriAttr.getClassId( ugwi );
-      String objId = UgwiKindRriAttr.getObjStrid( ugwi );
-      String attrId = UgwiKindRriAttr.getAttrId( ugwi );
-
-      // переделываем на правильную
-      rriGwid = Gwid.createAttr( classId, objId, attrId );
-      ISkRegRefInfoService rriService =
-          (ISkRegRefInfoService)coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
-      rriSection = rriService.listSections().getByKey( sectionId );
-      // dima 13.01.25 commented try ... catch because that check is useless
-      // try {
-      // IAtomicValue val = rriSection.getAttrParamValue( rriGwid.skid(), rriGwid.propId() );
-      // // comment try ... catch
-      // switch( val.atomicType() ) {
-      // case NONE, STRING, TIMESTAMP, VALOBJ -> throw new TsIllegalArgumentRtException( FMT_ERR_INVALID_RRI_ATTR_TYPE,
-      // val.atomicType().name() );
-      // case BOOLEAN -> {
-      // // nop
-      // }
-      // case FLOATING -> {
-      // // nop
-      // }
-      // case INTEGER -> {
-      // // nop
-      // }
-      // default -> {
-      // // nop
-      // }
-      // }
-      //
-      // init = true;
-      // }
-      // catch( @SuppressWarnings( "unused" ) Exception ex ) {
-      // LoggerUtils.errorLogger().warning( FMT_WARN_CANT_FIND_RRI, rriGwid.canonicalString() );
-      // }
-      init = true;
+      ugwi = params().getValobj( AlertCheckerRriTypeGtZero.OPDEF_RRI_UGWI );
+      ugwiKind = coreApi().ugwiService().listKinds().getByKey( ugwi.kindId() );
     }
 
     protected IAtomicValue doGetXxxValue() {
-      IAtomicValue retVal = IAtomicValue.NULL;
-      if( init ) {
-        retVal = rriSection.getAttrParamValue( rriGwid.skid(), rriGwid.propId() );
-      }
-      return retVal;
+      return ugwiKind.getAtomicValue( ugwi );
     }
 
     // ------------------------------------------------------------------------------------

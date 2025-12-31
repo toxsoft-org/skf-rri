@@ -19,11 +19,10 @@ import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.ugwi.*;
 import org.toxsoft.core.tslib.math.cond.*;
 import org.toxsoft.core.tslib.math.cond.checker.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.skf.alarms.lib.checkers.*;
-import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.lib.ugwi.*;
 import org.toxsoft.uskat.core.*;
+import org.toxsoft.uskat.core.api.ugwis.*;
 
 /**
  * Alert checker type: compares specified RTdata current value to the RRI attribute value constant.
@@ -61,39 +60,18 @@ public class AlertCheckerRtdataVsRriType
   static class Checker
       extends AbstractChecker {
 
-    private final Gwid          rriGwid;
-    private final ISkRriSection rriSection;
-    private boolean             init = false;
+    private final Ugwi        ugwi;
+    private final ISkUgwiKind ugwiKind;
 
     public Checker( ISkCoreApi aEnviron, IOptionSet aParams ) {
       super( aEnviron, aParams );
-      Ugwi ugwi = params().getValobj( AlertCheckerRtdataVsRriType.OPDEF_RRI_UGWI );
-      String sectionId = UgwiKindRriAttr.getSectionId( ugwi );
-      String classId = UgwiKindRriAttr.getClassId( ugwi );
-      String objId = UgwiKindRriAttr.getObjStrid( ugwi );
-      String attrId = UgwiKindRriAttr.getAttrId( ugwi );
-
-      // rriGwid = Gwid.of( ugwi.essence() );
-      rriGwid = Gwid.createAttr( classId, objId, attrId );
-      ISkRegRefInfoService rriService =
-          (ISkRegRefInfoService)coreApi().services().getByKey( ISkRegRefInfoService.SERVICE_ID );
-      rriSection = rriService.listSections().getByKey( sectionId );
-      try {
-        rriSection.getAttrParamValue( rriGwid.skid(), rriGwid.propId() );
-        init = true;
-      }
-      catch( @SuppressWarnings( "unused" ) Exception ex ) {
-        LoggerUtils.errorLogger().warning( FMT_WARN_CANT_FIND_RRI, rriGwid.canonicalString() );
-      }
+      ugwi = params().getValobj( AlertCheckerRriTypeGtZero.OPDEF_RRI_UGWI );
+      ugwiKind = coreApi().ugwiService().listKinds().getByKey( ugwi.kindId() );
     }
 
     @Override
     protected IAtomicValue doGetXxxValue() {
-      IAtomicValue retVal = IAtomicValue.NULL;
-      if( init ) {
-        retVal = rriSection.getAttrParamValue( rriGwid.skid(), rriGwid.propId() );
-      }
-      return retVal;
+      return ugwiKind.getAtomicValue( ugwi );
     }
 
   }

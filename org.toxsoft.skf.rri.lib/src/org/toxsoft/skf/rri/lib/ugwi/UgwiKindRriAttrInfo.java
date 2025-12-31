@@ -12,6 +12,7 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.more.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.gw.ugwi.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -59,8 +60,8 @@ public class UgwiKindRriAttrInfo
   public static class Kind
       extends AbstractSkUgwiKind<IDtoAttrInfo> {
 
-    Kind( AbstractUgwiKind<IDtoAttrInfo> aRegistrator, ISkCoreApi aCoreApi ) {
-      super( aRegistrator, aCoreApi );
+    Kind( AbstractUgwiKind<IDtoAttrInfo> aStaticKind, ISkCoreApi aCoreApi ) {
+      super( aStaticKind, aCoreApi );
     }
 
     @Override
@@ -120,7 +121,7 @@ public class UgwiKindRriAttrInfo
    * Constructor.
    */
   private UgwiKindRriAttrInfo() {
-    super( KIND_ID, OptionSetUtils.createOpSet( //
+    super( KIND_ID, true, OptionSetUtils.createOpSet( //
         TSID_NAME, STR_UK_ATTR_INFO, //
         TSID_DESCRIPTION, STR_UK_ATTR_INFO_D //
     ) );
@@ -146,6 +147,14 @@ public class UgwiKindRriAttrInfo
   @Override
   protected AbstractSkUgwiKind<?> doCreateUgwiKind( ISkCoreApi aSkConn ) {
     return new Kind( this, aSkConn );
+  }
+
+  @Override
+  protected Gwid doGetGwid( Ugwi aUgwi ) {
+    IdChain chain = IdChain.of( aUgwi.essence() );
+    String classId = chain.get( IDX_CLASS_ID );
+    String attrId = chain.get( IDX_ATTR_ID );
+    return Gwid.createAttr( classId, attrId );
   }
 
   // ------------------------------------------------------------------------------------

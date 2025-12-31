@@ -297,9 +297,9 @@ public class SingleRriPropUgwiSelectPanel
     panelObjects.setSelectedItem( null );
     panelClasses.setSelectedItem( null );
     if( aItem != null ) {
-      // Gwid gwid = Gwid.of( aItem.essence() );
-      Gwid gwid = Gwid.createAttr( UgwiKindRriAttr.getClassId( aItem ), UgwiKindRriAttr.getObjStrid( aItem ),
-          UgwiKindRriAttr.getAttrId( aItem ) );
+      Gwid gwid = UgwiKindRriAttr.INSTANCE.getGwid( aItem );
+      // Gwid gwid = Gwid.createAttr( UgwiKindRriAttr.getClassId( aItem ), UgwiKindRriAttr.getObjStrid( aItem ),
+      // UgwiKindRriAttr.getAttrId( aItem ) );
       ISkClassInfo cinf = coreApi.sysdescr().findClassInfo( gwid.classId() );
       if( cinf != null ) {
         panelClasses.setSelectedItem( cinf );
