@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Это неизменяемый класс.
  *
  * @author hazard157
- * @deprecated use GWID for GWIDable entities or UGWIor complex data structures for non-GWIDable entities
+ * @deprecated use GWID for GWIDable entities or UGWI or complex data structures for non-GWIDable entities
  */
 @Deprecated
 public final class Skop
@@ -28,11 +28,13 @@ public final class Skop
   /**
    * Value-object keeper identifier.
    */
+  @Deprecated
   public static final String KEEPER_ID = "Skop"; //$NON-NLS-1$
 
   /**
    * Экземпляр-синголтон хранителя.
    */
+  @Deprecated
   public static final IEntityKeeper<Skop> KEEPER =
       new AbstractEntityKeeper<>( Skop.class, EEncloseMode.ENCLOSES_BASE_CLASS, null ) {
 
@@ -63,6 +65,7 @@ public final class Skop
    * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
    * @throws TsIllegalArgumentRtException идентификатор свойства не ИД-имя
    */
+  @Deprecated
   public Skop( Skid aSkid, String aPropId ) {
     skid = TsNullArgumentRtException.checkNull( aSkid );
     propId = StridUtils.checkValidIdPath( aPropId );
@@ -72,11 +75,13 @@ public final class Skop
   // Реализация методов класса Object
   //
 
+  @Deprecated
   @Override
   public String toString() {
     return skid.toString() + IdPair.CHAR_SEPARATOR + propId;
   }
 
+  @Deprecated
   @Override
   public boolean equals( Object aThat ) {
     if( aThat == this ) {
@@ -88,6 +93,7 @@ public final class Skop
     return false;
   }
 
+  @Deprecated
   @Override
   public int hashCode() {
     int result = TsLibUtils.INITIAL_HASH_CODE;
@@ -100,6 +106,7 @@ public final class Skop
   // Comparable
   //
 
+  @Deprecated
   @Override
   public int compareTo( Skop aThat ) {
     if( aThat == null ) {
@@ -121,6 +128,7 @@ public final class Skop
    *
    * @return {@link Skid} - скид (идентификатор) объекта
    */
+  @Deprecated
   public Skid skid() {
     return skid;
   }
@@ -130,6 +138,7 @@ public final class Skop
    *
    * @return String - идентификар (ИД-путь) свойства объекта
    */
+  @Deprecated
   public String propId() {
     return propId;
   }
