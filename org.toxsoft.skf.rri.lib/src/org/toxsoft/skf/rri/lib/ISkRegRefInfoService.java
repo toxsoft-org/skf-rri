@@ -15,7 +15,7 @@ import org.toxsoft.uskat.core.api.objserv.*;
  * <p>
  * <b>Regulatory and Reference Information</b> - is a <i><b>RRI parameters</b></i>, bind to the Green World object.
  * <p>
- * TODO TRANSLATE
+ * TODO TRANSLATE.
  * <p>
  * Параметр НСИ имеет <i><b>описание</b></i>, связанное с опаределенным классом системы, и <i><b>значения</b></i> для
  * каждого объекта класса. Таким образом, каждый объект системы кроме свойств своего класса (атрибуты, данные, связи,
