@@ -28,4 +28,6 @@ Automatic-Module-Name: org.toxsoft.skf.rri.values.gui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.toxsoft.skf.rri.values.gui,
  org.toxsoft.skf.rri.values.gui.km5,
- org.toxsoft.skf.rri.values.gui.panels
+ org.toxsoft.skf.rri.values.gui.panels,
+ org.toxsoft.skf.rri.values.gui.sol,
+ org.toxsoft.skf.rri.values.gui.utils
