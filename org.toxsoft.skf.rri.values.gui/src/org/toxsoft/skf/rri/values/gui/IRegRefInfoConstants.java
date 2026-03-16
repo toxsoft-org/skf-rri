@@ -6,6 +6,8 @@ import static org.toxsoft.core.tslib.av.impl.DataDef.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.skf.rri.values.gui.ITsResources.*;
 
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
@@ -16,9 +18,22 @@ import org.toxsoft.uskat.core.impl.dto.*;
 /**
  * Описание настроечных констант редактора НСИ.
  *
- * @author max
+ * @author max, vs
  */
+@SuppressWarnings( "javadoc" )
 public interface IRegRefInfoConstants {
+
+  // ------------------------------------------------------------------------------------
+  // Icons
+
+  String PREFIX_OF_ICON_FIELD_NAME  = "ICONID_";            //$NON-NLS-1$
+  String ICONID_RTC_RRI_VALUE_VIEW  = "rtc-rri-value";      //$NON-NLS-1$
+  String ICONID_RTC_RRI_INPUT_FIELD = "rtc-rri-attr-input"; //$NON-NLS-1$
+
+  /**
+   * ИД категории в палитре RtControl'ей редактора мнемосхем Lite
+   */
+  String CATID_RRI_VALUES = "rriValues"; //$NON-NLS-1$
 
   /**
    * Описание параметра редактируемости НСИ параметров для графика.
@@ -90,5 +105,16 @@ public interface IRegRefInfoConstants {
   IDtoSkAbility ABILITY_ACCESS_RRI_VALUES_EDITOR =
       DtoSkAbility.create( ABILITYID_RRI_PERSP_VALUES_EDITOR, ISkRriServiceHardConstants.ABKINDID_RRI,
           STR_ABILITY_ACCESS_RRI_VALUES_EDITOR, STR_ABILITY_ACCESS_RRI_VALUES_EDITOR_D );
+
+  /**
+   * Constants registration.
+   *
+   * @param aWinContext {@link IEclipseContext} - windows level context
+   */
+  static void init( IEclipseContext aWinContext ) {
+    // register plug-in built-in icons
+    ITsIconManager iconManager = aWinContext.get( ITsIconManager.class );
+    iconManager.registerStdIconByIds( Activator.PLUGIN_ID, IRegRefInfoConstants.class, PREFIX_OF_ICON_FIELD_NAME );
+  }
 
 }

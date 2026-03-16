@@ -9,6 +9,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.toxsoft.core.tslib,
  org.toxsoft.core.tsgui,
  org.eclipse.swt,
+ org.toxsoft.core.txtproj.lib,
  org.toxsoft.uskat.core.gui,
  org.toxsoft.uskat.core,
  org.eclipse.e4.core.contexts;bundle-version="1.9.100",
@@ -17,7 +18,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.toxsoft.core.log4j;bundle-version="1.0.0",
  org.toxsoft.extlibs.log4j;bundle-version="1.0.0",
  org.toxsoft.skf.rri.lib,
- org.toxsoft.skf.rri.struct.gui
+ org.toxsoft.skf.rri.struct.gui,
+ org.toxsoft.core.tsgui.ved,
+ org.toxsoft.skf.mnemo.lib,
+ org.toxsoft.skf.mnemo.gui,
+ org.toxsoft.skf.mnemo.mned.lite
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.toxsoft.skf.rri.values.gui
 Bundle-ActivationPolicy: lazy
