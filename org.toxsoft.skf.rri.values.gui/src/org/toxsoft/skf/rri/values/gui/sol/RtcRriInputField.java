@@ -43,7 +43,7 @@ public class RtcRriInputField
       TSID_NAME, STR_RTC_RRI_INPUT_FIELD, //
       TSID_DESCRIPTION, STR_RTC_RRI_INPUT_FIELD_D, //
       TSID_ICON_ID, ICONID_RTC_RRI_INPUT_FIELD, //
-      PARAMID_CATEGORY, CATID_RRI_VALUES//
+      PARAMID_CATEGORY, CATID_INPUT_FIELDS//
   ) {
 
     @Override
@@ -55,9 +55,9 @@ public class RtcRriInputField
 
       fields.add( TFI_TEXT );
       fields.add( TFI_FONT );
-      fields.add( TFI_FG_COLOR );
-      fields.add( TFI_BK_FILL );
-      fields.add( TFI_BORDER_INFO );
+      fields.add( TFI_SWT_FG_COLOR );
+      fields.add( TFI_SWT_BK_FILL );
+      fields.add( TFI_SWT_BORDER_INFO );
 
       fields.add( TFI_HOR_ALIGNMENT );
       fields.add( TFI_VER_ALIGNMENT );

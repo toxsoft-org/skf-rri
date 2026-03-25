@@ -56,9 +56,9 @@ public class RtcRriAttrValueView
 
       fields.add( TFI_TEXT );
       fields.add( TFI_FONT );
-      fields.add( TFI_FG_COLOR );
-      fields.add( TFI_BK_FILL );
-      fields.add( TFI_BORDER_INFO );
+      fields.add( TFI_SWT_FG_COLOR );
+      fields.add( TFI_SWT_BK_FILL );
+      fields.add( TFI_SWT_BORDER_INFO );
 
       fields.add( TFI_HOR_ALIGNMENT );
       fields.add( TFI_VER_ALIGNMENT );
