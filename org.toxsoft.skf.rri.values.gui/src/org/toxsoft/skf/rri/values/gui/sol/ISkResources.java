@@ -142,6 +142,12 @@ interface ISkResources {
   String STR_ACTOR_RRI_INPUT_FIELD_D = Messages.getString( "STR_ACTOR_RRI_INPUT_FIELD_D" ); //$NON-NLS-1$
 
   /**
+   * {@link RtcRriCheckbox}
+   */
+  String STR_RTC_RRI_CHECKBOX   = Messages.getString( "STR_RTC_RRI_CHECKBOX" );   //$NON-NLS-1$
+  String STR_RTC_RRI_CHECKBOX_D = Messages.getString( "STR_RTC_RRI_CHECKBOX_D" ); //$NON-NLS-1$
+
+  /**
    * {@link SkActorRriCheckbox}
    */
   String STR_ACTOR_RRI_CHECKBOX   = Messages.getString( "STR_ACTOR_RRI_CHECKBOX" );   //$NON-NLS-1$
