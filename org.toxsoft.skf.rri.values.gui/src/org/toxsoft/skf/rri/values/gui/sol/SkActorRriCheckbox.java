@@ -186,7 +186,7 @@ public class SkActorRriCheckbox
 
   void setRriAttrValue( boolean aValue ) {
     if( ugwi == null || ugwi == Ugwi.NONE ) {
-      LoggerUtils.errorLogger().error( "Attempt to set RRI attribute for null or NONE Ugwi" ); //$NON-NLS-1$
+      LoggerUtils.error( "Attempt to set RRI attribute for null or NONE Ugwi" ); //$NON-NLS-1$
       return;
     }
     Gwid gwid = UgwiKindRriAttr.INSTANCE.getGwid( ugwi );
