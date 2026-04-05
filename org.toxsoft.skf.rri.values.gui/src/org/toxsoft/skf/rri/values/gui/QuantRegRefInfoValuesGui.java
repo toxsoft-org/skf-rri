@@ -47,7 +47,6 @@ public class QuantRegRefInfoValuesGui
     actFact.register( SkActorRtdataText.FACTORY );
     actFact.register( SkActorRriInputField.FACTORY );
     actFact.register( SkActorRriCheckbox.FACTORY );
-
   }
 
   @Override
@@ -61,7 +60,7 @@ public class QuantRegRefInfoValuesGui
     IRtControlFactoriesRegistry rtcReg = aWinContext.get( IRtControlFactoriesRegistry.class );
     rtcReg.register( RtcRriAttrValueView.FACTORY );
     rtcReg.register( RtcRriInputField.FACTORY );
-
+    rtcReg.register( RtcRriCheckbox.FACTORY );
   }
 
   @SuppressWarnings( { "unchecked", "rawtypes" } )

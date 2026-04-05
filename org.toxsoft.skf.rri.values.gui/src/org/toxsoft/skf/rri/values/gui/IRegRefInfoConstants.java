@@ -29,6 +29,7 @@ public interface IRegRefInfoConstants {
   String PREFIX_OF_ICON_FIELD_NAME  = "ICONID_";            //$NON-NLS-1$
   String ICONID_RTC_RRI_VALUE_VIEW  = "rtc-rri-value";      //$NON-NLS-1$
   String ICONID_RTC_RRI_INPUT_FIELD = "rtc-rri-attr-input"; //$NON-NLS-1$
+  String ICONID_RTC_RRI_CHECKBOX    = "rtc-rri-checkbox";   //$NON-NLS-1$
 
   /**
    * ИД категории в палитре RtControl'ей редактора мнемосхем Lite

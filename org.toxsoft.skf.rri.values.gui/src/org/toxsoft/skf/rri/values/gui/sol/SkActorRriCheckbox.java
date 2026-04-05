@@ -164,8 +164,10 @@ public class SkActorRriCheckbox
   public void whenRealTimePassed( long aRtTime ) {
     IAtomicValue newValue = getRriAttrValue();
     if( !newValue.equals( lastValue ) ) {
-      // String text = AvUtils.printAv( fmtStr, newValue );
-      setStdViselPropValue( newValue );
+      // setStdViselPropValue( newValue );
+      String viselId = props().getStr( PROP_VISEL_ID );
+      String viselPropId = ViselCheckbox.TFI_CHECKED.id();
+      setViselPropValue( viselId, viselPropId, newValue );
       lastValue = newValue;
     }
   }
