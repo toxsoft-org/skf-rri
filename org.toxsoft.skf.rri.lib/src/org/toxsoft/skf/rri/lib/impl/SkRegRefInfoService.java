@@ -26,7 +26,6 @@ import org.toxsoft.core.tslib.gw.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.tslib.utils.txtmatch.*;
 import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.uskat.core.*;
@@ -86,7 +85,7 @@ public class SkRegRefInfoService
           l.onSectionChanged( aOp, aSectionId );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          logger().error( ex );
         }
       }
     }
