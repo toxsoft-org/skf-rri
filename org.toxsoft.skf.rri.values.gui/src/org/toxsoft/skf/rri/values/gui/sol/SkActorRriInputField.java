@@ -22,12 +22,13 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.ugwi.*;
 import org.toxsoft.core.tslib.utils.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.logs.*;
 import org.toxsoft.skf.mnemo.gui.skved.*;
 import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.lib.ugwi.*;
 import org.toxsoft.uskat.core.api.sysdescr.*;
 import org.toxsoft.uskat.core.api.sysdescr.dto.*;
+import org.toxsoft.uskat.core.logger.*;
 import org.toxsoft.uskat.core.utils.*;
 
 /**
@@ -81,6 +82,8 @@ public class SkActorRriInputField
   private IAtomicValue lastValue = IAtomicValue.NULL;
 
   private ISkRriSection section = null;
+
+  private final ILogger logger = LoggerUtils.getLogger( getClass() );
 
   protected SkActorRriInputField( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
@@ -191,7 +194,7 @@ public class SkActorRriInputField
 
   void setRriAttrValue( String aText ) {
     if( ugwi == null || ugwi == Ugwi.NONE ) {
-      LoggerUtils.errorLogger().error( "Attempt to set RRI attribute for null or NONE Ugwi" ); //$NON-NLS-1$
+      logger.error( "Attempt to set RRI attribute for null or NONE Ugwi" ); //$NON-NLS-1$
       return;
     }
     Gwid gwid = UgwiKindRriAttr.INSTANCE.getGwid( ugwi );
