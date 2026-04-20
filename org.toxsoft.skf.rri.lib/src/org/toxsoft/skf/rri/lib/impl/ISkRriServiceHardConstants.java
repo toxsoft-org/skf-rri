@@ -23,6 +23,7 @@ import org.toxsoft.uskat.core.impl.dto.*;
 
 /**
  * Service constants with unmodifiable values.
+ * <p>
  *
  * @author hazard157
  */
