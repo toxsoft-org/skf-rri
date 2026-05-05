@@ -39,8 +39,8 @@ interface ISkResources {
   String STR_EVPRM_NEW_VAL_ATTR_D          = Messages.getString( "STR_EVPRM_NEW_VAL_ATTR_D" );          //$NON-NLS-1$
   String STR_EVPRM_NEW_VAL_LINK            = Messages.getString( "STR_EVPRM_NEW_VAL_LINK" );            //$NON-NLS-1$
   String STR_EVPRM_NEW_VAL_LINK_D          = Messages.getString( "STR_EVPRM_NEW_VAL_LINK_D" );          //$NON-NLS-1$
-  String STR_ERR_COMP_CLASS_NOT_FOUND      = "Companion class %s not found. aObjId = %s, aParamId = %s";
-  String STR_ERR_COMP_CLASS_NOT_FOUND2     = "Companion class %s not found. aObjIds = %s";
-  String STR_SECTION_CLASS                 = "RRI section";
-  String STR_SECTION_CLASS_D               = "RegRefInfo section class";
+  String STR_ERR_COMP_CLASS_NOT_FOUND      = Messages.getString( "STR_ERR_COMP_CLASS_NOT_FOUND" );      //$NON-NLS-1$
+  String STR_ERR_COMP_CLASS_NOT_FOUND2     = Messages.getString( "STR_ERR_COMP_CLASS_NOT_FOUND2" );     //$NON-NLS-1$
+  String STR_SECTION_CLASS                 = Messages.getString( "STR_SECTION_CLASS" );                 //$NON-NLS-1$
+  String STR_SECTION_CLASS_D               = Messages.getString( "STR_SECTION_CLASS_D" );               //$NON-NLS-1$
 }

@@ -15,20 +15,20 @@ interface ISkResources {
   // ----------------------------------------
   // SelectRriSectionToolbarComposite
 
-  String STR_N_SELECT_RRI_SECTION  = Messages.getString( "STR_N_SELECT_RRI_SECTION" );
-  String STR_D_SELECT_RRI_SECTION  = Messages.getString( "STR_D_SELECT_RRI_SECTION" );
-  String STR_NOT_SELECTED          = Messages.getString( "STR_NOT_SELECTED" );
-  String STR_SELECTION_RRI_SECTION = Messages.getString( "STR_SELECTION_RRI_SECTION" );
-  String STR_RRI_SECTION           = Messages.getString( "STR_RRI_SECTION" );
+  String STR_N_SELECT_RRI_SECTION  = Messages.getString( "STR_N_SELECT_RRI_SECTION" ); //$NON-NLS-1$
+  String STR_D_SELECT_RRI_SECTION  = Messages.getString( "STR_D_SELECT_RRI_SECTION" ); //$NON-NLS-1$
+  String STR_NOT_SELECTED          = Messages.getString( "STR_NOT_SELECTED" );         //$NON-NLS-1$
+  String STR_SELECTION_RRI_SECTION = Messages.getString( "STR_SELECTION_RRI_SECTION" );//$NON-NLS-1$
+  String STR_RRI_SECTION           = Messages.getString( "STR_RRI_SECTION" );          //$NON-NLS-1$
 
   //
   // --------------------------------------
   // PanelRriSectionStructEditor
 
-  String IT_NEEDS_TO_CREATE_AT_LEAST_ONE_RRI_ATTR = Messages.getString( "IT_NEEDS_TO_CREATE_AT_LEAST_ONE_RRI_ATTR" );
-  String STR_RRI_ATTR_CREATION                    = Messages.getString( "STR_RRI_ATTR_CREATION" );
-  String STR_SELECTION_CLASS_TO_ADD_INTO_RRI      = Messages.getString( "STR_SELECTION_CLASS_TO_ADD_INTO_RRI" );
-  String STR_RRI_CLASSES                          = Messages.getString( "STR_RRI_CLASSES" );
-  String STR_RRI_ATTRS                            = Messages.getString( "STR_RRI_ATTRS" );
-  String STR_RRI_LINKS                            = Messages.getString( "STR_RRI_LINKS" );
+  String IT_NEEDS_TO_CREATE_AT_LEAST_ONE_RRI_ATTR = Messages.getString( "IT_NEEDS_TO_CREATE_AT_LEAST_ONE_RRI_ATTR" );//$NON-NLS-1$
+  String STR_RRI_ATTR_CREATION                    = Messages.getString( "STR_RRI_ATTR_CREATION" );                   //$NON-NLS-1$
+  String STR_SELECTION_CLASS_TO_ADD_INTO_RRI      = Messages.getString( "STR_SELECTION_CLASS_TO_ADD_INTO_RRI" );     //$NON-NLS-1$
+  String STR_RRI_CLASSES                          = Messages.getString( "STR_RRI_CLASSES" );                         //$NON-NLS-1$
+  String STR_RRI_ATTRS                            = Messages.getString( "STR_RRI_ATTRS" );                           //$NON-NLS-1$
+  String STR_RRI_LINKS                            = Messages.getString( "STR_RRI_LINKS" );                           //$NON-NLS-1$
 }
