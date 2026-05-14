@@ -5,7 +5,6 @@ package org.toxsoft.skf.rri.lib.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ISkResources {
 
   String FMT_ERR_CLASS_IS_REGREF_OWNED     = Messages.getString( "FMT_ERR_CLASS_IS_REGREF_OWNED" );     //$NON-NLS-1$
