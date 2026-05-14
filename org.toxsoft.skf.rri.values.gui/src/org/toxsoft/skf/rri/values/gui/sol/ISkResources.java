@@ -172,10 +172,10 @@ interface ISkResources {
   /**
    * {@link SkActorCmdCheckbox}
    */
-  String STR_N_CMD_ON        = Messages.getString( "STR_N_CMD_ON" );        //$NON-NLS-1$
-  String STR_N_CMD_OFF       = Messages.getString( "STR_N_CMD_OFF" );       //$NON-NLS-1$
-  String STR_N_VALUE         = Messages.getString( "STR_N_VALUE" );         //$NON-NLS-1$
-  String STR_N_INVERSE_VALUE = Messages.getString( "STR_N_INVERSE_VALUE" ); //$NON-NLS-1$
+  String STR_CMD_ON        = Messages.getString( "STR_CMD_ON" );        //$NON-NLS-1$
+  String STR_CMD_OFF       = Messages.getString( "STR_CMD_OFF" );       //$NON-NLS-1$
+  String STR_VALUE         = Messages.getString( "STR_VALUE" );         //$NON-NLS-1$
+  String STR_INVERSE_VALUE = Messages.getString( "STR_INVERSE_VALUE" ); //$NON-NLS-1$
 
   /**
    * {@link SkActorPopupMnemoInvoker}
@@ -212,7 +212,7 @@ interface ISkResources {
   /**
    * {@link SkActorCmdButton}
    */
-  String STR_N_COMMAND_ON_UNPRESS      = Messages.getString( "STR_N_COMMAND_ON_UNPRESS" );      //$NON-NLS-1$
+  String STR_COMMAND_ON_UNPRESS        = Messages.getString( "STR_COMMAND_ON_UNPRESS" );        //$NON-NLS-1$
   String ERR_STR_OPERATION_NOT_ALLOWED = Messages.getString( "ERR_STR_OPERATION_NOT_ALLOWED" ); //$NON-NLS-1$
 
 }
