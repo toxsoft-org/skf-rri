@@ -60,7 +60,7 @@ public class AttributeModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( STR_N_ATTR_ID, STR_D_ATTR_ID );
+      setNameAndDescription( STR_ATTR_ID, STR_ATTR_ID_D );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN | M5FF_INVARIANT );
     }
@@ -79,7 +79,7 @@ public class AttributeModel
 
         @Override
         protected void doInit() {
-          setNameAndDescription( STR_N_ATTR_TYPE, STR_D_ATTR_TYPE );
+          setNameAndDescription( STR_ATTR_TYPE, STR_ATTR_TYPE_D );
           setFlags( M5FF_COLUMN );
           params().setBool( TSID_IS_NULL_ALLOWED, false );
           params().setStr( M5_VALED_OPDEF_WIDGET_TYPE_ID, M5VWTID_INPLACE );
@@ -104,7 +104,7 @@ public class AttributeModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( STR_N_ATTR_NAME, STR_D_ATTR_NAME );
+      setNameAndDescription( STR_ATTR_NAME, STR_ATTR_NAME_D );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -122,7 +122,7 @@ public class AttributeModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( STR_N_ATTR_DESCRIPTION, STR_D_ATTR_DESCRIPTION );
+      setNameAndDescription( STR_ATTR_DESCRIPTION, STR_ATTR_DESCRIPTION_D );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -138,7 +138,7 @@ public class AttributeModel
    */
   public AttributeModel() {
     super( MODEL_ID, IDtoAttrInfo.class );
-    setNameAndDescription( STR_N_ATTRIBUTES_LIST, STR_D_ATTRIBUTES_LIST );
+    setNameAndDescription( STR_ATTRIBUTES_LIST, STR_ATTRIBUTES_LIST_D );
 
     addFieldDefs( ATTR_ID, ATTR_TYPE, ATTR_NAME, ATTR_DESCR );
     // panels creator

@@ -50,7 +50,7 @@ public class RriSectionModel
    */
   public RriSectionModel() {
     super( MODEL_ID, ISkRriSection.class );
-    setNameAndDescription( STR_N_RRI_SECTIONS_LIST, STR_D_RRI_SECTIONS_LIST );
+    setNameAndDescription( STR_RRI_SECTIONS_LIST, STR_RRI_SECTIONS_LIST_D );
     addFieldDefs( STRID, NAME, DESCR );
   }
 

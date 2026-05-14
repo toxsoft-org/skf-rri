@@ -39,7 +39,7 @@ public class SelectRriSectionToolbarComposite
   final static String ACTID_RRI_SECTION_SELECT = SK_ID + "rri.struct.edit.section.select"; //$NON-NLS-1$
 
   final static TsActionDef ACDEF_RRI_SECTION_SELECT = TsActionDef.ofPush2( ACTID_RRI_SECTION_SELECT,
-      STR_N_SELECT_RRI_SECTION, STR_D_SELECT_RRI_SECTION, ICONID_VIEW_AS_LIST );
+      STR_SELECT_RRI_SECTION, STR_SELECT_RRI_SECTION_D, ICONID_VIEW_AS_LIST );
 
   private TextControlContribution textContr1;
 

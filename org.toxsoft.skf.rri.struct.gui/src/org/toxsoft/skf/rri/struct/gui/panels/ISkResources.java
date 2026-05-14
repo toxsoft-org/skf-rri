@@ -5,7 +5,6 @@ package org.toxsoft.skf.rri.struct.gui.panels;
  *
  * @author max
  */
-@SuppressWarnings( "nls" )
 interface ISkResources {
 
   // String FMT_ASK_REMOVE_RRI_CLASS = "Дейтсвительно удалить все НСИ класса %s";
@@ -15,8 +14,8 @@ interface ISkResources {
   // ----------------------------------------
   // SelectRriSectionToolbarComposite
 
-  String STR_N_SELECT_RRI_SECTION  = Messages.getString( "STR_N_SELECT_RRI_SECTION" ); //$NON-NLS-1$
-  String STR_D_SELECT_RRI_SECTION  = Messages.getString( "STR_D_SELECT_RRI_SECTION" ); //$NON-NLS-1$
+  String STR_SELECT_RRI_SECTION    = Messages.getString( "STR_SELECT_RRI_SECTION" );   //$NON-NLS-1$
+  String STR_SELECT_RRI_SECTION_D  = Messages.getString( "STR_SELECT_RRI_SECTION_D" ); //$NON-NLS-1$
   String STR_NOT_SELECTED          = Messages.getString( "STR_NOT_SELECTED" );         //$NON-NLS-1$
   String STR_SELECTION_RRI_SECTION = Messages.getString( "STR_SELECTION_RRI_SECTION" );//$NON-NLS-1$
   String STR_RRI_SECTION           = Messages.getString( "STR_RRI_SECTION" );          //$NON-NLS-1$

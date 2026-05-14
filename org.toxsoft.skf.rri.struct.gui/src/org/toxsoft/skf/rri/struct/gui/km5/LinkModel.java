@@ -67,7 +67,7 @@ public class LinkModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( STR_N_LINK_ID, STR_D_LINK_ID );
+      setNameAndDescription( STR_LINK_ID, STR_LINK_ID_D );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN | M5FF_INVARIANT );
     }
@@ -85,7 +85,7 @@ public class LinkModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( STR_N_LINK_NAME, STR_D_LINK_NAME );
+      setNameAndDescription( STR_LINK_NAME, STR_LINK_NAME_D );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -103,7 +103,7 @@ public class LinkModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( STR_N_LINK_DESCRIPTION, STR_D_LINK_DESCRIPTION );
+      setNameAndDescription( STR_LINK_DESCRIPTION, STR_LINK_DESCRIPTION_D );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -121,7 +121,7 @@ public class LinkModel
 
     @Override
     protected void doInit() {
-      setNameAndDescription( STR_N_LINK_MAX_COUNT, STR_D_LINK_MAX_COUNT );
+      setNameAndDescription( STR_LINK_MAX_COUNT, STR_LINK_MAX_COUNT_D );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -140,7 +140,7 @@ public class LinkModel
 
         @Override
         protected void doInit() {
-          setNameAndDescription( STR_N_LINK_IS_EXACT_COUNT, STR_D_LINK_IS_EXACT_COUNT );
+          setNameAndDescription( STR_LINK_IS_EXACT_COUNT, STR_LINK_IS_EXACT_COUNT_D );
           setDefaultValue( IAtomicValue.NULL );
           setFlags( M5FF_COLUMN );
         }
@@ -160,7 +160,7 @@ public class LinkModel
 
         @Override
         protected void doInit() {
-          setNameAndDescription( STR_N_LINK_CLASS_IDS, STR_D_LINK_CLASS_IDS );
+          setNameAndDescription( STR_LINK_CLASS_IDS, STR_LINK_CLASS_IDS_D );
           setFlags( M5FF_COLUMN );
           // setLookupProvider( new IM5LookupProvider<ISkClassInfo>() {
           //
@@ -215,7 +215,7 @@ public class LinkModel
    */
   public LinkModel() {
     super( MODEL_ID, IDtoLinkInfo.class );
-    setNameAndDescription( STR_N_LINKS_LIST, STR_D_LINKS_LIST );
+    setNameAndDescription( STR_LINKS_LIST, STR_LINKS_LIST_D );
 
     addFieldDefs( LINK_ID, LINK_NAME, LINK_DESCR, MAX_COUNT, IS_EXACT_COUNT, RIGHT_CLASS_IDS );
   }
