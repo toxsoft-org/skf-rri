@@ -7,6 +7,7 @@ import org.toxsoft.skf.mnemo.gui.skved.*;
  *
  * @author hazard157
  */
+
 interface ISkResources {
 
   /**
@@ -215,4 +216,37 @@ interface ISkResources {
   String STR_COMMAND_ON_UNPRESS        = Messages.getString( "STR_COMMAND_ON_UNPRESS" );        //$NON-NLS-1$
   String ERR_STR_OPERATION_NOT_ALLOWED = Messages.getString( "ERR_STR_OPERATION_NOT_ALLOWED" ); //$NON-NLS-1$
 
+  /**
+   * {@link PanelRriAttrGwidSelector}
+   */
+  String STR_ID                    = Messages.getString( "STR_ID" );                    //$NON-NLS-1$
+  String STR_NAME                  = Messages.getString( "STR_NAME" );                  //$NON-NLS-1$
+  String STR_DLG_STRING_SELECTOR   = Messages.getString( "STR_DLG_STRING_SELECTOR" );   //$NON-NLS-1$
+  String STR_DLG_STRING_SELECTOR_D = Messages.getString( "STR_DLG_STRING_SELECTOR_D" ); //$NON-NLS-1$
+
+  /**
+   * {@link PanelRriIdSelector}
+   */
+  String STR_RRI_SECTION          = Messages.getString( "STR_SECTION" );              //$NON-NLS-1$
+  String STR_SELECT_CLASS         = Messages.getString( "STR_SELECT_CLASS" );         //$NON-NLS-1$
+  String STR_SELECT_ATRIBUTE      = Messages.getString( "STR_SELECT_ATRIBUTE" );      //$NON-NLS-1$
+  String STR_SELECT_OBJ           = Messages.getString( "STR_SELECT_OBJ" );           //$NON-NLS-1$
+  String STR_CLASSES              = Messages.getString( "STR_CLASSES" );              //$NON-NLS-1$
+  String STR_ATRIBUTES            = Messages.getString( "STR_ATRIBUTES" );            //$NON-NLS-1$
+  String STR_OBJECTS              = Messages.getString( "STR_OBJECTS" );              //$NON-NLS-1$
+  String STR_DLG_RRIID_SELECTOR   = Messages.getString( "STR_DLG_RRIID_SELECTOR" );   //$NON-NLS-1$
+  String STR_DLG_RRIID_SELECTOR_D = Messages.getString( "STR_DLG_RRIID_SELECTOR_D" ); //$NON-NLS-1$
+
+  /**
+   * {@link SkActorRtdataText}
+   */
+  String STR_FORMAT_FROM_RRI   = Messages.getString( "STR_FORMAT_FROM_RRI" );   //$NON-NLS-1$
+  String STR_FORMAT_FROM_RRI_D = Messages.getString( "STR_FORMAT_FROM_RRI_D" ); //$NON-NLS-1$
+
+  /**
+   * {@link PanelRriSectionIdSelector}
+   */
+  String STR_SELECT_SECTION         = Messages.getString( "STR_SELECT_SECTION" );         //$NON-NLS-1$
+  String STR_DLG_STRING_SELECTOR1   = Messages.getString( "STR_DLG_STRING_SELECTOR1" );   //$NON-NLS-1$
+  String STR_DLG_STRING_SELECTOR_D1 = Messages.getString( "STR_DLG_STRING_SELECTOR_D1" ); //$NON-NLS-1$
 }

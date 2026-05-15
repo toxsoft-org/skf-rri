@@ -5,7 +5,7 @@ package org.toxsoft.skf.rri.values.gui.panels;
  *
  * @author max
  */
-@SuppressWarnings( { "javadoc", "nls" } )
+@SuppressWarnings( { "javadoc" } )
 public interface ITsResources {
 
   //

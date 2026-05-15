@@ -1,5 +1,7 @@
 package org.toxsoft.skf.rri.values.gui.sol;
 
+import static org.toxsoft.skf.rri.values.gui.sol.ISkResources.*;
+
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
@@ -60,14 +62,14 @@ public class PanelRriIdSelector
     aParent.setLayout( gl );
 
     CLabel l = new CLabel( aParent, SWT.CENTER );
-    l.setText( "Секция НСИ: " );
+    l.setText( STR_RRI_SECTION );
 
     fldSectionId = new Text( aParent, SWT.BORDER );
     fldSectionId.setEditable( false );
     fldSectionId.setLayoutData( new GridData( SWT.FILL, SWT.CENTER, true, false ) );
 
     btnBrowseSection = new Button( aParent, SWT.PUSH );
-    btnBrowseSection.setText( "..." );
+    btnBrowseSection.setText( "..." ); //$NON-NLS-1$
     btnBrowseSection.addSelectionListener( new SelectionAdapter() {
 
       @Override
@@ -118,15 +120,15 @@ public class PanelRriIdSelector
   protected ValidationResult doValidate() {
     // check selected class
     if( classesViewer.viewer().getSelection().isEmpty() ) {
-      return ValidationResult.error( "Необходимо выбрать класс" );
+      return ValidationResult.error( STR_SELECT_CLASS );
     }
     // check selected attribute
     if( attrsViewer.viewer().getSelection().isEmpty() ) {
-      return ValidationResult.error( "Необходимо выбрать атрибут" );
+      return ValidationResult.error( STR_SELECT_ATRIBUTE );
     }
     // check selected object
     if( objectsViewer.viewer().getSelection().isEmpty() ) {
-      return ValidationResult.error( "Необходимо выбрать объект" );
+      return ValidationResult.error( STR_SELECT_OBJ );
     }
     return ValidationResult.SUCCESS;
   }
@@ -146,7 +148,7 @@ public class PanelRriIdSelector
     Composite classesPanel = new Composite( sashForm, SWT.NONE );
     classesPanel.setLayout( new BorderLayout() );
     CLabel l = new CLabel( classesPanel, SWT.NONE );
-    l.setText( "Классы:" );
+    l.setText( STR_CLASSES );
     l.setLayoutData( BorderLayout.NORTH );
     classesViewer = new StridableTableViewer( classesPanel, style, 120, 200, 0 );
     classesViewer.viewer().getTable().setLayoutData( BorderLayout.CENTER );
@@ -164,7 +166,7 @@ public class PanelRriIdSelector
     Composite attrsPanel = new Composite( sashForm1, SWT.NONE );
     attrsPanel.setLayout( new BorderLayout() );
     l = new CLabel( attrsPanel, SWT.NONE );
-    l.setText( "Атрибуты:" );
+    l.setText( STR_ATRIBUTES );
     l.setLayoutData( BorderLayout.NORTH );
     attrsViewer = new StridableTableViewer( attrsPanel, style, 120, 200, 0 );
     attrsViewer.viewer().getTable().setLayoutData( BorderLayout.CENTER );
@@ -175,7 +177,7 @@ public class PanelRriIdSelector
     Composite objectsPanel = new Composite( sashForm1, SWT.NONE );
     objectsPanel.setLayout( new BorderLayout() );
     l = new CLabel( objectsPanel, SWT.NONE );
-    l.setText( "Объекты:" );
+    l.setText( STR_OBJECTS );
     l.setLayoutData( BorderLayout.NORTH );
     objectsViewer = new StridableTableViewer( objectsPanel, style, 120, 200, 0 );
     objectsViewer.viewer().getTable().setLayoutData( BorderLayout.CENTER );
@@ -215,7 +217,7 @@ public class PanelRriIdSelector
   public static final RriId selectRriId( RriId aRriId, ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNull( aContext );
     IDialogPanelCreator<RriId, ITsGuiContext> creator = PanelRriIdSelector::new;
-    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, "DLG_RriId_SELECTOR", "DLG_RriId_SELECTOR_D" );
+    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, STR_DLG_RRIID_SELECTOR, STR_DLG_RRIID_SELECTOR_D );
     TsDialog<RriId, ITsGuiContext> d = new TsDialog<>( dlgInfo, aRriId, aContext, creator );
     return d.execData();
   }

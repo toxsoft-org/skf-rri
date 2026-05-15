@@ -1,5 +1,7 @@
 package org.toxsoft.skf.rri.values.gui.sol;
 
+import static org.toxsoft.skf.rri.values.gui.sol.ISkResources.*;
+
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
@@ -39,7 +41,7 @@ public class PanelRriAttrGwidSelector
 
     TableViewerColumn columnId = new TableViewerColumn( viewer, SWT.NONE );
     columnId.getColumn().setWidth( 120 );
-    columnId.getColumn().setText( "ИД" );
+    columnId.getColumn().setText( STR_ID );
 
     columnId.setLabelProvider( new CellLabelProvider() {
 
@@ -52,7 +54,7 @@ public class PanelRriAttrGwidSelector
 
     TableViewerColumn columnName = new TableViewerColumn( viewer, SWT.NONE );
     columnName.getColumn().setWidth( 200 );
-    columnName.getColumn().setText( "Имя" );
+    columnName.getColumn().setText( STR_NAME );
 
     columnName.setLabelProvider( new CellLabelProvider() {
 
@@ -101,7 +103,7 @@ public class PanelRriAttrGwidSelector
    */
   public static final RriId selectRriSectionId( RriId aRriId, ITsGuiContext aContext ) {
     IDialogPanelCreator<RriId, ITsGuiContext> creator = PanelRriAttrGwidSelector::new;
-    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, "DLG_String_SELECTOR", "DLG_String_SELECTOR_D" );
+    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, STR_DLG_STRING_SELECTOR, STR_DLG_STRING_SELECTOR_D );
     TsDialog<RriId, ITsGuiContext> d = new TsDialog<>( dlgInfo, aRriId, aContext, creator );
     return d.execData();
   }

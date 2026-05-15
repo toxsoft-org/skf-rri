@@ -1,5 +1,7 @@
 package org.toxsoft.skf.rri.values.gui.sol;
 
+import static org.toxsoft.skf.rri.values.gui.sol.ISkResources.*;
+
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
@@ -67,7 +69,7 @@ public class PanelRriSectionIdSelector
   protected ValidationResult doValidate() {
     // check selected section
     if( viewer.viewer().getSelection().isEmpty() ) {
-      return ValidationResult.error( "Необходимо выбрать секцию" );
+      return ValidationResult.error( STR_SELECT_SECTION );
     }
     return ValidationResult.SUCCESS;
   }
@@ -83,7 +85,7 @@ public class PanelRriSectionIdSelector
   public static final String selectRriSectionId( String aString, ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNull( aContext );
     IDialogPanelCreator<String, ITsGuiContext> creator = PanelRriSectionIdSelector::new;
-    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, "DLG_String_SELECTOR", "DLG_String_SELECTOR_D" );
+    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, STR_DLG_STRING_SELECTOR1, STR_DLG_STRING_SELECTOR_D1 );
     TsDialog<String, ITsGuiContext> d = new TsDialog<>( dlgInfo, aString, aContext, creator );
     return d.execData();
   }

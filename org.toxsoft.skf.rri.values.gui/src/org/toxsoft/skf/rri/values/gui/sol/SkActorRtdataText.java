@@ -59,8 +59,8 @@ public class SkActorRtdataText
 
   static final ITinFieldInfo TFI_RRI_FORMAT_STRING = new TinFieldInfo( PROPID_RRI_FORMAT_STRING, //
       TFI_RRI_ATTR_UGWI.typeInfo(), //
-      TSID_NAME, "Формат из НСИ", //
-      TSID_DESCRIPTION, "Строка форматирования в НСИ" //
+      TSID_NAME, STR_FORMAT_FROM_RRI, //
+      TSID_DESCRIPTION, STR_FORMAT_FROM_RRI_D //
   );
 
   /**
