@@ -1,6 +1,7 @@
 package org.toxsoft.skf.rri.values.gui.utils;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+import static org.toxsoft.skf.rri.values.gui.utils.ISkResources.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.layout.*;
@@ -80,7 +81,7 @@ public class ValedDurationText
       mmText.setLayoutData( gridData1 );
 
       Label mmLabel = new Label( backplane, SWT.NONE );
-      mmLabel.setText( " min, " );
+      mmLabel.setText( STR_MIN );
 
       ssText = new Text( backplane, style );
       GridData gridData = new GridData();
@@ -137,7 +138,7 @@ public class ValedDurationText
       } );
 
       Label label = new Label( backplane, SWT.NONE );
-      label.setText( " sec " );
+      label.setText( STR_SEC );
 
       String msg = params().getStr( TSID_DEFAULT_VALUE, null );
       if( msg != null ) {

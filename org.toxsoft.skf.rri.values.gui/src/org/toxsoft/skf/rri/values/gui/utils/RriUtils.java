@@ -44,12 +44,12 @@ public class RriUtils {
     IValedControlFactory result = ValedControlUtils.getDefaultFactory( aAttrInfo.dataType().atomicType() );
     // TODO - регистрировать заранее и
     // изменить формат в скрипте
-    if( aAttrInfo.params().hasValue( "timeFormat" ) ) { // Dima, 03.06.19
-      if( aAttrInfo.params().getStr( "timeFormat" ).equals( "HH_mm_ss" ) ) {
+    if( aAttrInfo.params().hasValue( "timeFormat" ) ) { // Dima, 03.06.19 //$NON-NLS-1$
+      if( aAttrInfo.params().getStr( "timeFormat" ).equals( "HH_mm_ss" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
         // return ValedAvIntHhmmss.FACTORY;
         return ValedDurationText.FACTORY;
       }
-      if( aAttrInfo.params().getStr( "timeFormat" ).equals( "mm_ss" ) ) {
+      if( aAttrInfo.params().getStr( "timeFormat" ).equals( "mm_ss" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
         return ValedDurationText.FACTORY;
       }
     }
