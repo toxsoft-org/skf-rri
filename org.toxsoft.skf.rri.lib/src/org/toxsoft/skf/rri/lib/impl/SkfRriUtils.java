@@ -2,7 +2,6 @@ package org.toxsoft.skf.rri.lib.impl;
 
 import org.toxsoft.core.tslib.math.cond.checker.*;
 import org.toxsoft.skf.alarms.lib.*;
-import org.toxsoft.skf.rri.lib.*;
 import org.toxsoft.skf.rri.lib.checkers.*;
 import org.toxsoft.skf.rri.lib.ugwi.*;
 import org.toxsoft.uskat.core.*;
@@ -21,15 +20,16 @@ public class SkfRriUtils {
    * Core handler to register all registered Sk-connection bound {@link ISkUgwiKind} when connection opens.
    */
   private static final ISkCoreExternalHandler coreRegistrationHandler = aCoreApi -> {
-    ISkRegRefInfoService rriService = (ISkRegRefInfoService)aCoreApi.findService( ISkRegRefInfoService.SERVICE_ID );
-    if( rriService == null ) {
-      rriService = aCoreApi.addService( SkRegRefInfoService.CREATOR );
-      ISkUgwiService uServ = aCoreApi.ugwiService();
-      uServ.registerKind( UgwiKindRriAttr.INSTANCE.createUgwiKind( aCoreApi ) );
-      uServ.registerKind( UgwiKindRriLink.INSTANCE.createUgwiKind( aCoreApi ) );
-      // TODO add other RRI-related UGWI kinds
+    // 2026-06-16 mvk ---
+    // ISkRegRefInfoService rriService = (ISkRegRefInfoService)aCoreApi.findService( ISkRegRefInfoService.SERVICE_ID );
+    // // if( rriService == null ) {
+    // rriService = aCoreApi.addService( SkRegRefInfoService.CREATOR );
+    ISkUgwiService uServ = aCoreApi.ugwiService();
+    uServ.registerKind( UgwiKindRriAttr.INSTANCE.createUgwiKind( aCoreApi ) );
+    uServ.registerKind( UgwiKindRriLink.INSTANCE.createUgwiKind( aCoreApi ) );
+    // TODO add other RRI-related UGWI kinds
 
-    }
+    // }
     ISkAlarmService alarmService = aCoreApi.findService( ISkAlarmService.SERVICE_ID );
     if( alarmService != null ) {
       ITsCheckerTopicManager<ISkCoreApi> tm = alarmService.getAlarmCheckersTopicManager();
@@ -53,6 +53,8 @@ public class SkfRriUtils {
     SkUgwiUtils.registerUgwiKind( UgwiKindRriAttr.INSTANCE );
     SkUgwiUtils.registerUgwiKind( UgwiKindRriLink.INSTANCE );
     // TODO add other RRI-related UGWI kinds
+    // 2026-06-16 mvk +++
+    SkCoreUtils.registerSkServiceCreator( SkRegRefInfoService.CREATOR );
     SkCoreUtils.registerCoreApiHandler( coreRegistrationHandler );
   }
 
