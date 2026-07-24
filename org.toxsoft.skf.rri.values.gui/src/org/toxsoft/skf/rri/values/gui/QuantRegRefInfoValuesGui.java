@@ -5,6 +5,7 @@ import org.toxsoft.core.tsgui.bricks.quant.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.ved.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.skf.mnemo.mned.lite.*;
 import org.toxsoft.skf.mnemo.mned.lite.rtc.*;
 import org.toxsoft.skf.rri.lib.impl.*;
 import org.toxsoft.skf.rri.lib.ugwi.*;
@@ -39,6 +40,7 @@ public class QuantRegRefInfoValuesGui
     KM5Utils.registerContributorCreator( KM5RriStructContributor.CREATOR );
     SkCoreUtils.registerCoreApiHandler( this );
     registerQuant( new QuantTsGuiVed() );
+    registerQuant( new QuantSkfMnemoMnedLite() );
   }
 
   @Override
